@@ -8,10 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="./assets/index-DMvf1rcB.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-HS1S-Bqk.css">
+    <script type="module" crossorigin src="./assets/index-Bq8WbGIJ.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B3InCm7k.css">
   </head>
   <body class="bg-[#09070e] text-[#f3f0ff] antialiased selection:bg-[#a855f7]/30 selection:text-[#39ff14] overflow-x-hidden" style="background-color: #09070e; color: #f3f0ff; margin: 0;">
     <div id="root"></div>
+    <script>
+      // Caso o GitHub Pages esteja configurado como "Deploy from a branch (main)" em vez de "GitHub Actions",
+      // redireciona automaticamente para a versão compilada em ./dist/index.html para nunca exibir tela branca.
+      if (document.getElementById('vite-dev-entry') && window.location.hostname.indexOf('github.io') !== -1 && window.location.pathname.indexOf('/dist/') === -1) {
+        var basePath = window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/';
+        window.location.replace(basePath + 'dist/index.html');
+      }
+    </script>
   </body>
 </html>

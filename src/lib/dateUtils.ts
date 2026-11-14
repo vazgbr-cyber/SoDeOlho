@@ -1,6 +1,32 @@
 import { MediaItem } from '../types/media';
 
 /**
+ * Retorna a data local no formato YYYY-MM-DD (respeitando o fuso horário do usuário)
+ */
+export function getLocalIsoDate(offsetDays = 0): string {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Extrai apenas a parte YYYY-MM-DD de uma string ISO ou data
+ */
+export function extractIsoDatePart(dateStr?: string | null): string | null {
+  if (!dateStr) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr.slice(0, 10);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
  * Retorna a string de data principal (YYYY-MM-DD ou ISO) de um MediaItem
  */
 export function getItemPrimaryDateString(item: MediaItem): string | null {

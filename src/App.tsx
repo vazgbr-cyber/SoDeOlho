@@ -1,24 +1,32 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Calendar,
   CalendarRange,
+  ChevronLeft,
+  ChevronRight,
   ChevronUp,
   Clock,
   History,
   LayoutGrid,
   List,
+  Loader2,
   RotateCcw,
   Search,
   Sparkles,
+  X,
 } from 'lucide-react';
 import { AppSettings, MediaCategory, MediaItem, TabId, ViewMode } from './types/media';
 import { getCuratedFallbackData } from './data/curatedFallbackData';
 import { loadSettings, saveSettings } from './lib/settings';
 import {
+  extractIsoDatePart,
+  getItemPrimaryDateString,
   getItemReleaseTimestamp,
   isFromTodayOnwards,
 } from './lib/dateUtils';
 import {
   fetchAniListAnimes,
+  fetchMediaByCalendarDate,
   fetchRawgGames,
   fetchTmdbMovies,
   fetchTmdbSeries,
@@ -35,7 +43,10 @@ import { MediaListRow } from './components/MediaListRow';
 import { MediaCard } from './components/MediaCard';
 import { MediaDetailsModal } from './components/MediaDetailsModal';
 import { SettingsModal } from './components/SettingsModal';
-import { TimelineCalendarPopover } from './components/TimelineCalendarPopover';
+import {
+  CalendarDateFilter,
+  TimelineCalendarPopover,
+} from './components/TimelineCalendarPopover';
 import { AbductedTimelineView } from './components/AbductedTimelineView';
 import { HomeAlineShowcase } from './components/HomeAlineShowcase';
 
@@ -70,13 +81,12 @@ const SECTION_TITLES: Record<TabId, { title: string; subtitle: string }> = {
   },
 };
 
-const PAST_BATCH_SIZE = 3;
+const PAST_BATCH_SIZE = 10;
 
 export function App() {
   const [settings, setSettings] = useState<AppSettings>(() => loadSettings());
   const [activeTab, setActiveTab] = useState<TabId>('home');
   const [viewMode, setViewMode] = useState<ViewMode>('list');
-  // Na aba Abduzidos, permite alternar para a visualização de Linha do Tempo Simplificada (Passados + Futuros)
   const [abductedTimelineMode, setAbductedTimelineMode] = useState<boolean>(false);
 
   const [catalog, setCatalog] = useState<Record<MediaCategory, MediaItem[]>>(() =>
@@ -88,11 +98,11 @@ export function App() {
     if (saved.length > 0) return saved;
     const initial = getCuratedFallbackData();
     return [
-      initial.tv[2], // Passado recente (Arcane)
-      initial.movie_cinema[3], // Passado recente (Gladiador II)
-      initial.tv[3], // Hoje (The Last of Us)
-      initial.game[3], // Futuro próximo (Monster Hunter Wilds)
-      initial.movie_cinema[5], // Futuro (Duna: Messias)
+      initial.tv[2],
+      initial.movie_cinema[3],
+      initial.tv[3],
+      initial.game[3],
+      initial.movie_cinema[5],
     ];
   });
 
@@ -103,9 +113,17 @@ export function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // Paginação cronológica de mídias lançadas anteriormente (10 em 10)
   const [visiblePastCount, setVisiblePastCount] = useState<number>(0);
+  const [pastApiPages, setPastApiPages] = useState<number>(2);
+  const [isLoadingMorePast, setIsLoadingMorePast] = useState<boolean>(false);
+
+  // Filtro de data pelo Calendário
+  const [activeDateFilter, setActiveDateFilter] = useState<CalendarDateFilter | null>(null);
+  const [calendarFetchedItems, setCalendarFetchedItems] = useState<MediaItem[]>([]);
+  const [isLoadingCalendar, setIsLoadingCalendar] = useState<boolean>(false);
+
   const [highlightedItemId, setHighlightedItemId] = useState<string | null>(null);
-  const lastWheelLoadRef = useRef<number>(0);
   const todayMarkerRef = useRef<HTMLDivElement | null>(null);
 
   const showToast = useCallback((msg: string) => {
@@ -118,36 +136,39 @@ export function App() {
     return () => clearTimeout(timer);
   }, [toastMessage]);
 
-  const loadAllCategories = useCallback(async (activeSettings: AppSettings) => {
-    setIsLoading(true);
-    try {
-      const [moviesRes, seriesRes, animeRes, gamesRes, supaFavs] = await Promise.all([
-        fetchTmdbMovies(activeSettings),
-        fetchTmdbSeries(activeSettings),
-        fetchAniListAnimes(),
-        fetchRawgGames(activeSettings),
-        fetchSupabaseFavorites(activeSettings),
-      ]);
+  const loadAllCategories = useCallback(
+    async (activeSettings: AppSettings, pastPagesToFetch = 2) => {
+      setIsLoading(true);
+      try {
+        const [moviesRes, seriesRes, animeRes, gamesRes, supaFavs] = await Promise.all([
+          fetchTmdbMovies(activeSettings, pastPagesToFetch),
+          fetchTmdbSeries(activeSettings, pastPagesToFetch),
+          fetchAniListAnimes(pastPagesToFetch),
+          fetchRawgGames(activeSettings, pastPagesToFetch),
+          fetchSupabaseFavorites(activeSettings),
+        ]);
 
-      setCatalog({
-        movie_cinema: moviesRes.cinema,
-        movie_digital: moviesRes.digital,
-        tv: seriesRes.items,
-        anime: animeRes.items,
-        game: gamesRes.items,
-      });
+        setCatalog({
+          movie_cinema: moviesRes.cinema,
+          movie_digital: moviesRes.digital,
+          tv: seriesRes.items,
+          anime: animeRes.items,
+          game: gamesRes.items,
+        });
 
-      if (supaFavs && supaFavs.length > 0) {
-        setFavorites(supaFavs);
-        saveLocalFavorites(supaFavs);
+        if (supaFavs && supaFavs.length > 0) {
+          setFavorites(supaFavs);
+          saveLocalFavorites(supaFavs);
+        }
+      } finally {
+        setIsLoading(false);
       }
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    },
+    []
+  );
 
   useEffect(() => {
-    loadAllCategories(settings);
+    loadAllCategories(settings, 2);
   }, [settings, loadAllCategories]);
 
   const isItemFavorite = useCallback(
@@ -300,105 +321,180 @@ export function App() {
       }
     }
 
+    // Ordena pastItems cronologicamente (do mais antigo para o mais recente antes de hoje)
+    past.sort((a, b) => getItemReleaseTimestamp(a) - getItemReleaseTimestamp(b));
+    upcoming.sort((a, b) => getItemReleaseTimestamp(a) - getItemReleaseTimestamp(b));
+
     return { pastItems: past, upcomingItems: upcoming };
   }, [allFilteredChronological]);
 
+  // Exibe os N itens mais recentes antes de hoje, em ordem cronológica reversa (ontem -> anteontem -> ...)
+  // ou em ordem cronológica direta até hoje. Para ficar super intuitivo ao clicar no botão:
+  // Os itens carregados são os imediatamente anteriores a hoje!
   const visiblePastItems = useMemo(() => {
     if (visiblePastCount <= 0) return [];
-    const startIdx = Math.max(0, pastItems.length - visiblePastCount);
-    return pastItems.slice(startIdx);
+    // Ordenados do mais recente antes de hoje (ex: ontem, 2 dias atrás...) para trás,
+    // ou do mais recente da janela até hoje. Vamos ordenar do mais recente antes de hoje para o mais antigo
+    // para que ao clicar em "Carregar +10", os novos 10 itens apareçam logo abaixo na lista de anteriores!
+    const reversedPast = [...pastItems].sort(
+      (a, b) => getItemReleaseTimestamp(b) - getItemReleaseTimestamp(a)
+    );
+    return reversedPast.slice(0, visiblePastCount);
   }, [pastItems, visiblePastCount]);
 
   const remainingOlderCount = Math.max(0, pastItems.length - visiblePastItems.length);
 
-  const handleLoadMorePast = useCallback(() => {
-    if (pastItems.length === 0) return;
-    setVisiblePastCount((prev) => {
-      const next = Math.min(pastItems.length, prev + PAST_BATCH_SIZE);
-      return next;
-    });
-  }, [pastItems.length]);
+  // Carrega +10 mídias lançadas anteriormente, e se estiver acabando o buffer local, busca mais páginas nas APIs!
+  const handleLoadMorePast = useCallback(async () => {
+    const nextVisibleCount = visiblePastCount + PAST_BATCH_SIZE;
+    setVisiblePastCount(nextVisibleCount);
 
-  const isShowingAbductedTimeline =
-    activeTab === 'favorites' && abductedTimelineMode;
+    // Se já consumiu quase todos os itens passados carregados e não estamos na aba de favoritos, busca mais páginas na API
+    if (nextVisibleCount >= pastItems.length - 5 && activeTab !== 'favorites' && !isLoadingMorePast) {
+      const nextPages = pastApiPages + 2;
+      setPastApiPages(nextPages);
+      setIsLoadingMorePast(true);
+      try {
+        const [moviesRes, seriesRes, animeRes, gamesRes] = await Promise.all([
+          fetchTmdbMovies(settings, nextPages),
+          fetchTmdbSeries(settings, nextPages),
+          fetchAniListAnimes(nextPages),
+          fetchRawgGames(settings, nextPages),
+        ]);
 
-  useEffect(() => {
-    if (isShowingAbductedTimeline) return;
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY < -22 && window.scrollY <= 18 && remainingOlderCount > 0) {
-        const nowMs = Date.now();
-        if (nowMs - lastWheelLoadRef.current > 420) {
-          lastWheelLoadRef.current = nowMs;
-          handleLoadMorePast();
-        }
+        setCatalog({
+          movie_cinema: moviesRes.cinema,
+          movie_digital: moviesRes.digital,
+          tv: seriesRes.items,
+          anime: animeRes.items,
+          game: gamesRes.items,
+        });
+      } finally {
+        setIsLoadingMorePast(false);
+      }
+    }
+  }, [visiblePastCount, pastItems.length, activeTab, isLoadingMorePast, pastApiPages, settings]);
+
+  // Busca lançamentos de uma data específica quando o usuário seleciona no calendário
+  const handleSelectDateFilter = useCallback(
+    async (filter: CalendarDateFilter) => {
+      setActiveDateFilter(filter);
+      setIsLoadingCalendar(true);
+      showToast(`📅 Buscando lançamentos de ${filter.label}...`);
+      try {
+        const liveItems = await fetchMediaByCalendarDate(
+          settings,
+          filter.startDateIso,
+          filter.endDateIso
+        );
+        setCalendarFetchedItems(liveItems);
+      } finally {
+        setIsLoadingCalendar(false);
+      }
+    },
+    [settings, showToast]
+  );
+
+  const handleClearDateFilter = useCallback(() => {
+    setActiveDateFilter(null);
+    setCalendarFetchedItems([]);
+    showToast('Exibindo cronograma completo a partir de hoje!');
+  }, [showToast]);
+
+  const handleShiftCalendarDay = useCallback(
+    (deltaDays: number) => {
+      if (!activeDateFilter) return;
+      const nextDate = new Date(activeDateFilter.rawDate);
+      nextDate.setDate(nextDate.getDate() + deltaDays);
+      const y = nextDate.getFullYear();
+      const m = String(nextDate.getMonth() + 1).padStart(2, '0');
+      const d = String(nextDate.getDate()).padStart(2, '0');
+      const iso = `${y}-${m}-${d}`;
+      const label = nextDate.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      });
+      handleSelectDateFilter({
+        mode: 'day',
+        startDateIso: iso,
+        endDateIso: iso,
+        label,
+        rawDate: nextDate,
+      });
+    },
+    [activeDateFilter, handleSelectDateFilter]
+  );
+
+  // Lista combinada e filtrada para a data selecionada no calendário
+  const calendarFilteredItems = useMemo(() => {
+    if (!activeDateFilter) return [];
+    const { startDateIso, endDateIso } = activeDateFilter;
+
+    // Junta itens do catálogo local que batem com a data + itens buscados ao vivo na API para aquela data
+    const combinedMap = new Map<string, MediaItem>();
+
+    const checkAndAdd = (item: MediaItem) => {
+      // Verifica se pertence à aba ativa (ou todas se estiver em 'home')
+      if (activeTab !== 'home' && activeTab !== 'favorites' && item.category !== activeTab) {
+        return;
+      }
+      if (activeTab === 'favorites' && !isItemFavorite(item)) {
+        return;
+      }
+
+      const primaryIso = extractIsoDatePart(getItemPrimaryDateString(item));
+      const cinemaIso = extractIsoDatePart(item.cinemaReleaseDate);
+      const digitalIso = extractIsoDatePart(item.digitalReleaseDate);
+
+      const matchesDate =
+        (primaryIso && primaryIso >= startDateIso && primaryIso <= endDateIso) ||
+        (cinemaIso && cinemaIso >= startDateIso && cinemaIso <= endDateIso) ||
+        (digitalIso && digitalIso >= startDateIso && digitalIso <= endDateIso);
+
+      if (matchesDate) {
+        combinedMap.set(`${item.category}::${item.externalId}`, item);
       }
     };
 
-    window.addEventListener('wheel', onWheel, { passive: true });
-    return () => window.removeEventListener('wheel', onWheel);
-  }, [remainingOlderCount, handleLoadMorePast, isShowingAbductedTimeline]);
+    for (const item of allHomeItems) checkAndAdd(item);
+    for (const item of favorites) checkAndAdd(item);
+    for (const item of calendarFetchedItems) checkAndAdd(item);
 
-  const handleJumpToDate = useCallback(
-    (targetDate: Date, mode: 'day' | 'month' | 'year') => {
-      const targetMs = targetDate.getTime();
-
-      const neededPastIndex = pastItems.findIndex(
-        (it) => getItemReleaseTimestamp(it) >= targetMs
-      );
-
-      if (targetMs < Date.now()) {
-        if (neededPastIndex === -1) {
-          setVisiblePastCount(pastItems.length);
-        } else {
-          const countFromEnd = pastItems.length - neededPastIndex;
-          setVisiblePastCount((prev) => Math.max(prev, countFromEnd));
-        }
-      }
-
-      let bestItem: MediaItem | null = null;
-      let minDiff = Number.MAX_SAFE_INTEGER;
-
-      for (const item of allFilteredChronological) {
-        const itemMs = getItemReleaseTimestamp(item);
-        const diff = Math.abs(itemMs - targetMs);
-        if (diff < minDiff) {
-          minDiff = diff;
-          bestItem = item;
-        }
-      }
-
-      if (bestItem) {
-        const targetId = bestItem.id;
-        setHighlightedItemId(targetId);
-        const label =
-          mode === 'year'
-            ? `${targetDate.getFullYear()}`
-            : mode === 'month'
-            ? targetDate.toLocaleDateString('pt-BR', {
-                month: 'long',
-                year: 'numeric',
-              })
-            : targetDate.toLocaleDateString('pt-BR');
-
-        showToast(`Pulando para ${label}: "${bestItem.title}"`);
-
-        setTimeout(() => {
-          const el = document.getElementById(`media-item-${targetId}`);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        }, 120);
-      }
-    },
-    [allFilteredChronological, pastItems, showToast]
-  );
+    const q = searchQuery.trim().toLowerCase();
+    return Array.from(combinedMap.values())
+      .filter((item) => {
+        const matchesGenre =
+          selectedGenre === 'TODOS' || item.genres.includes(selectedGenre);
+        if (!matchesGenre) return false;
+        if (!q) return true;
+        return (
+          item.title.toLowerCase().includes(q) ||
+          (item.originalTitle && item.originalTitle.toLowerCase().includes(q))
+        );
+      })
+      .sort((a, b) => (b.reviewsCount || 0) - (a.reviewsCount || 0));
+  }, [
+    activeDateFilter,
+    activeTab,
+    allHomeItems,
+    favorites,
+    calendarFetchedItems,
+    isItemFavorite,
+    searchQuery,
+    selectedGenre,
+  ]);
 
   const handleJumpToToday = useCallback(() => {
     setVisiblePastCount(0);
+    setActiveDateFilter(null);
     setHighlightedItemId(upcomingItems[0]?.id || null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('Exibindo lançamentos a partir de hoje!');
   }, [upcomingItems, showToast]);
+
+  const isShowingAbductedTimeline =
+    activeTab === 'favorites' && abductedTimelineMode;
 
   const tabCounts: Record<TabId, number> = useMemo(
     () => ({
@@ -432,7 +528,7 @@ export function App() {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onOpenSettings={() => setIsSettingsOpen(true)}
-        onRefresh={() => loadAllCategories(settings)}
+        onRefresh={() => loadAllCategories(settings, pastApiPages)}
         isLoading={isLoading}
         userName={settings.userName}
         notificationsEnabled={settings.notificationsEnabled}
@@ -441,7 +537,7 @@ export function App() {
       {/* ÁREA DE CONTEÚDO DIREITA (APROVEITA 100% DA LARGURA DA TELA NO PC) */}
       <div className="relative z-10 flex-1 w-full min-w-0 px-5 sm:px-8 lg:px-10 xl:px-12 py-7">
         {/* DESTAQUE EXCLUSIVO DA HOME: ALINE ÍGENA + MÍDIAS MAIS HYPADAS DA SEMANA */}
-        {activeTab === 'home' && (
+        {activeTab === 'home' && !activeDateFilter && (
           <HomeAlineShowcase
             allItems={allHomeItems}
             isItemFavorite={isItemFavorite}
@@ -455,10 +551,16 @@ export function App() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                {activeTab === 'home' ? 'Próximos Lançamentos' : sectionInfo.title}
+                {activeDateFilter
+                  ? `Lançamentos em ${activeDateFilter.label}`
+                  : activeTab === 'home'
+                  ? 'Próximos Lançamentos'
+                  : sectionInfo.title}
               </h1>
               <p className="text-xs sm:text-sm text-[#7c738f] mt-1">
-                {sectionInfo.subtitle}
+                {activeDateFilter
+                  ? 'Exibindo todas as mídias e episódios lançados exatamente na data selecionada no calendário.'
+                  : sectionInfo.subtitle}
               </p>
             </div>
 
@@ -476,8 +578,9 @@ export function App() {
 
               <TimelineCalendarPopover
                 items={allFilteredChronological}
-                onJumpToDate={handleJumpToDate}
-                onJumpToToday={handleJumpToToday}
+                activeDateFilter={activeDateFilter}
+                onSelectDateFilter={handleSelectDateFilter}
+                onClearDateFilter={handleClearDateFilter}
               />
 
               {/* Botão Exclusivo na Página de Abduzidos: Linha do Tempo Simplificada */}
@@ -571,10 +674,120 @@ export function App() {
         </header>
 
         {/* ====================================================================
-            MODO ESPECIAL NA PÁGINA DE ABDUZIDOS: LINHA DO TEMPO SIMPLIFICADA
-            (Mostra todos os lançamentos abduzidos, passados e futuros, juntos)
+            MODO 1: FILTRO DE DATA DO CALENDÁRIO ATIVO
+            (Mostra tudo que lançou na data clicada pelo usuário)
            ==================================================================== */}
-        {isShowingAbductedTimeline ? (
+        {activeDateFilter ? (
+          <section className="space-y-6">
+            {/* Barra de controle da data selecionada */}
+            <div className="p-4 rounded-2xl bg-[#130f1d] border border-[#22ff55]/40 shadow-[0_0_25px_rgba(34,255,85,0.12)] flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-[#0d3320] border border-[#22ff55]/40 text-[#4ade80]">
+                  <Calendar className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#4ade80]">
+                      Filtro de Data Ativo
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#2a174a] text-[#c084fc] border border-[#a855f7]/40">
+                      {calendarFilteredItems.length} mídia(s) encontrada(s)
+                    </span>
+                  </div>
+                  <h2 className="text-base sm:text-lg font-extrabold text-white capitalize">
+                    {activeDateFilter.label}
+                  </h2>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                {activeDateFilter.mode === 'day' && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleShiftCalendarDay(-1)}
+                      className="px-3 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-bold text-[#d8d0ec] flex items-center gap-1.5 transition"
+                    >
+                      <ChevronLeft className="w-4 h-4 text-[#a855f7]" />
+                      <span>Dia Anterior</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleShiftCalendarDay(1)}
+                      className="px-3 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-bold text-[#d8d0ec] flex items-center gap-1.5 transition"
+                    >
+                      <span>Próximo Dia</span>
+                      <ChevronRight className="w-4 h-4 text-[#22ff55]" />
+                    </button>
+                  </>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleClearDateFilter}
+                  className="px-3.5 py-2 rounded-xl bg-[#2a174a] hover:bg-[#3b2166] text-[#c084fc] hover:text-white border border-[#a855f7]/50 text-xs font-extrabold flex items-center gap-1.5 transition"
+                >
+                  <X className="w-4 h-4" />
+                  <span>Voltar ao Cronograma Normal</span>
+                </button>
+              </div>
+            </div>
+
+            {isLoadingCalendar ? (
+              <div className="xeno-card p-14 text-center max-w-md mx-auto my-8 space-y-3">
+                <Loader2 className="w-8 h-8 text-[#22ff55] mx-auto animate-spin" />
+                <h3 className="text-base font-bold text-white">
+                  Consultando arquivos intergalácticos...
+                </h3>
+                <p className="text-xs text-[#8e86a3]">
+                  Buscando todos os filmes, séries, animes e games lançados em {activeDateFilter.label}.
+                </p>
+              </div>
+            ) : calendarFilteredItems.length > 0 ? (
+              viewMode === 'list' ? (
+                <div className="space-y-5">
+                  {calendarFilteredItems.map((item) => (
+                    <div key={item.id} id={`media-item-${item.id}`}>
+                      <MediaListRow
+                        item={item}
+                        isFavorite={isItemFavorite(item)}
+                        isHighlighted={true}
+                        onToggleFavorite={handleToggleFavorite}
+                        onOpenModal={setSelectedItem}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
+                  {calendarFilteredItems.map((item) => (
+                    <div key={item.id} id={`media-item-${item.id}`}>
+                      <MediaCard
+                        item={item}
+                        isFavorite={isItemFavorite(item)}
+                        onToggleFavorite={handleToggleFavorite}
+                        onOpenModal={setSelectedItem}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )
+            ) : (
+              <div className="xeno-card p-12 text-center max-w-md mx-auto my-8 space-y-3">
+                <Calendar className="w-8 h-8 text-[#a855f7] mx-auto" />
+                <h3 className="text-lg font-bold text-white">
+                  Nenhum lançamento registrado em {activeDateFilter.label}
+                </h3>
+                <p className="text-xs text-[#8e86a3]">
+                  Use os botões de "Dia Anterior" ou "Próximo Dia" acima para explorar as datas vizinhas ou volte ao cronograma normal.
+                </p>
+              </div>
+            )}
+          </section>
+        ) : isShowingAbductedTimeline ? (
+          /* ====================================================================
+             MODO 2: LINHA DO TEMPO SIMPLIFICADA DOS ABDUZIDOS
+             ==================================================================== */
           allFilteredChronological.length > 0 ? (
             <AbductedTimelineView
               items={allFilteredChronological}
@@ -593,68 +806,57 @@ export function App() {
             </div>
           )
         ) : (
+          /* ====================================================================
+             MODO 3: CRONOGRAMA PADRÃO (ANTERIORES 10 EM 10 + HOJE EM DIANTE)
+             ==================================================================== */
           <>
-            {/* GATILHO COM RELOGINHO: "Ver mídias lançadas anteriormente" */}
-            {pastItems.length > 0 && (
+            {/* BOTÃO INICIAL: Quando ainda não abriu as mídias anteriores */}
+            {pastItems.length > 0 && visiblePastItems.length === 0 && (
               <div className="mb-6">
-                {remainingOlderCount > 0 ? (
-                  <button
-                    type="button"
-                    onClick={handleLoadMorePast}
-                    className="w-full py-3.5 px-5 rounded-2xl bg-[#130f1d]/90 hover:bg-[#1b142b] border border-dashed border-[#a855f7]/45 hover:border-[#22ff55]/60 transition-all flex flex-col sm:flex-row items-center justify-center gap-2.5 group shadow-[0_0_24px_rgba(168,85,247,0.1)]"
-                  >
-                    <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#c084fc] group-hover:text-[#4ade80] transition-colors">
-                      <div className="p-1.5 rounded-full bg-[#2a174a] group-hover:bg-[#0d3320] transition-colors">
-                        <Clock className="w-4 h-4 text-[#a855f7] group-hover:text-[#22ff55] animate-pulse" />
-                      </div>
-                      <span>Ver mídias lançadas anteriormente</span>
-                      <ChevronUp className="w-4 h-4 opacity-75 group-hover:-translate-y-0.5 transition-transform" />
+                <button
+                  type="button"
+                  onClick={handleLoadMorePast}
+                  disabled={isLoadingMorePast}
+                  className="w-full py-3.5 px-5 rounded-2xl bg-[#130f1d]/90 hover:bg-[#1b142b] border border-dashed border-[#a855f7]/45 hover:border-[#22ff55]/60 transition-all flex flex-col sm:flex-row items-center justify-center gap-2.5 group shadow-[0_0_24px_rgba(168,85,247,0.1)]"
+                >
+                  <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#c084fc] group-hover:text-[#4ade80] transition-colors">
+                    <div className="p-1.5 rounded-full bg-[#2a174a] group-hover:bg-[#0d3320] transition-colors">
+                      <Clock className="w-4 h-4 text-[#a855f7] group-hover:text-[#22ff55] animate-pulse" />
                     </div>
-
-                    <span className="text-[11px] text-[#7c738f]">
-                      (Role para cima ou clique para carregar +{Math.min(PAST_BATCH_SIZE, remainingOlderCount)} de {remainingOlderCount} já lançadas)
-                    </span>
-                  </button>
-                ) : (
-                  <div className="w-full py-2.5 px-4 rounded-xl bg-[#130f1d]/60 border border-white/[0.06] flex items-center justify-between text-xs text-[#8e86a3]">
-                    <span className="flex items-center gap-2">
-                      <History className="w-4 h-4 text-[#a855f7]" />
-                      <span>Início do arquivo histórico carregado ({pastItems.length} mídias anteriores exibidas)</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleJumpToToday}
-                      className="text-[#c084fc] hover:text-[#4ade80] font-bold flex items-center gap-1"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>Ocultar anteriores</span>
-                    </button>
+                    <span>Ver mídias lançadas anteriormente</span>
+                    <ChevronUp className="w-4 h-4 opacity-75 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
-                )}
+
+                  <span className="text-[11px] text-[#7c738f]">
+                    (Clique para carregar as {PAST_BATCH_SIZE} mídias lançadas imediatamente antes de hoje)
+                  </span>
+                </button>
               </div>
             )}
 
-            {/* MÍDIAS JÁ LANÇADAS ANTERIORMENTE */}
+            {/* SEÇÃO DE MÍDIAS JÁ LANÇADAS ANTERIORMENTE (Ordem cronológica reversa a partir de ontem, de 10 em 10) */}
             {visiblePastItems.length > 0 && (
               <section aria-label="Mídias lançadas anteriormente" className="mb-8 space-y-5">
-                <div className="flex items-center justify-between px-1">
+                <div className="flex flex-wrap items-center justify-between gap-2 px-1">
                   <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a855f7]">
                     <History className="w-4 h-4" />
-                    <span>Lançados Anteriormente ({visiblePastItems.length})</span>
+                    <span>
+                      Mídias Lançadas Anteriormente ({visiblePastItems.length} exibidas em ordem cronológica antes de hoje)
+                    </span>
                   </div>
 
                   <button
                     type="button"
                     onClick={handleJumpToToday}
-                    className="text-xs font-semibold text-[#8e86a3] hover:text-white flex items-center gap-1"
+                    className="text-xs font-semibold text-[#c084fc] hover:text-[#4ade80] flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2a174a]/50 border border-[#a855f7]/30 transition"
                   >
-                    <RotateCcw className="w-3 h-3" />
-                    <span>Voltar apenas para Hoje em diante</span>
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Ocultar anteriores</span>
                   </button>
                 </div>
 
                 {viewMode === 'list' ? (
-                  <div className="space-y-5 opacity-90">
+                  <div className="space-y-5 opacity-95">
                     {visiblePastItems.map((item) => (
                       <div key={item.id} id={`media-item-${item.id}`}>
                         <MediaListRow
@@ -668,7 +870,7 @@ export function App() {
                     ))}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 opacity-90">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 opacity-95">
                     {visiblePastItems.map((item) => (
                       <div key={item.id} id={`media-item-${item.id}`}>
                         <MediaCard
@@ -679,6 +881,34 @@ export function App() {
                         />
                       </div>
                     ))}
+                  </div>
+                )}
+
+                {/* BOTÃO PARA CARREGAR +10 MÍDIAS ANTERIORES */}
+                {(remainingOlderCount > 0 || activeTab !== 'favorites') && (
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={handleLoadMorePast}
+                      disabled={isLoadingMorePast}
+                      className="w-full py-3.5 px-5 rounded-2xl bg-[#130f1d] hover:bg-[#1b142b] border border-dashed border-[#22ff55]/45 hover:border-[#22ff55] transition-all flex flex-col sm:flex-row items-center justify-center gap-2.5 group shadow-[0_0_20px_rgba(34,255,85,0.1)]"
+                    >
+                      <div className="flex items-center gap-2.5 text-xs sm:text-sm font-extrabold text-[#4ade80] group-hover:text-white transition-colors">
+                        {isLoadingMorePast ? (
+                          <Loader2 className="w-4 h-4 text-[#22ff55] animate-spin" />
+                        ) : (
+                          <History className="w-4 h-4 text-[#22ff55]" />
+                        )}
+                        <span>
+                          {isLoadingMorePast
+                            ? 'Buscando mais lançamentos anteriores...'
+                            : `Carregar +${PAST_BATCH_SIZE} mídias lançadas anteriormente`}
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-[#8e86a3]">
+                        (Continuar voltando no tempo cronologicamente)
+                      </span>
+                    </button>
                   </div>
                 )}
 
