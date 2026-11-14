@@ -1,0 +1,37 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="eyeUfoBg" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#1e1236" />
+      <stop offset="65%" stop-color="#0e091a" />
+      <stop offset="100%" stop-color="#07050c" />
+    </radialGradient>
+    <linearGradient id="saucerRimGrad" x1="6" y1="28" x2="58" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="50%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#22ff55" />
+    </linearGradient>
+    <radialGradient id="alienEyeIris" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="28%" stop-color="#22ff55" />
+      <stop offset="72%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </radialGradient>
+    <linearGradient id="eyeUfoBeam" x1="32" y1="38" x2="32" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22ff55" stop-opacity="0.78" />
+      <stop offset="55%" stop-color="#a855f7" stop-opacity="0.32" />
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#eyeUfoBg)" stroke="url(#saucerRimGrad)" stroke-width="2" />
+  <polygon points="23,39 41,39 52,59 12,59" fill="url(#eyeUfoBeam)" />
+  <line x1="32" y1="7" x2="32" y2="12" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
+  <circle cx="32" cy="6.5" r="2.4" fill="#22ff55" stroke="#ffffff" stroke-width="0.8" />
+  <path d="M16 28C16 17.5 23.2 12 32 12C40.8 12 48 17.5 48 28" fill="rgba(168, 85, 247, 0.16)" stroke="#c084fc" stroke-width="1.8" />
+  <path d="M6 31C13.5 20.5 22.5 16.5 32 16.5C41.5 16.5 50.5 20.5 58 31C50.5 41.5 41.5 45.5 32 45.5C22.5 45.5 13.5 41.5 6 31Z" fill="#120b22" stroke="url(#saucerRimGrad)" stroke-width="2.6" stroke-linejoin="round" />
+  <circle cx="13" cy="31" r="2" fill="#a855f7" />
+  <circle cx="51" cy="31" r="2" fill="#22ff55" />
+  <circle cx="32" cy="31" r="10.2" fill="url(#alienEyeIris)" stroke="#ffffff" stroke-opacity="0.8" stroke-width="1.2" />
+  <ellipse cx="32" cy="31" rx="3.4" ry="6.8" fill="#05030a" />
+  <circle cx="28.8" cy="27.5" r="2.2" fill="#ffffff" />
+  <circle cx="35.2" cy="34.2" r="1.1" fill="#22ff55" />
+</svg>
