@@ -30,6 +30,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'A história do físico americano J. Robert Oppenheimer, seu papel no Projeto Manhattan e no desenvolvimento da bomba atômica durante a Segunda Guerra Mundial.',
         genres: ['Biografia', 'Drama', 'História'],
+        streamingPlatforms: ['Cinema BR', 'Telecine', 'Amazon Prime'],
         rating: 8.9,
         director: 'Christopher Nolan (Universal Pictures)',
         runtimeMinutes: 180,
@@ -47,6 +48,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Enquanto o mundo entra em colapso, a jovem Furiosa é sequestrada do Lugar Verde de Muitas Mães e cai nas mãos de uma grande horda de motoqueiros liderada pelo Senhor da Guerra Dementus.',
         genres: ['Ação', 'Sci-Fi', 'Pós-Apocalíptico'],
+        streamingPlatforms: ['Cinema BR', 'HBO Max'],
         rating: 7.7,
         director: 'George Miller (Warner Bros.)',
         runtimeMinutes: 148,
@@ -64,6 +66,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'A Autoridade de Variância Temporal tira Wade Wilson de sua vida tranquila e o coloca em uma missão ao lado de um relutante Wolverine para salvar seu universo da extinção.',
         genres: ['Ação', 'Comédia', 'Sci-Fi'],
+        streamingPlatforms: ['Cinema BR', 'Disney+'],
         rating: 7.8,
         director: 'Shawn Levy (Marvel Studios)',
         runtimeMinutes: 128,
@@ -81,6 +84,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Anos após testemunhar a morte do venerado herói Maximus pelas mãos de seu tio, Lucius é forçado a entrar no Coliseu depois que seu lar é conquistado pelos imperadores tirânicos que agora governam Roma.',
         genres: ['Épico', 'Ação', 'Aventura'],
+        streamingPlatforms: ['Cinema BR', 'Telecine'],
         rating: 7.6,
         director: 'Ridley Scott (Paramount Pictures)',
         runtimeMinutes: 148,
@@ -101,6 +105,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Quase três décadas após o vazamento do vírus da Raiva de um laboratório de armas biológicas, sobreviventes isolados nas ilhas britânicas descobrem uma nova mutação evolucionária nos infectados e uma seita oculta no continente.',
         genres: ['Terror', 'Sci-Fi', 'Suspense'],
+        streamingPlatforms: ['Cinema BR'],
         rating: 8.2,
         director: 'Nia DaCosta & Alex Garland (Sony Pictures / DNA Films)',
         runtimeMinutes: 126,
@@ -119,6 +124,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Doze anos após ascender ao trono como Imperador Paul Atreides, sua jihad intergaláctica conquistou o universo conhecido, mas visões proféticas e uma conspiração da Bene Gesserit, da Guilda Espacial e dos Tleilaxu ameaçam seu império.',
         genres: ['Épico', 'Space Opera', 'Sci-Fi'],
+        streamingPlatforms: ['Cinema BR', 'HBO Max'],
         rating: 8.9,
         reviewsCount: 42800,
         director: 'Denis Villeneuve (Warner Bros. / Legendary)',
@@ -138,6 +144,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Em uma Los Angeles perpétua sob chuva ácida e névoa neon, um caçador de androides veterano investiga o desaparecimento de uma nave colonial inteira nas colônias de Calisto — estritamente sob ordens confidenciais.',
         genres: ['Sci-Fi', 'Cyberpunk', 'Mistério'],
+        streamingPlatforms: ['Cinema BR'],
         rating: 8.6,
         director: 'Ridley Scott (Alcon Entertainment)',
         runtimeMinutes: 154,
@@ -156,6 +163,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Um conto gótico de obsessão entre uma jovem atormentada na Alemanha do século XIX e o ancestral vampiro da Transilvânia que a persegue, trazendo consigo um horror indescritível.',
         genres: ['Terror Gótico', 'Fantasia', 'Drama'],
+        streamingPlatforms: ['Cinema BR', 'Telecine'],
         rating: 8.1,
         director: 'Robert Eggers (Focus Features)',
         runtimeMinutes: 132,
@@ -177,6 +185,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Em um futuro próximo onde os Estados Unidos estão fragmentados por uma guerra civil intensa, uma equipe de fotojornalistas de guerra viaja em direção a Washington D.C. antes que as forças rebeldes invadam a Casa Branca.',
         genres: ['Ação', 'Suspense', 'Drama'],
+        streamingPlatforms: ['Amazon Prime', 'HBO Max'],
         rating: 7.4,
         director: 'Alex Garland (A24)',
         runtimeMinutes: 109,
@@ -194,6 +203,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'A agente do FBI Lee Harker é designada para um caso não resolvido de um serial killer ocultista que deixa cartas criptografadas assinadas como Longlegs nas cenas dos crimes.',
         genres: ['Terror', 'Mistério', ' Investigação'],
+        streamingPlatforms: ['Amazon Prime', 'Telecine'],
         rating: 7.2,
         director: 'Osgood Perkins (Neon)',
         runtimeMinutes: 101,
@@ -212,6 +222,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Enquanto vasculham as profundezas de uma estação espacial corporativa abandonada da Weyland-Yutani, um grupo de jovens colonizadores espaciais fica cara a cara com a forma de vida mais aterrorizante e implacável do universo.',
         genres: ['Terror Espacial', 'Sci-Fi', 'Suspense'],
+        streamingPlatforms: ['Disney+'],
         rating: 7.9,
         director: 'Fede Álvarez (20th Century Studios / Scott Free)',
         runtimeMinutes: 119,
@@ -234,6 +245,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Elisabeth Sparkle, renomada apresentadora de um programa de aeróbica na TV, é demitida no dia de seu aniversário. Desesperada, ela experimenta uma droga clandestina de replicação celular que cria temporariamente uma versão mais jovem e perfeita de si mesma.',
         genres: ['Terror Corporal', 'Sci-Fi', 'Sátira'],
+        streamingPlatforms: ['Globoplay', 'Telecine'],
         rating: 8.0,
         reviewsCount: 31450,
         director: 'Coralie Fargeat (MUBI / Working Title)',
@@ -255,6 +267,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Após um naufrágio, a unidade robótica inteligente ROZZUM 7134 ("Roz") fica presa em uma ilha desabitada. Para sobreviver ao ambiente hostil, Roz cria laços com os animais nativos e adota um filhote de ganso órfão.',
         genres: ['Animação', 'Sci-Fi', 'Aventura'],
+        streamingPlatforms: ['Amazon Prime', 'Telecine'],
         rating: 8.6,
         reviewsCount: 29800,
         director: 'Chris Sanders (DreamWorks Animation)',
@@ -274,6 +287,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'O mundo parece estar chegando ao fim, repleto de vestígios da presença humana. Um gato solitário tem seu lar devastado por uma grande inundação e encontra refúgio em um barco povoado por várias espécies.',
         genres: ['Animação', 'Aventura', 'Fantasia'],
+        streamingPlatforms: ['Netflix', 'Globoplay'],
         rating: 8.5,
         director: 'Gints Zilbalodis (Dream Well Studio)',
         runtimeMinutes: 85,
@@ -291,6 +305,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Duas jovens missionárias são forçadas a provar sua fé quando batem na porta errada e são recebidas pelo diabólico Sr. Reed, ficando presas em seu jogo mortal de gato e rato.',
         genres: ['Terror', 'Suspense', 'Psicológico'],
+        streamingPlatforms: ['HBO Max', 'Amazon Prime'],
         rating: 7.6,
         director: 'Scott Beck & Bryan Woods (A24)',
         runtimeMinutes: 111,
@@ -312,8 +327,9 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Duzentos anos após o apocalipse nuclear, os habitantes gentis dos luxuosos abrigos subterrâneos da Vault-Tec são forçados a retornar à superfície irradiada e violenta do Ermo.',
         genres: ['Sci-Fi', 'Ação', 'Pós-Apocalíptico'],
+        streamingPlatforms: ['Amazon Prime'],
         rating: 8.6,
-        studioOrNetwork: 'Amazon MGM Studios / Bethesda Game Studios',
+        studioOrNetwork: 'Catálogo Brasil • Amazon Prime',
         seasonStatus: '1ª Temporada Completa',
         nextEpisodeNumber: 8,
         nextEpisodeDate: relativeIsoDate(-11, true),
@@ -330,8 +346,9 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'No Japão do ano 1600, o Senhor Yoshii Toranaga luta pela sobrevivência enquanto seus inimigos no Conselho de Regentes se unem contra ele, quando um navio europeu misterioso é encontrado encalhado em uma vila próxima.',
         genres: ['Drama Histórico', 'Guerra', 'Épico'],
+        streamingPlatforms: ['Disney+'],
         rating: 9.0,
-        studioOrNetwork: 'FX Productions / Hulu',
+        studioOrNetwork: 'Catálogo Brasil • Disney+',
         seasonStatus: 'Temporada Finalizada',
         nextEpisodeNumber: 10,
         nextEpisodeDate: relativeIsoDate(-7, true),
@@ -348,8 +365,9 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Em meio ao conflito crescente entre a rica e utópica cidade de Piltover e o submundo oprimido de Zaun, as irmãs Vi e Jinx encontram-se em lados opostos de uma guerra movida por tecnologias arcanas.',
         genres: ['Animação', 'Steampunk', 'Ação'],
+        streamingPlatforms: ['Netflix'],
         rating: 9.1,
-        studioOrNetwork: 'Fortiche Production / Riot Games',
+        studioOrNetwork: 'Catálogo Brasil • Netflix',
         seasonStatus: '2ª Temporada Finalizada',
         nextEpisodeNumber: 9,
         nextEpisodeDate: relativeIsoDate(-2, true),
@@ -369,9 +387,10 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Cinco anos após a jornada perigosa pelos Estados Unidos pós-pandêmicos, Joel e Ellie vivem em relativa paz na comunidade de Jackson, Wyoming — até que um evento violento desencadeia um ciclo implacável de retaliação.',
         genres: ['Drama', 'Ação', 'Pós-Apocalíptico'],
+        streamingPlatforms: ['HBO Max'],
         rating: 8.8,
         reviewsCount: 54900,
-        studioOrNetwork: 'HBO / PlayStation Productions',
+        studioOrNetwork: 'Catálogo Brasil • HBO Max',
         seasonStatus: '2ª Temporada • Em Exibição Semanal',
         nextEpisodeNumber: 4,
         nextEpisodeDate: relativeIsoDate(0, true),
@@ -380,23 +399,24 @@ export function getCuratedFallbackData(): Record<
       },
       {
         id: 'tmdb-tv-95396',
-        externalId: '95396',
+        externalId: '66732',
         category: 'tv',
-        title: 'Ruptura (Severance)',
-        originalTitle: 'Severance',
-        posterUrl: 'https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg',
-        backdropUrl: 'https://image.tmdb.org/t/p/original/ixgFmf1X59PUZam2qbAfskx2gQr.jpg',
+        title: 'Stranger Things',
+        originalTitle: 'Stranger Things',
+        posterUrl: 'https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',
+        backdropUrl: 'https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYEQypROD7P.jpg',
         synopsis:
-          'Mark lidera uma equipe de funcionários de escritório da Lumon Industries cujas memórias foram cirurgicamente divididas entre a vida no trabalho e a vida pessoal. Quando a verdade sobre o andar de Ruptura começa a vazar, os "Innies" buscam respostas.',
-        genres: ['Sci-Fi', 'Mistério', 'Thriller'],
+          'Na temporada final em Hawkins, Onze e seus amigos unem forças para o confronto definitivo contra Vecna e a invasão total do Mundo Invertido.',
+        genres: ['Sci-Fi', 'Mistério', 'Terror'],
+        streamingPlatforms: ['Netflix'],
         rating: 8.9,
-        reviewsCount: 38200,
-        studioOrNetwork: 'Apple TV+ / Fifth Season',
-        seasonStatus: '2ª Temporada • Em Exibição Semanal',
-        nextEpisodeNumber: 6,
+        reviewsCount: 68200,
+        studioOrNetwork: 'Catálogo Brasil • Netflix',
+        seasonStatus: 'Temporada Final • Estreia Confirmada',
+        nextEpisodeNumber: 1,
         nextEpisodeDate: relativeIsoDate(2, true),
-        totalEpisodes: 10,
-        episodeDurationMinutes: 54,
+        totalEpisodes: 8,
+        episodeDurationMinutes: 65,
       },
       {
         id: 'tmdb-tv-83867',
@@ -409,8 +429,9 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Em uma era cheia de perigos, traições e intrigas políticas da Aliança Rebelde nascente, Cassian Andor embarca nas missões secretas de inteligência que o levarão diretamente aos eventos de Rogue One.',
         genres: ['Sci-Fi', 'Espionagem', 'Ação'],
+        streamingPlatforms: ['Disney+'],
         rating: 8.7,
-        studioOrNetwork: 'Disney+ / Lucasfilm',
+        studioOrNetwork: 'Catálogo Brasil • Disney+',
         seasonStatus: '2ª Temporada • Em Exibição',
         nextEpisodeNumber: 9,
         nextEpisodeDate: relativeIsoDate(3, true),
@@ -427,8 +448,9 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Baseado na aclamada franquia de jogos, acompanhe o Comandante Shepard e sua tripulação alienígena na nave Normandy, desvendando mistérios antigos e tentando impedir uma ameaça galáctica iminente: os Reapers.',
         genres: ['Sci-Fi', 'Aventura', 'Space Opera'],
+        streamingPlatforms: ['Amazon Prime'],
         rating: 8.9,
-        studioOrNetwork: 'Amazon Studios / BioWare',
+        studioOrNetwork: 'Catálogo Brasil • Amazon Prime',
         seasonStatus: '1ª Temporada Confirmada',
         nextEpisodeNumber: 1,
         nextEpisodeDate: relativeIsoDate(6, true),

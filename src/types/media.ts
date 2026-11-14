@@ -19,6 +19,8 @@ export interface MediaItem {
   backdropUrl?: string;
   synopsis: string;
   genres: string[];
+  // Plataformas de streaming / disponibilidade no Brasil (ex: ['Netflix'], ['HBO Max'], ['Amazon Prime'], ['Globoplay'], ['Disney+'], ['Telecine'], ['Cinema BR'])
+  streamingPlatforms?: string[];
   rating?: number;
   // Quantidade de avaliações / reviews / engajamento na semana (TMDB vote_count, AniList popularity/trending, RAWG ratings_count)
   reviewsCount?: number;
@@ -59,6 +61,8 @@ export interface AppSettings {
   userName: string;
   notificationsEnabled: boolean;
   tmdbApiKey: string;
+  twitchClientId: string;
+  twitchClientSecret: string;
   rawgApiKey: string;
   supabaseUrl: string;
   supabaseAnonKey: string;

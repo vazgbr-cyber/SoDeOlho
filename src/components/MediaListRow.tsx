@@ -12,6 +12,7 @@ import {
 import { MediaItem } from '../types/media';
 import { formatEpisodeCountdown, formatShortDate } from '../lib/dateUtils';
 import { AbductButton } from './AbductButton';
+import { StreamingBadges } from './StreamingBadges';
 
 interface MediaListRowProps {
   item: MediaItem;
@@ -263,6 +264,8 @@ export const MediaListRow: React.FC<MediaListRowProps> = ({
             </h3>
 
             <div className="flex flex-wrap items-center gap-1.5">
+              <StreamingBadges platforms={item.streamingPlatforms} size="sm" />
+
               {item.genres.slice(0, 3).map((genre, idx) => (
                 <span
                   key={genre}

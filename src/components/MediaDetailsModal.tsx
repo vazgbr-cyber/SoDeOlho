@@ -23,6 +23,7 @@ import {
 import { resolveHltbForGame } from '../services/apiService';
 import { AbductButton } from './AbductButton';
 import { BrandLogo } from './ProcessedImages';
+import { StreamingBadges } from './StreamingBadges';
 
 interface MediaDetailsModalProps {
   item: MediaItem | null;
@@ -117,6 +118,8 @@ export const MediaDetailsModal: React.FC<MediaDetailsModalProps> = ({
 
             <div className="flex-1 text-center sm:text-left space-y-3">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                <StreamingBadges platforms={item.streamingPlatforms} size="sm" />
+
                 {item.genres.map((genre, idx) => (
                   <span
                     key={genre}

@@ -9,6 +9,7 @@ import {
   formatShortDate,
 } from '../lib/dateUtils';
 import { AbductButton } from './AbductButton';
+import { StreamingBadges } from './StreamingBadges';
 
 interface MediaCardProps {
   item: MediaItem;
@@ -77,6 +78,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-2">
+          <StreamingBadges platforms={item.streamingPlatforms} size="xs" />
           {item.genres.slice(0, 2).map((genre, idx) => (
             <span
               key={genre}

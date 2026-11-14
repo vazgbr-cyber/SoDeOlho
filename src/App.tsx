@@ -60,16 +60,16 @@ const SECTION_TITLES: Record<TabId, { title: string; subtitle: string }> = {
     subtitle: 'Cronograma unificado das mídias abduzidas, ordenado pelo lançamento ou episódio mais próximo.',
   },
   movie_cinema: {
-    title: 'Filmes • Cinema',
-    subtitle: 'Próximos lançamentos e filmes em cartaz nos cinemas em ordem de estreia.',
+    title: 'Filmes • Cinema (Brasil)',
+    subtitle: 'Próximos lançamentos e filmes em cartaz nos cinemas do Brasil em ordem de estreia.',
   },
   movie_digital: {
-    title: 'Filmes • Digital',
-    subtitle: 'Lançamentos em VOD / Digital ordenados por data de disponibilização.',
+    title: 'Filmes • Digital & Streaming (Brasil)',
+    subtitle: 'Filmes disponíveis ou chegando na Netflix, Prime Video, HBO Max, Globoplay, Disney+, Telecine e VOD no Brasil.',
   },
   tv: {
-    title: 'Séries',
-    subtitle: 'Próximas estreias e episódios semanais em ordem cronológica.',
+    title: 'Séries • Streaming Brasil',
+    subtitle: 'Estreias na Netflix, Amazon Prime, HBO Max, Globoplay, Disney+ e Telecine no Brasil.',
   },
   anime: {
     title: 'Animes',
@@ -274,13 +274,17 @@ export function App() {
   }, [activeTab, allHomeItems, favorites, catalog]);
 
   const availableGenres = useMemo(() => {
-    const set = new Set<string>();
+    const streamSet = new Set<string>();
+    const genreSet = new Set<string>();
     for (const item of currentTabRawList) {
+      for (const sp of item.streamingPlatforms || []) {
+        streamSet.add(sp);
+      }
       for (const g of item.genres || []) {
-        set.add(g);
+        genreSet.add(g);
       }
     }
-    return Array.from(set).slice(0, 8);
+    return [...Array.from(streamSet), ...Array.from(genreSet)].slice(0, 12);
   }, [currentTabRawList]);
 
   const handleSelectTab = (tab: TabId) => {
@@ -294,7 +298,9 @@ export function App() {
     const q = searchQuery.trim().toLowerCase();
     return currentTabRawList.filter((item) => {
       const matchesGenre =
-        selectedGenre === 'TODOS' || item.genres.includes(selectedGenre);
+        selectedGenre === 'TODOS' ||
+        item.genres.includes(selectedGenre) ||
+        Boolean(item.streamingPlatforms?.includes(selectedGenre));
       if (!matchesGenre) return false;
       if (!q) return true;
 
@@ -304,7 +310,8 @@ export function App() {
         (item.director && item.director.toLowerCase().includes(q)) ||
         (item.developer && item.developer.toLowerCase().includes(q)) ||
         (item.studioOrNetwork && item.studioOrNetwork.toLowerCase().includes(q)) ||
-        item.genres.some((g) => g.toLowerCase().includes(q))
+        item.genres.some((g) => g.toLowerCase().includes(q)) ||
+        Boolean(item.streamingPlatforms?.some((sp) => sp.toLowerCase().includes(q)))
       );
     });
   }, [currentTabRawList, searchQuery, selectedGenre]);
@@ -465,12 +472,15 @@ export function App() {
     return Array.from(combinedMap.values())
       .filter((item) => {
         const matchesGenre =
-          selectedGenre === 'TODOS' || item.genres.includes(selectedGenre);
+          selectedGenre === 'TODOS' ||
+          item.genres.includes(selectedGenre) ||
+          Boolean(item.streamingPlatforms?.includes(selectedGenre));
         if (!matchesGenre) return false;
         if (!q) return true;
         return (
           item.title.toLowerCase().includes(q) ||
-          (item.originalTitle && item.originalTitle.toLowerCase().includes(q))
+          (item.originalTitle && item.originalTitle.toLowerCase().includes(q)) ||
+          Boolean(item.streamingPlatforms?.some((sp) => sp.toLowerCase().includes(q)))
         );
       })
       .sort((a, b) => (b.reviewsCount || 0) - (a.reviewsCount || 0));

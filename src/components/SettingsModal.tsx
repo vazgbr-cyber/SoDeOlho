@@ -578,7 +578,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
               <div className="pt-2 border-t border-white/[0.07] space-y-3">
                 <p className="text-xs text-[#8e86a3]">
-                  Chaves opcionais para buscar lançamentos adicionais ao vivo da TMDB e RAWG:
+                  Chaves configuradas para buscar lançamentos ao vivo da TMDB (Filmes/Séries) e Twitch IGDB (Games):
                 </p>
 
                 <div>
@@ -594,17 +594,32 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-[#4ade80] mb-1">
-                    Chave da RAWG API (Games)
-                  </label>
-                  <input
-                    type="password"
-                    value={draft.rawgApiKey}
-                    onChange={(e) => handleFieldChange('rawgApiKey', e.target.value)}
-                    placeholder="Cole sua chave da RAWG aqui..."
-                    className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#09070e] text-white border border-white/10 focus:outline-none focus:border-[#22ff55] font-mono"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-[#4ade80] mb-1">
+                      Twitch / IGDB — Client ID (Games)
+                    </label>
+                    <input
+                      type="text"
+                      value={draft.twitchClientId}
+                      onChange={(e) => handleFieldChange('twitchClientId', e.target.value)}
+                      placeholder="Client ID da Twitch..."
+                      className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#09070e] text-white border border-white/10 focus:outline-none focus:border-[#22ff55] font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#4ade80] mb-1">
+                      Twitch / IGDB — Secret ID (Games)
+                    </label>
+                    <input
+                      type="password"
+                      value={draft.twitchClientSecret}
+                      onChange={(e) => handleFieldChange('twitchClientSecret', e.target.value)}
+                      placeholder="Secret ID da Twitch..."
+                      className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#09070e] text-white border border-white/10 focus:outline-none focus:border-[#22ff55] font-mono"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

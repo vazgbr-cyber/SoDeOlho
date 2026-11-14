@@ -1,6 +1,11 @@
 import { AppSettings, MediaCategory, MediaItem } from '../types/media';
 import { getCuratedFallbackData } from '../data/curatedFallbackData';
-import { getSupabaseClient, DEFAULT_TMDB_API_KEY } from '../lib/settings';
+import {
+  getSupabaseClient,
+  DEFAULT_TMDB_API_KEY,
+  DEFAULT_TWITCH_CLIENT_ID,
+  DEFAULT_TWITCH_CLIENT_SECRET,
+} from '../lib/settings';
 import { getLocalIsoDate, extractIsoDatePart } from '../lib/dateUtils';
 
 const TMDB_MOVIE_GENRES: Record<number, string> = {
@@ -95,11 +100,34 @@ interface TmdbRawTv {
   first_air_date?: string;
 }
 
+// ============================================================================
+// PROVEDORES DE STREAMING E REDES OFICIAIS NO BRASIL (TMDB WATCH_REGION = BR)
+// ============================================================================
+
+export interface BrStreamingConfig {
+  label: string;
+  providerIds: string;
+  networkIds?: string;
+}
+
+export const BR_STREAMING_PLATFORMS: BrStreamingConfig[] = [
+  { label: 'Netflix', providerIds: '8', networkIds: '213' },
+  { label: 'Amazon Prime', providerIds: '119', networkIds: '1024' },
+  { label: 'HBO Max', providerIds: '1899|384', networkIds: '49|3186' },
+  { label: 'Globoplay', providerIds: '307', networkIds: '3290|60' },
+  { label: 'Disney+', providerIds: '337', networkIds: '2739' },
+  { label: 'Telecine', providerIds: '227' },
+];
+
+export const ALL_BR_PROVIDER_IDS = '8|119|1899|384|307|337|227';
+export const ALL_BR_NETWORK_IDS = '213|1024|49|3186|3290|60|2739';
+
 function mapTmdbRawMovieToItem(
   m: TmdbRawMovie,
   category: 'movie_cinema' | 'movie_digital',
   todayIso: string,
-  overrideReleaseDate?: string | null
+  overrideReleaseDate?: string | null,
+  streamingPlatforms?: string[]
 ): MediaItem {
   const relDate = overrideReleaseDate || m.release_date || null;
   const genreNames = m.genres?.length
@@ -111,6 +139,15 @@ function mapTmdbRawMovieToItem(
 
   const isDigitalAvail =
     category === 'movie_digital' && Boolean(relDate && relDate <= todayIso);
+
+  const defaultPlatforms =
+    streamingPlatforms && streamingPlatforms.length > 0
+      ? streamingPlatforms
+      : category === 'movie_cinema'
+      ? ['Cinema BR']
+      : ['Digital BR'];
+
+  const platformSummary = defaultPlatforms.join(' • ');
 
   return {
     id: `tmdb-${category}-${m.id}`,
@@ -127,8 +164,9 @@ function mapTmdbRawMovieToItem(
     synopsis:
       m.overview && m.overview.trim().length > 0
         ? m.overview
-        : 'Sinopse em português em atualização pelos distribuidores oficiais.',
+        : 'Lançamento confirmado no circuito brasileiro.',
     genres: genreNames.length > 0 ? genreNames : ['Cinema'],
+    streamingPlatforms: defaultPlatforms,
     rating: m.vote_average ? Math.round(m.vote_average * 10) / 10 : undefined,
     reviewsCount:
       typeof m.vote_count === 'number' && m.vote_count > 0
@@ -139,8 +177,8 @@ function mapTmdbRawMovieToItem(
     runtimeMinutes: m.runtime || 124,
     director:
       category === 'movie_cinema'
-        ? 'Lançamento Oficial nos Cinemas'
-        : 'Lançamento Digital / VOD',
+        ? `Circuito Brasil • ${platformSummary}`
+        : `Disponível no Brasil • ${platformSummary}`,
     cinemaReleaseDate: category === 'movie_cinema' ? relDate : relDate,
     digitalReleaseDate: category === 'movie_digital' ? relDate : null,
     isDigitalAvailable: isDigitalAvail,
@@ -152,7 +190,8 @@ function mapTmdbRawTvToItem(
   airDateOverride?: string | null,
   nextEpNumber?: number | null,
   studioText?: string,
-  totalEps?: number | null
+  totalEps?: number | null,
+  streamingPlatforms?: string[]
 ): MediaItem {
   const effectiveDate = airDateOverride || tv.first_air_date || null;
   const genreNames = tv.genres?.length
@@ -161,6 +200,11 @@ function mapTmdbRawTvToItem(
         .map((id) => TMDB_TV_GENRES[id])
         .filter(Boolean)
         .slice(0, 3);
+
+  const platforms =
+    streamingPlatforms && streamingPlatforms.length > 0
+      ? streamingPlatforms
+      : ['Streaming BR'];
 
   return {
     id: `tmdb-tv-${tv.id}`,
@@ -177,8 +221,9 @@ function mapTmdbRawTvToItem(
     synopsis:
       tv.overview && tv.overview.trim().length > 0
         ? tv.overview
-        : 'Acompanhe os episódios e estreias desta série no calendário oficial.',
+        : 'Série confirmada no catálogo de streaming no Brasil.',
     genres: genreNames.length > 0 ? genreNames : ['Série'],
+    streamingPlatforms: platforms,
     rating: tv.vote_average ? Math.round(tv.vote_average * 10) / 10 : undefined,
     reviewsCount:
       typeof tv.vote_count === 'number' && tv.vote_count > 0
@@ -186,8 +231,9 @@ function mapTmdbRawTvToItem(
         : tv.popularity
         ? Math.round(tv.popularity * 95)
         : 520,
-    studioOrNetwork: studioText || 'Série Oficial • Transmissão Internacional',
-    seasonStatus: 'Episódios no Cronograma',
+    studioOrNetwork:
+      studioText || `Original / Catálogo Brasil • ${platforms.join(' / ')}`,
+    seasonStatus: 'Catálogo Oficial Brasil',
     nextEpisodeNumber: nextEpNumber ?? 1,
     nextEpisodeDate: effectiveDate,
     totalEpisodes: totalEps || null,
@@ -199,17 +245,30 @@ function deduplicateByExternalId(items: MediaItem[]): MediaItem[] {
   const map = new Map<string, MediaItem>();
   for (const item of items) {
     if (!item.externalId) continue;
-    if (!map.has(item.externalId)) {
+    const existing = map.get(item.externalId);
+    if (!existing) {
       map.set(item.externalId, item);
+    } else if (item.streamingPlatforms && item.streamingPlatforms.length > 0) {
+      const mergedPlatforms = Array.from(
+        new Set([
+          ...(existing.streamingPlatforms || []),
+          ...item.streamingPlatforms,
+        ])
+      );
+      existing.streamingPlatforms = mergedPlatforms;
+      if (existing.category === 'tv') {
+        existing.studioOrNetwork = `Catálogo Brasil • ${mergedPlatforms.join(' / ')}`;
+      } else if (existing.category === 'movie_digital') {
+        existing.director = `Disponível no Brasil • ${mergedPlatforms.join(' • ')}`;
+      }
     }
   }
   return Array.from(map.values());
 }
 
 /**
- * Busca Filmes (Cinema e Digital) da TMDB separando rigorosamente:
- * - Lançamentos de HOJE em diante (ordenados cronologicamente para frente)
- * - Lançamentos ANTERIORES a hoje (ordenados dos mais recentes antes de hoje para trás, sem datas falsas!)
+ * Busca Filmes (Cinema e Digital/Streaming) disponíveis EXCLUSIVAMENTE no Brasil (region=BR e watch_region=BR)
+ * e adiciona tags do streaming onde está disponível (Netflix, Amazon Prime, HBO Max, Globoplay, Disney+, Telecine, Cinema BR).
  */
 export async function fetchTmdbMovies(
   settings: AppSettings,
@@ -234,31 +293,76 @@ export async function fetchTmdbMovies(
     const todayIso = getLocalIsoDate(0);
     const yesterdayIso = getLocalIsoDate(-1);
     const futureLimitIso = getLocalIsoDate(365);
+    const pastPageNums = Array.from({ length: pastPagesCount }, (_, i) => i + 1);
 
-    // 1. Próximos lançamentos nos Cinemas (>= hoje, em ordem cronológica ascendente)
+    // 1. FILMES NOS CINEMAS DO BRASIL (region=BR + release_date no Brasil + Tipo 3/2 Theatrical)
     const cinemaUpcomingUrls = [1, 2].map(
       (page) =>
-        `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=3|2&primary_release_date.gte=${todayIso}&primary_release_date.lte=${futureLimitIso}&sort_by=primary_release_date.asc&page=${page}${queryParam}`
+        `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=3|2&release_date.gte=${todayIso}&release_date.lte=${futureLimitIso}&sort_by=release_date.asc&page=${page}${queryParam}`
     );
 
-    // 2. Filmes já lançados nos Cinemas ANTES de hoje (<= ontem, em ordem decrescente a partir de ontem!)
-    const cinemaPastPageNums = Array.from({ length: pastPagesCount }, (_, i) => i + 1);
-    const cinemaPastUrls = cinemaPastPageNums.map(
+    const cinemaPastUrls = pastPageNums.map(
       (page) =>
-        `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=3|2&primary_release_date.lte=${yesterdayIso}&sort_by=primary_release_date.desc&vote_count.gte=10&page=${page}${queryParam}`
+        `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=3|2&release_date.lte=${yesterdayIso}&sort_by=release_date.desc&vote_count.gte=20&page=${page}${queryParam}`
     );
 
-    // 3. Próximos lançamentos no Digital / VOD (>= hoje)
-    const digitalUpcomingUrls = [1, 2].map(
-      (page) =>
-        `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=4|6&primary_release_date.gte=${todayIso}&primary_release_date.lte=${futureLimitIso}&sort_by=primary_release_date.asc&page=${page}${queryParam}`
-    );
+    // 2. FILMES NOS STREAMINGS DO BRASIL (Netflix, Amazon Prime, HBO Max, Globoplay, Disney+, Telecine)
+    // Buscamos por plataforma em watch_region=BR para saber exatamente a tag do streaming de cada filme!
+    const fetchMoviesForPlatform = async (
+      platform: BrStreamingConfig
+    ): Promise<{ past: MediaItem[]; upcoming: MediaItem[] }> => {
+      const upUrl = `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&watch_region=BR&with_watch_providers=${platform.providerIds}&release_date.gte=${todayIso}&release_date.lte=${futureLimitIso}&sort_by=release_date.asc&page=1${queryParam}`;
+      const pastUrlsForPlat = pastPageNums
+        .slice(0, 2)
+        .map(
+          (page) =>
+            `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&watch_region=BR&with_watch_providers=${platform.providerIds}&release_date.lte=${yesterdayIso}&sort_by=release_date.desc&vote_count.gte=15&page=${page}${queryParam}`
+        );
 
-    // 4. Filmes já lançados no Digital / VOD ANTES de hoje (<= ontem, em ordem decrescente a partir de ontem!)
-    const digitalPastUrls = cinemaPastPageNums.map(
-      (page) =>
-        `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=4|6&primary_release_date.lte=${yesterdayIso}&sort_by=primary_release_date.desc&vote_count.gte=15&page=${page}${queryParam}`
-    );
+      const [upRes, ...pastResponses] = await Promise.all([
+        fetch(upUrl, { headers }).catch(() => null),
+        ...pastUrlsForPlat.map((u) => fetch(u, { headers }).catch(() => null)),
+      ]);
+
+      const upMovies: MediaItem[] = [];
+      if (upRes && upRes.ok) {
+        const d = await upRes.json();
+        for (const m of (d?.results || []) as TmdbRawMovie[]) {
+          if (m?.id && m.poster_path && m.release_date) {
+            upMovies.push(
+              mapTmdbRawMovieToItem(m, 'movie_digital', todayIso, m.release_date, [
+                platform.label,
+              ])
+            );
+          }
+        }
+      }
+
+      const pastMovies: MediaItem[] = [];
+      for (const r of pastResponses) {
+        if (r && r.ok) {
+          const d = await r.json();
+          for (const m of (d?.results || []) as TmdbRawMovie[]) {
+            if (m?.id && m.poster_path && m.release_date) {
+              pastMovies.push(
+                mapTmdbRawMovieToItem(
+                  m,
+                  'movie_digital',
+                  todayIso,
+                  m.release_date,
+                  [platform.label]
+                )
+              );
+            }
+          }
+        }
+      }
+
+      return { past: pastMovies, upcoming: upMovies };
+    };
+
+    // Também busca lançamentos futuros em VOD/Digital no Brasil (Tipo 4/6 em region=BR)
+    const vodUpcomingUrl = `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=4|6&release_date.gte=${todayIso}&release_date.lte=${futureLimitIso}&sort_by=release_date.asc&vote_count.gte=5&page=1${queryParam}`;
 
     const fetchPageList = async (urls: string[]): Promise<TmdbRawMovie[]> => {
       const responses = await Promise.all(
@@ -273,29 +377,71 @@ export async function fetchTmdbMovies(
           }
         }
       }
-      return all.filter((m) => m && m.id && m.poster_path && m.release_date);
+      // Filtra apenas filmes que tenham título, capa, data e sinopse ou relevância no Brasil
+      return all.filter(
+        (m) =>
+          m &&
+          m.id &&
+          m.poster_path &&
+          m.release_date &&
+          Boolean(
+            (m.overview && m.overview.trim().length > 0) ||
+              (m.popularity && m.popularity >= 8)
+          )
+      );
     };
 
-    const [
-      cinemaUpcomingRaw,
-      cinemaPastRaw,
-      digitalUpcomingRaw,
-      digitalPastRaw,
-    ] = await Promise.all([
-      fetchPageList(cinemaUpcomingUrls),
-      fetchPageList(cinemaPastUrls),
-      fetchPageList(digitalUpcomingUrls),
-      fetchPageList(digitalPastUrls),
-    ]);
+    const [cinemaUpcomingRaw, cinemaPastRaw, vodUpcomingRaw, ...platformResults] =
+      await Promise.all([
+        fetchPageList(cinemaUpcomingUrls),
+        fetchPageList(cinemaPastUrls),
+        fetchPageList([vodUpcomingUrl]),
+        ...BR_STREAMING_PLATFORMS.map(fetchMoviesForPlatform),
+      ]);
+
+    // Cria um mapa de quais filmes também estão em streamings do Brasil para cruzar tags nos filmes de cinema
+    const movieStreamingMap = new Map<string, string[]>();
+    for (const pRes of platformResults) {
+      for (const item of [...pRes.past, ...pRes.upcoming]) {
+        const existing = movieStreamingMap.get(item.externalId) || [];
+        movieStreamingMap.set(
+          item.externalId,
+          Array.from(new Set([...existing, ...(item.streamingPlatforms || [])]))
+        );
+      }
+    }
 
     const cinemaItems = deduplicateByExternalId([
-      ...cinemaPastRaw.map((m) => mapTmdbRawMovieToItem(m, 'movie_cinema', todayIso)),
-      ...cinemaUpcomingRaw.map((m) => mapTmdbRawMovieToItem(m, 'movie_cinema', todayIso)),
+      ...cinemaPastRaw.map((m) => {
+        const streamTags = movieStreamingMap.get(String(m.id)) || [];
+        return mapTmdbRawMovieToItem(
+          m,
+          'movie_cinema',
+          todayIso,
+          m.release_date,
+          ['Cinema BR', ...streamTags]
+        );
+      }),
+      ...cinemaUpcomingRaw.map((m) => {
+        const streamTags = movieStreamingMap.get(String(m.id)) || [];
+        return mapTmdbRawMovieToItem(
+          m,
+          'movie_cinema',
+          todayIso,
+          m.release_date,
+          ['Cinema BR', ...streamTags]
+        );
+      }),
     ]);
 
     const digitalItems = deduplicateByExternalId([
-      ...digitalPastRaw.map((m) => mapTmdbRawMovieToItem(m, 'movie_digital', todayIso)),
-      ...digitalUpcomingRaw.map((m) => mapTmdbRawMovieToItem(m, 'movie_digital', todayIso)),
+      ...platformResults.flatMap((p) => p.past),
+      ...platformResults.flatMap((p) => p.upcoming),
+      ...vodUpcomingRaw.map((m) =>
+        mapTmdbRawMovieToItem(m, 'movie_digital', todayIso, m.release_date, [
+          'Digital BR',
+        ])
+      ),
     ]);
 
     return {
@@ -313,7 +459,8 @@ export async function fetchTmdbMovies(
 }
 
 /**
- * Busca Séries da TMDB separando lançamentos futuros (>= hoje) e lançamentos passados (<= ontem)
+ * Busca Séries da TMDB EXCLUSIVAMENTE da Netflix, Amazon Prime, HBO Max, Globoplay, Disney+ e Telecine no Brasil!
+ * Inclui automaticamente a tag de qual streaming a série pertence.
  */
 export async function fetchTmdbSeries(
   settings: AppSettings,
@@ -334,42 +481,63 @@ export async function fetchTmdbSeries(
     const yesterdayIso = getLocalIsoDate(-1);
     const futureLimitIso = getLocalIsoDate(365);
 
-    const upcomingUrls = [1, 2].map(
-      (page) =>
-        `https://api.themoviedb.org/3/discover/tv?language=pt-BR&first_air_date.gte=${todayIso}&first_air_date.lte=${futureLimitIso}&sort_by=first_air_date.asc&page=${page}${queryParam}`
-    );
+    const fetchSeriesForPlatform = async (
+      platform: BrStreamingConfig
+    ): Promise<MediaItem[]> => {
+      const urls: string[] = [
+        // 1. Próximas estreias no streaming no Brasil (watch_region=BR)
+        `https://api.themoviedb.org/3/discover/tv?language=pt-BR&watch_region=BR&with_watch_providers=${platform.providerIds}&first_air_date.gte=${todayIso}&first_air_date.lte=${futureLimitIso}&sort_by=first_air_date.asc&page=1${queryParam}`,
+        // 2. Séries já lançadas recentemente no streaming no Brasil (<= ontem)
+        `https://api.themoviedb.org/3/discover/tv?language=pt-BR&watch_region=BR&with_watch_providers=${platform.providerIds}&first_air_date.lte=${yesterdayIso}&sort_by=first_air_date.desc&vote_count.gte=5&page=1${queryParam}`,
+      ];
 
-    const pastPageNums = Array.from({ length: pastPagesCount }, (_, i) => i + 1);
-    const pastUrls = pastPageNums.map(
-      (page) =>
-        `https://api.themoviedb.org/3/discover/tv?language=pt-BR&first_air_date.lte=${yesterdayIso}&sort_by=first_air_date.desc&vote_count.gte=10&page=${page}${queryParam}`
-    );
+      if (pastPagesCount > 2) {
+        urls.push(
+          `https://api.themoviedb.org/3/discover/tv?language=pt-BR&watch_region=BR&with_watch_providers=${platform.providerIds}&first_air_date.lte=${yesterdayIso}&sort_by=first_air_date.desc&vote_count.gte=5&page=2${queryParam}`
+        );
+      }
 
-    const fetchTvPages = async (urls: string[]): Promise<TmdbRawTv[]> => {
+      // 3. Inclui também séries originais da rede (Netflix, Prime, HBO Max, Globoplay, Disney+) que estreiam em breve
+      // (muitas séries futuras têm a Network cadastrada antes do link de Watch Provider entrar no ar no dia do lançamento)
+      if (platform.networkIds) {
+        urls.push(
+          `https://api.themoviedb.org/3/discover/tv?language=pt-BR&with_networks=${platform.networkIds}&first_air_date.gte=${todayIso}&first_air_date.lte=${futureLimitIso}&sort_by=first_air_date.asc&page=1${queryParam}`,
+          `https://api.themoviedb.org/3/discover/tv?language=pt-BR&with_networks=${platform.networkIds}&first_air_date.lte=${yesterdayIso}&sort_by=first_air_date.desc&vote_count.gte=5&page=1${queryParam}`
+        );
+      }
+
       const responses = await Promise.all(
         urls.map((u) => fetch(u, { headers }).catch(() => null))
       );
-      const all: TmdbRawTv[] = [];
+
+      const items: MediaItem[] = [];
       for (const r of responses) {
         if (r && r.ok) {
           const data = await r.json();
-          if (Array.isArray(data?.results)) {
-            all.push(...data.results);
+          for (const tv of (data?.results || []) as TmdbRawTv[]) {
+            if (tv && tv.id && tv.poster_path && tv.first_air_date) {
+              items.push(
+                mapTmdbRawTvToItem(
+                  tv,
+                  tv.first_air_date,
+                  1,
+                  `Catálogo Brasil • ${platform.label}`,
+                  null,
+                  [platform.label]
+                )
+              );
+            }
           }
         }
       }
-      return all.filter((tv) => tv && tv.id && tv.poster_path && tv.first_air_date);
+      return items;
     };
 
-    const [upcomingRaw, pastRaw] = await Promise.all([
-      fetchTvPages(upcomingUrls),
-      fetchTvPages(pastUrls),
-    ]);
+    const perPlatformLists = await Promise.all(
+      BR_STREAMING_PLATFORMS.map(fetchSeriesForPlatform)
+    );
 
-    const seriesItems = deduplicateByExternalId([
-      ...pastRaw.map((tv) => mapTmdbRawTvToItem(tv)),
-      ...upcomingRaw.map((tv) => mapTmdbRawTvToItem(tv)),
-    ]);
+    const seriesItems = deduplicateByExternalId(perPlatformLists.flat());
 
     return {
       items: seriesItems.length > 0 ? seriesItems : fallback,
@@ -567,10 +735,8 @@ export async function fetchMediaByCalendarDate(
   const startUnix = Math.floor(new Date(`${startDateIso}T00:00:00`).getTime() / 1000);
   const endUnix = Math.floor(new Date(`${endDateIso}T23:59:59`).getTime() / 1000);
 
-  const cinemaUrl = `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=3|2&primary_release_date.gte=${startDateIso}&primary_release_date.lte=${endDateIso}&sort_by=popularity.desc&page=1${queryParam}`;
-  const digitalUrl = `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=4|6&primary_release_date.gte=${startDateIso}&primary_release_date.lte=${endDateIso}&sort_by=popularity.desc&page=1${queryParam}`;
-  const generalMovieUrl = `https://api.themoviedb.org/3/discover/movie?language=pt-BR&primary_release_date.gte=${startDateIso}&primary_release_date.lte=${endDateIso}&sort_by=popularity.desc&page=1${queryParam}`;
-  const tvUrl = `https://api.themoviedb.org/3/discover/tv?language=pt-BR&first_air_date.gte=${startDateIso}&first_air_date.lte=${endDateIso}&sort_by=popularity.desc&page=1${queryParam}`;
+  const cinemaUrl = `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&with_release_type=3|2&release_date.gte=${startDateIso}&release_date.lte=${endDateIso}&sort_by=popularity.desc&page=1${queryParam}`;
+  const digitalUrl = `https://api.themoviedb.org/3/discover/movie?language=pt-BR&region=BR&watch_region=BR&with_watch_providers=${ALL_BR_PROVIDER_IDS}&release_date.gte=${startDateIso}&release_date.lte=${endDateIso}&sort_by=popularity.desc&page=1${queryParam}`;
 
   const aniQuery = `
     query ($start: Int, $end: Int) {
@@ -599,11 +765,9 @@ export async function fetchMediaByCalendarDate(
   `;
 
   try {
-    const [cinemaRes, digitalRes, genMovieRes, tvRes, aniRes] = await Promise.all([
+    const [cinemaRes, digitalRes, aniRes, ...tvPlatformResults] = await Promise.all([
       fetch(cinemaUrl, { headers }).catch(() => null),
       fetch(digitalUrl, { headers }).catch(() => null),
-      fetch(generalMovieUrl, { headers }).catch(() => null),
-      fetch(tvUrl, { headers }).catch(() => null),
       fetch('https://graphql.anilist.co', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -612,6 +776,37 @@ export async function fetchMediaByCalendarDate(
           variables: { start: startUnix - 1, end: endUnix + 1 },
         }),
       }).catch(() => null),
+      ...BR_STREAMING_PLATFORMS.map(async (plat) => {
+        const platTvUrl = `https://api.themoviedb.org/3/discover/tv?language=pt-BR&watch_region=BR&with_watch_providers=${plat.providerIds}&first_air_date.gte=${startDateIso}&first_air_date.lte=${endDateIso}&sort_by=popularity.desc&page=1${queryParam}`;
+        const netTvUrl = plat.networkIds
+          ? `https://api.themoviedb.org/3/discover/tv?language=pt-BR&with_networks=${plat.networkIds}&first_air_date.gte=${startDateIso}&first_air_date.lte=${endDateIso}&sort_by=popularity.desc&page=1${queryParam}`
+          : null;
+        const [r1, r2] = await Promise.all([
+          fetch(platTvUrl, { headers }).catch(() => null),
+          netTvUrl ? fetch(netTvUrl, { headers }).catch(() => null) : Promise.resolve(null),
+        ]);
+        const list: MediaItem[] = [];
+        for (const r of [r1, r2]) {
+          if (r && r.ok) {
+            const d = await r.json();
+            for (const tv of (d?.results || []) as TmdbRawTv[]) {
+              if (tv?.id && tv.poster_path) {
+                list.push(
+                  mapTmdbRawTvToItem(
+                    tv,
+                    tv.first_air_date || startDateIso,
+                    1,
+                    `Catálogo Brasil • ${plat.label}`,
+                    null,
+                    [plat.label]
+                  )
+                );
+              }
+            }
+          }
+        }
+        return list;
+      }),
     ]);
 
     const results: MediaItem[] = [];
@@ -625,7 +820,8 @@ export async function fetchMediaByCalendarDate(
               m,
               'movie_cinema',
               todayIso,
-              m.release_date || startDateIso
+              m.release_date || startDateIso,
+              ['Cinema BR']
             )
           );
         }
@@ -641,38 +837,16 @@ export async function fetchMediaByCalendarDate(
               m,
               'movie_digital',
               todayIso,
-              m.release_date || startDateIso
+              m.release_date || startDateIso,
+              ['Digital BR']
             )
           );
         }
       }
     }
 
-    if (genMovieRes && genMovieRes.ok) {
-      const data = await genMovieRes.json();
-      for (const m of data?.results || []) {
-        if (m?.id && m.poster_path) {
-          results.push(
-            mapTmdbRawMovieToItem(
-              m,
-              'movie_cinema',
-              todayIso,
-              m.release_date || startDateIso
-            )
-          );
-        }
-      }
-    }
-
-    if (tvRes && tvRes.ok) {
-      const data = await tvRes.json();
-      for (const tv of data?.results || []) {
-        if (tv?.id && tv.poster_path) {
-          results.push(
-            mapTmdbRawTvToItem(tv, tv.first_air_date || startDateIso)
-          );
-        }
-      }
+    for (const tvList of tvPlatformResults) {
+      results.push(...tvList);
     }
 
     if (aniRes && aniRes.ok) {
@@ -713,60 +887,329 @@ export async function fetchMediaByCalendarDate(
       }
     }
 
-    // Inclui também qualquer jogo da RAWG (se a chave estiver configurada) na data selecionada
-    if (settings.rawgApiKey?.trim()) {
-      try {
-        const rawgUrl = `https://api.rawg.io/api/games?key=${encodeURIComponent(
-          settings.rawgApiKey.trim()
-        )}&dates=${startDateIso},${endDateIso}&ordering=-added&page_size=12`;
-        const rawgRes = await fetch(rawgUrl);
-        if (rawgRes.ok) {
-          const rawgData = await rawgRes.json();
-          for (const g of rawgData?.results || []) {
-            if (!g?.id) continue;
-            results.push({
-              id: `rawg-cal-${g.id}`,
-              externalId: String(g.id),
-              category: 'game',
-              title: g.name,
-              posterUrl:
-                g.background_image ||
-                'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=85',
-              synopsis: 'Jogo lançado na data selecionada no calendário.',
-              genres: (g.genres || []).map((x: { name: string }) => x.name),
-              rating: g.rating ? Math.round(g.rating * 20) / 10 : undefined,
-              reviewsCount: g.ratings_count || g.added || 1500,
-              developer: 'Lançamento Oficial Game',
-              platforms: (g.platforms || [])
-                .map((p: { platform: { name: string } }) => p.platform?.name)
-                .filter(Boolean)
-                .slice(0, 4),
-              releaseDate: extractIsoDatePart(g.released) || startDateIso,
-              hltbLabel: 'Tempo: Aguardando dados',
-            });
-          }
-        }
-      } catch {
-        // Ignore RAWG error
-      }
+    // Inclui também qualquer jogo da Twitch / IGDB na data selecionada no calendário
+    try {
+      const calGames = await fetchIgdbGamesByDateRange(settings, startUnix, endUnix);
+      results.push(...calGames);
+    } catch {
+      // Ignore IGDB calendar error
     }
 
-    // Deduplica por categoria + externalId
-    const seen = new Set<string>();
-    return results.filter((it) => {
+    // Deduplica por categoria + externalId e mescla tags de streaming
+    const seenMap = new Map<string, MediaItem>();
+    for (const it of results) {
       const k = `${it.category}::${it.externalId}`;
-      if (seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
+      const existing = seenMap.get(k);
+      if (!existing) {
+        seenMap.set(k, it);
+      } else if (it.streamingPlatforms && it.streamingPlatforms.length > 0) {
+        existing.streamingPlatforms = Array.from(
+          new Set([...(existing.streamingPlatforms || []), ...it.streamingPlatforms])
+        );
+      }
+    }
+    return Array.from(seenMap.values());
   } catch {
     return [];
   }
 }
 
+// ============================================================================
+// INTEGRAÇÃO OFICIAL TWITCH / IGDB API v4 (GAMES + GAME TIME TO BEATS)
+// ============================================================================
+
+let cachedTwitchToken: string | null = null;
+let cachedTwitchTokenExpiry = 0;
+let cachedIgdbStaticList: MediaItem[] | null = null;
+
+interface IgdbRawGame {
+  id: number;
+  name: string;
+  summary?: string;
+  storyline?: string;
+  first_release_date?: number;
+  total_rating?: number;
+  rating?: number;
+  total_rating_count?: number;
+  hypes?: number;
+  follows?: number;
+  cover?: { id?: number; image_id?: string };
+  screenshots?: Array<{ id?: number; image_id?: string }>;
+  genres?: Array<{ id?: number; name: string }>;
+  platforms?: Array<{ id?: number; name: string; abbreviation?: string }>;
+  involved_companies?: Array<{
+    developer?: boolean;
+    publisher?: boolean;
+    company?: { name: string };
+  }>;
+}
+
+interface IgdbTimeToBeat {
+  game_id: number;
+  hastily?: number;
+  normally?: number;
+  completely?: number;
+}
+
+async function getTwitchAccessToken(settings: AppSettings): Promise<{
+  clientId: string;
+  accessToken: string;
+} | null> {
+  const clientId = (settings.twitchClientId || DEFAULT_TWITCH_CLIENT_ID).trim();
+  const clientSecret = (
+    settings.twitchClientSecret || DEFAULT_TWITCH_CLIENT_SECRET
+  ).trim();
+
+  if (!clientId || !clientSecret) return null;
+
+  if (cachedTwitchToken && Date.now() < cachedTwitchTokenExpiry) {
+    return { clientId, accessToken: cachedTwitchToken };
+  }
+
+  try {
+    const tokenUrl = `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(
+      clientId
+    )}&client_secret=${encodeURIComponent(
+      clientSecret
+    )}&grant_type=client_credentials`;
+
+    const res = await fetch(tokenUrl, { method: 'POST' });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data?.access_token) {
+      cachedTwitchToken = data.access_token;
+      cachedTwitchTokenExpiry =
+        Date.now() + Math.max(60, (data.expires_in || 3600) - 120) * 1000;
+      return { clientId, accessToken: data.access_token };
+    }
+  } catch {
+    // Fallback
+  }
+  return null;
+}
+
+/**
+ * Executa uma query Apicalypse no endpoint IGDB v4 (usando proxy CORS para navegadores em produção)
+ */
+async function postIgdbEndpoint<T>(
+  endpoint: string,
+  bodyQuery: string,
+  clientId: string,
+  accessToken: string
+): Promise<T[] | null> {
+  const targetUrl = `https://api.igdb.com/v4/${endpoint}`;
+  const urlsToTry = [
+    `https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`,
+    `https://corsproxy.io/?${targetUrl}`,
+    targetUrl,
+  ];
+
+  const headers: Record<string, string> = {
+    'Client-ID': clientId,
+    Authorization: `Bearer ${accessToken}`,
+    Accept: 'application/json',
+    'Content-Type': 'text/plain',
+  };
+
+  for (const url of urlsToTry) {
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: bodyQuery,
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (Array.isArray(json)) {
+          return json as T[];
+        }
+      }
+    } catch {
+      // Tenta o próximo relay
+    }
+  }
+
+  return null;
+}
+
+function unixToIsoDate(unixSeconds?: number): string | null {
+  if (!unixSeconds || typeof unixSeconds !== 'number') return null;
+  const d = new Date(unixSeconds * 1000);
+  const year = d.getUTCFullYear();
+  const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+const IGDB_GENRE_PT: Record<string, string> = {
+  'Role-playing (RPG)': 'RPG',
+  Adventure: 'Aventura',
+  Shooter: 'Tiro / Shooter',
+  Fighting: 'Luta',
+  Platform: 'Plataforma',
+  Puzzle: 'Puzzle',
+  Racing: 'Corrida',
+  'Real Time Strategy (RTS)': 'Estratégia (RTS)',
+  Simulator: 'Simulador',
+  Sport: 'Esporte',
+  Strategy: 'Estratégia',
+  'Turn-based strategy (TBS)': 'Estratégia por Turnos',
+  Tactical: 'Tático',
+  'Hack and slash/Beat \'em up': 'Hack and Slash',
+  Indie: 'Indie',
+  Arcade: 'Arcade',
+  'Card & Board Game': 'Cartas & Tabuleiro',
+  MOBA: 'MOBA',
+  'Point-and-click': 'Point-and-Click',
+  Music: 'Música',
+  'Visual Novel': 'Visual Novel',
+};
+
+function mapIgdbGameToMediaItem(
+  g: IgdbRawGame,
+  ttbMap?: Map<number, IgdbTimeToBeat>
+): MediaItem {
+  const coverImageId = g.cover?.image_id;
+  const posterUrl = coverImageId
+    ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${coverImageId}.jpg`
+    : 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=85';
+
+  const screenImageId = g.screenshots?.[0]?.image_id;
+  const backdropUrl = screenImageId
+    ? `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${screenImageId}.jpg`
+    : coverImageId
+    ? `https://images.igdb.com/igdb/image/upload/t_720p/${coverImageId}.jpg`
+    : undefined;
+
+  const devEntry =
+    g.involved_companies?.find((ic) => ic.developer && ic.company?.name) ||
+    g.involved_companies?.find((ic) => ic.company?.name);
+  const developer = devEntry?.company?.name || 'Estúdio Oficial (IGDB)';
+
+  const platforms = (g.platforms || [])
+    .map((p) => p.abbreviation || p.name)
+    .filter(Boolean)
+    .slice(0, 5);
+
+  const genres = (g.genres || [])
+    .map((gen) => IGDB_GENRE_PT[gen.name] || gen.name)
+    .slice(0, 4);
+
+  const rawRating = g.total_rating ?? g.rating;
+  const rating =
+    typeof rawRating === 'number' && rawRating > 0
+      ? Math.round((rawRating / 10) * 10) / 10
+      : undefined;
+
+  const reviewsCount =
+    (g.total_rating_count || 0) * 25 +
+    (g.hypes || 0) * 180 +
+    (g.follows || 0) * 90 +
+    1800;
+
+  const ttb = ttbMap?.get(g.id);
+  const mainHours =
+    ttb?.normally && ttb.normally > 0
+      ? Math.max(1, Math.round(ttb.normally / 3600))
+      : null;
+  const extraHours =
+    ttb?.normally && ttb?.completely
+      ? Math.max(1, Math.round((ttb.normally + ttb.completely) / 2 / 3600))
+      : ttb?.hastily
+      ? Math.max(1, Math.round(ttb.hastily / 3600))
+      : null;
+  const completionistHours =
+    ttb?.completely && ttb.completely > 0
+      ? Math.max(1, Math.round(ttb.completely / 3600))
+      : null;
+
+  const hltbLabel = mainHours
+    ? `~${mainHours}h para zerar`
+    : completionistHours
+    ? `~${completionistHours}h (100%)`
+    : 'Tempo: Aguardando dados';
+
+  return {
+    id: `igdb-game-${g.id}`,
+    externalId: String(g.id),
+    category: 'game' as MediaCategory,
+    title: g.name,
+    originalTitle: g.name,
+    posterUrl,
+    backdropUrl,
+    synopsis:
+      g.summary ||
+      g.storyline ||
+      'Acompanhe o lançamento deste jogo confirmado na base oficial da Twitch / IGDB.',
+    genres: genres.length > 0 ? genres : ['Games'],
+    rating,
+    reviewsCount,
+    developer,
+    platforms: platforms.length > 0 ? platforms : ['PC', 'PS5', 'Xbox Series'],
+    releaseDate: unixToIsoDate(g.first_release_date),
+    hltbMainHours: mainHours,
+    hltbExtraHours: extraHours,
+    hltbCompletionistHours: completionistHours,
+    hltbLabel,
+  };
+}
+
+async function loadIgdbStaticCache(): Promise<MediaItem[]> {
+  if (cachedIgdbStaticList && cachedIgdbStaticList.length > 0) {
+    return cachedIgdbStaticList;
+  }
+  try {
+    const res = await fetch('./igdb-cache.json');
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        cachedIgdbStaticList = data as MediaItem[];
+        return cachedIgdbStaticList;
+      }
+    }
+  } catch {
+    // Ignore
+  }
+  return [];
+}
+
+async function fetchIgdbGamesByDateRange(
+  settings: AppSettings,
+  startUnix: number,
+  endUnix: number
+): Promise<MediaItem[]> {
+  const auth = await getTwitchAccessToken(settings);
+  if (auth) {
+    const query = `
+      fields id, name, summary, storyline, first_release_date, total_rating, rating, total_rating_count, hypes, follows, cover.image_id, screenshots.image_id, genres.name, platforms.name, platforms.abbreviation, involved_companies.company.name, involved_companies.developer;
+      where first_release_date >= ${startUnix} & first_release_date <= ${endUnix} & cover != null;
+      sort hypes desc;
+      limit 30;
+    `;
+    const rawGames = await postIgdbEndpoint<IgdbRawGame>(
+      'games',
+      query,
+      auth.clientId,
+      auth.accessToken
+    );
+    if (rawGames && rawGames.length > 0) {
+      return rawGames.map((g) => mapIgdbGameToMediaItem(g));
+    }
+  }
+
+  // Fallback para o cache IGDB pré-sincronizado
+  const cached = await loadIgdbStaticCache();
+  const startIso = unixToIsoDate(startUnix) || '';
+  const endIso = unixToIsoDate(endUnix) || '';
+  return cached.filter((item) => {
+    const rel = extractIsoDatePart(item.releaseDate);
+    return rel && rel >= startIso && rel <= endIso;
+  });
+}
+
 export async function resolveHltbForGame(
   gameName: string,
-  rawgId: string,
+  externalGameId: string,
   settings: AppSettings
 ): Promise<{
   mainHours: number | null;
@@ -774,41 +1217,78 @@ export async function resolveHltbForGame(
   completionistHours: number | null;
   label: string;
 }> {
-  const supabase = getSupabaseClient(settings);
-  if (!supabase) {
-    return {
-      mainHours: null,
-      extraHours: null,
-      completionistHours: null,
-      label: 'Tempo: Aguardando dados',
-    };
+  // 1. Consulta diretamente o endpoint game_time_to_beats da Twitch / IGDB!
+  const numericId = Number(externalGameId);
+  if (!Number.isNaN(numericId) && numericId > 0) {
+    const auth = await getTwitchAccessToken(settings);
+    if (auth) {
+      const ttbQuery = `fields game_id, hastily, normally, completely; where game_id = ${numericId}; limit 1;`;
+      const ttbRes = await postIgdbEndpoint<IgdbTimeToBeat>(
+        'game_time_to_beats',
+        ttbQuery,
+        auth.clientId,
+        auth.accessToken
+      );
+      const ttb = ttbRes?.[0];
+      if (ttb && (ttb.normally || ttb.completely || ttb.hastily)) {
+        const mainHours = ttb.normally
+          ? Math.max(1, Math.round(ttb.normally / 3600))
+          : null;
+        const completionistHours = ttb.completely
+          ? Math.max(1, Math.round(ttb.completely / 3600))
+          : null;
+        const extraHours =
+          ttb.normally && ttb.completely
+            ? Math.max(1, Math.round((ttb.normally + ttb.completely) / 2 / 3600))
+            : ttb.hastily
+            ? Math.max(1, Math.round(ttb.hastily / 3600))
+            : null;
+        return {
+          mainHours,
+          extraHours,
+          completionistHours,
+          label: mainHours
+            ? `~${mainHours}h para zerar`
+            : completionistHours
+            ? `~${completionistHours}h (100%)`
+            : 'Tempo: Aguardando dados',
+        };
+      }
+    }
   }
 
-  try {
-    const { data, error } = await supabase.functions.invoke('hltb-lookup', {
-      body: { gameName, rawgId },
-    });
+  // 2. Fallback para Edge Function do Supabase (se configurada)
+  const supabase = getSupabaseClient(settings);
+  if (supabase) {
+    try {
+      const { data, error } = await supabase.functions.invoke('hltb-lookup', {
+        body: { gameName, rawgId: externalGameId },
+      });
 
-    if (!error && data) {
-      return {
-        mainHours: data.main_story_hours ?? null,
-        extraHours: data.main_extra_hours ?? null,
-        completionistHours: data.completionist_hours ?? null,
-        label: data.status_label || 'Tempo: Aguardando dados',
-      };
+      if (!error && data) {
+        return {
+          mainHours: data.main_story_hours ?? null,
+          extraHours: data.main_extra_hours ?? null,
+          completionistHours: data.completionist_hours ?? null,
+          label: data.status_label || 'Tempo: Aguardando dados',
+        };
+      }
+    } catch {
+      // Ignore
     }
-  } catch {
-    // Fallback
   }
 
   return {
     mainHours: null,
     extraHours: null,
     completionistHours: null,
-    label: 'Tempo: Aguardando dados',
+    label: 'Tempo: Aguardando dados na IGDB',
   };
 }
 
+/**
+ * Busca jogos reais usando a API oficial da Twitch / IGDB (separando futuros >= hoje e passados <= ontem)
+ */
 export async function fetchRawgGames(
   settings: AppSettings,
   pastPagesCount = 2
@@ -817,91 +1297,96 @@ export async function fetchRawgGames(
   isLive: boolean;
 }> {
   const fallback = getCuratedFallbackData().game;
-  if (!settings.rawgApiKey.trim()) {
-    return { items: fallback, isLive: false };
-  }
 
   try {
-    const todayIso = getLocalIsoDate(0);
-    const yesterdayIso = getLocalIsoDate(-1);
-    const futureIso = getLocalIsoDate(365);
-    const pastStartIso = getLocalIsoDate(-365);
+    const auth = await getTwitchAccessToken(settings);
+    if (auth) {
+      const now = new Date();
+      const todayStartUnix = Math.floor(
+        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0) / 1000
+      );
+      const yesterdayEndUnix = todayStartUnix - 1;
+      const futureLimitUnix = todayStartUnix + 365 * 86400;
+      const pastLimitUnix = todayStartUnix - 365 * 86400;
 
-    const upcomingUrl = `https://api.rawg.io/api/games?key=${encodeURIComponent(
-      settings.rawgApiKey.trim()
-    )}&dates=${todayIso},${futureIso}&ordering=released&page_size=20`;
+      const upcomingQuery = `
+        fields id, name, summary, storyline, first_release_date, total_rating, rating, total_rating_count, hypes, follows, cover.image_id, screenshots.image_id, genres.name, platforms.name, platforms.abbreviation, involved_companies.company.name, involved_companies.developer;
+        where first_release_date >= ${todayStartUnix} & first_release_date <= ${futureLimitUnix} & cover != null & version_parent = null;
+        sort first_release_date asc;
+        limit 45;
+      `;
 
-    const pastUrl = `https://api.rawg.io/api/games?key=${encodeURIComponent(
-      settings.rawgApiKey.trim()
-    )}&dates=${pastStartIso},${yesterdayIso}&ordering=-released&page_size=${Math.min(
-      40,
-      pastPagesCount * 15
-    )}`;
+      const pastLimitCount = Math.min(100, pastPagesCount * 20);
+      const pastQuery = `
+        fields id, name, summary, storyline, first_release_date, total_rating, rating, total_rating_count, hypes, follows, cover.image_id, screenshots.image_id, genres.name, platforms.name, platforms.abbreviation, involved_companies.company.name, involved_companies.developer;
+        where first_release_date <= ${yesterdayEndUnix} & first_release_date >= ${pastLimitUnix} & cover != null & version_parent = null;
+        sort first_release_date desc;
+        limit ${pastLimitCount};
+      `;
 
-    const [upRes, pastRes] = await Promise.all([
-      fetch(upcomingUrl).catch(() => null),
-      fetch(pastUrl).catch(() => null),
-    ]);
+      const [upcomingRaw, pastRaw] = await Promise.all([
+        postIgdbEndpoint<IgdbRawGame>(
+          'games',
+          upcomingQuery,
+          auth.clientId,
+          auth.accessToken
+        ),
+        postIgdbEndpoint<IgdbRawGame>(
+          'games',
+          pastQuery,
+          auth.clientId,
+          auth.accessToken
+        ),
+      ]);
 
-    const upJson = upRes && upRes.ok ? await upRes.json() : { results: [] };
-    const pastJson = pastRes && pastRes.ok ? await pastRes.json() : { results: [] };
+      const combinedRaw = [...(pastRaw || []), ...(upcomingRaw || [])].filter(
+        (g) => g && g.id && g.first_release_date
+      );
 
-    const rawGames = [...(pastJson.results || []), ...(upJson.results || [])].filter(
-      (g) => g && g.id && g.released
-    );
+      if (combinedRaw.length > 0) {
+        // Busca também tempos de campanha em lote no endpoint game_time_to_beats da IGDB
+        const gameIds = combinedRaw.map((g) => g.id).slice(0, 80);
+        const ttbMap = new Map<number, IgdbTimeToBeat>();
+        if (gameIds.length > 0) {
+          const ttbQuery = `fields game_id, hastily, normally, completely; where game_id = (${gameIds.join(
+            ','
+          )}); limit 80;`;
+          const ttbList = await postIgdbEndpoint<IgdbTimeToBeat>(
+            'game_time_to_beats',
+            ttbQuery,
+            auth.clientId,
+            auth.accessToken
+          );
+          for (const ttb of ttbList || []) {
+            if (ttb?.game_id) ttbMap.set(ttb.game_id, ttb);
+          }
+        }
 
-    if (!rawGames.length) return { items: fallback, isLive: false };
-
-    const games: MediaItem[] = rawGames.map(
-      (g: {
-        id: number;
-        name: string;
-        background_image?: string;
-        released?: string;
-        rating?: number;
-        ratings_count?: number;
-        added?: number;
-        genres?: Array<{ name: string }>;
-        platforms?: Array<{ platform: { name: string } }>;
-      }) => {
-        const platforms = (g.platforms || [])
-          .map((p) => p.platform?.name)
-          .filter(Boolean)
-          .slice(0, 5);
-
+        const mappedGames = deduplicateByExternalId(
+          combinedRaw.map((g) => mapIgdbGameToMediaItem(g, ttbMap))
+        );
         return {
-          id: `rawg-game-${g.id}`,
-          externalId: String(g.id),
-          category: 'game' as MediaCategory,
-          title: g.name,
-          posterUrl:
-            g.background_image ||
-            'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=85',
-          backdropUrl: g.background_image || undefined,
-          synopsis:
-            'Acompanhe o lançamento deste título nas principais plataformas de jogos.',
-          genres: (g.genres || []).map((gen) => gen.name),
-          rating: g.rating ? Math.round(g.rating * 20) / 10 : undefined,
-          reviewsCount:
-            typeof g.ratings_count === 'number' && g.ratings_count > 0
-              ? g.ratings_count
-              : g.added || 3900,
-          developer: 'Estúdio Oficial',
-          platforms: platforms.length ? platforms : ['PC', 'PS5', 'Xbox Series'],
-          releaseDate: g.released || null,
-          hltbMainHours: null,
-          hltbExtraHours: null,
-          hltbCompletionistHours: null,
-          hltbLabel: 'Tempo: Aguardando dados',
+          items: mappedGames,
+          isLive: true,
         };
       }
-    );
+    }
 
-    return {
-      items: deduplicateByExternalId(games),
-      isLive: true,
-    };
+    // Se o navegador bloqueou via CORS direto, carrega o cache real da IGDB gerado com as credenciais da Twitch
+    const cachedIgdb = await loadIgdbStaticCache();
+    if (cachedIgdb.length > 0) {
+      return {
+        items: cachedIgdb,
+        isLive: true,
+      };
+    }
+
+    return { items: fallback, isLive: false };
   } catch {
+    const cachedIgdb = await loadIgdbStaticCache();
+    if (cachedIgdb.length > 0) {
+      return { items: cachedIgdb, isLive: true };
+    }
     return { items: fallback, isLive: false };
   }
 }
