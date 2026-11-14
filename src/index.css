@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #09070e;
+    color: #f3f0ff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+/* ============================================================================
+   COSMIC DARK NEON UI (Inspirado no mockup Xenoflix & Logo Alien)
+   ============================================================================ */
+
+.xeno-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #09070e;
+  background-image:
+    radial-gradient(circle at 96% 45%, rgba(34, 255, 85, 0.08) 0%, transparent 42%),
+    radial-gradient(circle at 8% 88%, rgba(147, 51, 234, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+}
+
+/* Card Horizontal Principal */
+.xeno-card {
+  position: relative;
+  background: rgba(19, 15, 29, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+}
+
+.xeno-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%;
+  bottom: 10%;
+  width: 3.5px;
+  border-radius: 0 4px 4px 0;
+  background: transparent;
+  transition: all 0.22s ease;
+}
+
+.xeno-card:hover,
+.xeno-card-highlighted {
+  border-color: rgba(34, 255, 85, 0.48);
+  background: linear-gradient(
+    90deg,
+    rgba(24, 34, 29, 0.38) 0%,
+    rgba(21, 16, 33, 0.95) 22%,
+    rgba(19, 15, 29, 0.95) 100%
+  );
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(34, 255, 85, 0.08);
+}
+
+.xeno-card:hover::before,
+.xeno-card-highlighted::before {
+  top: 6%;
+  bottom: 6%;
+  background: #22ff55;
+  box-shadow: 0 0 16px #22ff55, 0 0 6px #22ff55;
+}
+
+/* Item ativo da Sidebar (Pílula roxa com barra vertical neon à esquerda) */
+.xeno-nav-active {
+  position: relative;
+  background: rgba(139, 92, 246, 0.14);
+  color: #b779ff;
+}
+
+.xeno-nav-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16%;
+  bottom: 16%;
+  width: 3.5px;
+  border-radius: 0 4px 4px 0;
+  background: #a855f7;
+  box-shadow: 0 0 12px #a855f7;
+}
+
+/* Badges / Tags de Gênero (Roxo & Verde Neon) */
+.xeno-tag-purple {
+  background: rgba(147, 51, 234, 0.18);
+  border: 1px solid rgba(168, 85, 247, 0.42);
+  color: #c084fc;
+  border-radius: 9999px;
+}
+
+.xeno-tag-green {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 255, 85, 0.42);
+  color: #4ade80;
+  border-radius: 9999px;
+}
+
+/* Placeholder / Moldura da Capa com gradiente roxo/verde igual ao mockup */
+.xeno-cover-box {
+  background: linear-gradient(155deg, #1d3528 0%, #1c1833 55%, #35154d 100%);
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  border-radius: 12px;
+}
+
+/* Modal Dark Cosmic */
+.xeno-modal {
+  background: #120e1c;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 18px;
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(139, 92, 246, 0.15);
+}
+
+/* ============================================================================
+   ANIMAÇÕES DO OVNIZINHO (ABDUZIR PARTÍCULA vs CUSPIR PARTÍCULA DE VOLTA)
+   ============================================================================ */
+
+/* Nave pairando e vibrando durante a abdução */
+@keyframes ufoHoverAbduct {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-4px) rotate(-8deg) scale(1.12);
+  }
+  55% {
+    transform: translateY(-5px) rotate(7deg) scale(1.15);
+  }
+  80% {
+    transform: translateY(-2px) rotate(-3deg) scale(1.22);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+/* Nave recuando ao cuspir a partícula de volta */
+@keyframes ufoRecoilSpit {
+  0% {
+    transform: translateY(0) scale(1.1);
+  }
+  25% {
+    transform: translateY(-5px) rotate(10deg) scale(0.92);
+  }
+  50% {
+    transform: translateY(2px) rotate(-8deg) scale(1.06);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+/* Feixe de luz (Tractor Beam) se abrindo */
+@keyframes tractorBeamPulse {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.1) scaleX(0.4);
+  }
+  20% {
+    opacity: 0.95;
+    transform: scaleY(1) scaleX(1);
+  }
+  80% {
+    opacity: 0.9;
+    transform: scaleY(1) scaleX(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.1) scaleX(0.2);
+  }
+}
+
+/* Partícula sendo abduzida (sugada de baixo para dentro da nave) */
+@keyframes particleAbductUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.3);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(18px) translateX(-2px) scale(1.15);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(9px) translateX(2px) scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(-1px) scale(0.65);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-5px) scale(0);
+  }
+}
+
+/* Partícula sendo cuspida de volta (ejetada da nave para baixo) */
+@keyframes particleSpitDown {
+  0% {
+    opacity: 1;
+    transform: translateY(-3px) scale(0.4);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(6px) translateX(3px) scale(1.25);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translateY(17px) translateX(-2px) scale(1);
+  }
+  85% {
+    opacity: 0.6;
+    transform: translateY(23px) scale(0.75);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(27px) scale(0.1);
+  }
+}
+
+.animate-ufo-abduct {
+  animation: ufoHoverAbduct 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-ufo-spit {
+  animation: ufoRecoilSpit 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-tractor-beam {
+  transform-origin: top center;
+  animation: tractorBeamPulse 0.72s ease-in-out forwards;
+}
+
+.animate-particle-up {
+  animation: particleAbductUp 0.68s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-particle-down {
+  animation: particleSpitDown 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Scrollbar customizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09070e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #261d3a;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a855f7;
+}
