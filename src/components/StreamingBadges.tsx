@@ -64,11 +64,14 @@ export const StreamingBadges: React.FC<StreamingBadgesProps> = ({
   platforms,
   size = 'sm',
 }) => {
-  if (!platforms || platforms.length === 0) return null;
+  const cleanPlatforms = (platforms || []).filter(
+    (p) => p && p !== 'Cinema BR' && p !== 'Digital BR' && p !== 'Streaming BR'
+  );
+  if (cleanPlatforms.length === 0) return null;
 
   return (
     <div className="inline-flex flex-wrap items-center gap-1.5">
-      {platforms.map((platform) => {
+      {cleanPlatforms.map((platform) => {
         const style = STREAMING_STYLE_MAP[platform] || {
           bg: 'bg-[#1c142e]',
           text: 'text-[#c084fc]',

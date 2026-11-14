@@ -27,6 +27,7 @@ import {
   isFromTodayOnwards,
 } from './lib/dateUtils';
 import {
+  enrichFavoriteMoviesWithDirectorAndCompany,
   fetchAniListAnimes,
   fetchMediaByCalendarDate,
   fetchRawgGames,
@@ -164,8 +165,22 @@ export function App() {
         });
 
         if (supaFavs && supaFavs.length > 0) {
-          setFavorites(supaFavs);
-          saveLocalFavorites(supaFavs);
+          const enrichedFavs = await enrichFavoriteMoviesWithDirectorAndCompany(
+            supaFavs,
+            activeSettings
+          );
+          setFavorites(enrichedFavs);
+          saveLocalFavorites(enrichedFavs);
+        } else {
+          const localFavs = loadLocalFavorites();
+          if (localFavs.length > 0) {
+            const enrichedLocal = await enrichFavoriteMoviesWithDirectorAndCompany(
+              localFavs,
+              activeSettings
+            );
+            setFavorites(enrichedLocal);
+            saveLocalFavorites(enrichedLocal);
+          }
         }
       } finally {
         setIsLoading(false);
@@ -348,7 +363,9 @@ export function App() {
     const genreSet = new Set<string>();
     for (const item of currentTabRawList) {
       for (const sp of item.streamingPlatforms || []) {
-        streamSet.add(sp);
+        if (sp && sp !== 'Cinema BR' && sp !== 'Digital BR' && sp !== 'Streaming BR') {
+          streamSet.add(sp);
+        }
       }
       for (const g of item.genres || []) {
         genreSet.add(g);
@@ -427,11 +444,20 @@ export function App() {
   const isSearchActive = searchQuery.trim().length > 0;
 
   const { pastItems, upcomingItems } = useMemo(() => {
+    // Na categoria Abduzidos (favorites), não há separação entre antes de hoje e depois de hoje:
+    // mostra TUDO que foi abduzido diretamente em ordem cronológica!
+    if (activeTab === 'favorites') {
+      const allAbductedSorted = [...allFilteredChronological].sort(
+        (a, b) => getItemReleaseTimestamp(a) - getItemReleaseTimestamp(b)
+      );
+      return { pastItems: [], upcomingItems: allAbductedSorted };
+    }
+
     const past: MediaItem[] = [];
     const upcoming: MediaItem[] = [];
     const todayStart = getTodayStartTimestamp();
     const oneYearLimit = getOneYearFromTodayTimestamp();
-    const enforceOneYear = !isSearchActive && activeTab !== 'favorites';
+    const enforceOneYear = !isSearchActive;
 
     for (const item of allFilteredChronological) {
       const ts = getItemReleaseTimestamp(item);

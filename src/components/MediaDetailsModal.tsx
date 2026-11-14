@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   X,
   Film,
@@ -20,7 +20,10 @@ import {
   formatEpisodeCountdown,
   formatFullDate,
 } from '../lib/dateUtils';
-import { resolveHltbForGame } from '../services/apiService';
+import {
+  resolveHltbForGame,
+  resolveMovieReleaseDatesInBrazil,
+} from '../services/apiService';
 import { AbductButton } from './AbductButton';
 import { BrandLogo } from './ProcessedImages';
 import { StreamingBadges } from './StreamingBadges';
@@ -44,6 +47,67 @@ export const MediaDetailsModal: React.FC<MediaDetailsModalProps> = ({
 }) => {
   const [checkingHltb, setCheckingHltb] = useState(false);
 
+  useEffect(() => {
+    if (!item) return;
+    const isMovieItem =
+      item.category === 'movie_cinema' || item.category === 'movie_digital';
+    if (!isMovieItem) return;
+
+    // Se faltar uma das duas datas (ou se por acaso vieram iguais) ou se o diretor ainda for genérico, consulta o endpoint detalhado da TMDB
+    const hasGenericDirector =
+      !item.director ||
+      item.director.includes('Circuito Brasil') ||
+      item.director.includes('Disponível no Brasil') ||
+      item.director.includes('Direção & Estúdio');
+
+    const needsLookup =
+      !item.cinemaReleaseDate ||
+      !item.digitalReleaseDate ||
+      item.cinemaReleaseDate === item.digitalReleaseDate ||
+      hasGenericDirector;
+
+    if (!needsLookup) return;
+
+    let cancelled = false;
+    resolveMovieReleaseDatesInBrazil(item.externalId, settings).then((res) => {
+      if (cancelled) return;
+      const nextCinema =
+        item.category === 'movie_cinema'
+          ? res.cinemaDate || item.cinemaReleaseDate || null
+          : res.cinemaDate && res.cinemaDate !== item.digitalReleaseDate
+          ? res.cinemaDate
+          : null;
+
+      const nextDigital =
+        item.category === 'movie_digital'
+          ? res.digitalDate || item.digitalReleaseDate || null
+          : res.digitalDate && res.digitalDate !== item.cinemaReleaseDate
+          ? res.digitalDate
+          : null;
+
+      const nextDirector = res.directorAndCompany || item.director;
+
+      if (
+        nextCinema !== item.cinemaReleaseDate ||
+        nextDigital !== item.digitalReleaseDate ||
+        nextDirector !== item.director ||
+        (res.runtimeMinutes && res.runtimeMinutes !== item.runtimeMinutes)
+      ) {
+        onUpdateItem?.({
+          ...item,
+          director: nextDirector,
+          cinemaReleaseDate: nextCinema,
+          digitalReleaseDate: nextDigital,
+          runtimeMinutes: res.runtimeMinutes || item.runtimeMinutes,
+        });
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [item, settings, onUpdateItem]);
+
   if (!item) return null;
 
   const isMovie =
@@ -59,20 +123,32 @@ export const MediaDetailsModal: React.FC<MediaDetailsModalProps> = ({
         ...item,
         hltbMainHours: res.mainHours ?? item.hltbMainHours,
         hltbExtraHours: res.extraHours ?? item.hltbExtraHours,
-        hltbCompletionistHours: res.completionistHours ?? item.hltbCompletionistHours,
+        completionistHours: res.completionistHours ?? item.hltbCompletionistHours,
         hltbLabel: res.mainHours ? res.label : item.hltbLabel || res.label,
-      };
+      } as MediaItem;
       onUpdateItem?.(updated);
     } finally {
       setCheckingHltb(false);
     }
   };
 
-  const cinemaDateFormatted = item.cinemaReleaseDate
+  const hasDistinctCinemaDate =
+    item.cinemaReleaseDate &&
+    (item.category === 'movie_cinema' ||
+      item.cinemaReleaseDate !== item.digitalReleaseDate);
+
+  const cinemaDateFormatted = hasDistinctCinemaDate
     ? formatFullDate(item.cinemaReleaseDate)
+    : item.category === 'movie_digital'
+    ? 'Lançamento direto em Streaming / VOD'
     : 'Data nos cinemas não divulgada';
 
-  const digitalDateFormatted = item.digitalReleaseDate
+  const hasDistinctDigitalDate =
+    item.digitalReleaseDate &&
+    (item.category === 'movie_digital' ||
+      item.digitalReleaseDate !== item.cinemaReleaseDate);
+
+  const digitalDateFormatted = hasDistinctDigitalDate
     ? item.isDigitalAvailable
       ? `${formatFullDate(item.digitalReleaseDate)} (Disponível no Digital)`
       : formatFullDate(item.digitalReleaseDate)

@@ -97,7 +97,15 @@ export const MediaCard: React.FC<MediaCardProps> = ({
         </h3>
 
         <p className="text-xs text-[#8e86a3] mt-0.5 line-clamp-1">
-          {item.director || item.studioOrNetwork || item.developer}
+          {(item.director &&
+          !item.director.includes('Circuito Brasil') &&
+          !item.director.includes('Disponível no Brasil') &&
+          !item.director.includes('Cinema BR')
+            ? item.director
+            : null) ||
+            item.studioOrNetwork ||
+            item.developer ||
+            'Direção & Estúdio Oficial'}
         </p>
       </div>
 

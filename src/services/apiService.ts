@@ -122,12 +122,144 @@ export const BR_STREAMING_PLATFORMS: BrStreamingConfig[] = [
 export const ALL_BR_PROVIDER_IDS = '8|119|1899|384|307|337|227';
 export const ALL_BR_NETWORK_IDS = '213|1024|49|3186|3290|60|2739';
 
+// Cache local de Diretor + Produtora/Estúdio dos filmes por ID da TMDB
+const MOVIE_CREDITS_STORAGE_KEY = 'so_de_olho_movie_credits_v1';
+let movieDirectorCompanyCache: Record<string, { directorAndCompany: string; runtime?: number }> | null = null;
+
+function getMovieCreditsCache(): Record<string, { directorAndCompany: string; runtime?: number }> {
+  if (movieDirectorCompanyCache) return movieDirectorCompanyCache;
+  try {
+    const raw = localStorage.getItem(MOVIE_CREDITS_STORAGE_KEY);
+    if (raw) {
+      movieDirectorCompanyCache = JSON.parse(raw);
+      return movieDirectorCompanyCache || {};
+    }
+  } catch {
+    // Ignore storage errors
+  }
+  movieDirectorCompanyCache = {};
+  return movieDirectorCompanyCache;
+}
+
+function saveMovieCreditsCache(): void {
+  if (!movieDirectorCompanyCache) return;
+  try {
+    localStorage.setItem(
+      MOVIE_CREDITS_STORAGE_KEY,
+      JSON.stringify(movieDirectorCompanyCache)
+    );
+  } catch {
+    // Ignore storage quota errors
+  }
+}
+
+function extractDirectorAndCompanyFromTmdbDetail(detail: {
+  credits?: { crew?: Array<{ job?: string; name?: string }> };
+  production_companies?: Array<{ name?: string }>;
+}): string | null {
+  const crew = detail?.credits?.crew || [];
+  const directors = crew
+    .filter((c) => c.job === 'Director' && c.name)
+    .slice(0, 2)
+    .map((c) => c.name!.trim());
+
+  const companies = (detail?.production_companies || [])
+    .filter((pc) => pc.name && pc.name.trim().length > 0)
+    .slice(0, 2)
+    .map((pc) => pc.name!.trim());
+
+  const dirStr = directors.join(' & ');
+  const compStr = companies[0] || '';
+
+  if (dirStr && compStr) {
+    return `${dirStr} (${compStr})`;
+  }
+  if (dirStr) {
+    return dirStr;
+  }
+  if (compStr) {
+    return compStr;
+  }
+  return null;
+}
+
+async function enrichMoviesWithDirectorAndCompany(
+  items: MediaItem[],
+  headers: Record<string, string>,
+  queryParam: string
+): Promise<MediaItem[]> {
+  const cache = getMovieCreditsCache();
+  const missingIds = Array.from(
+    new Set(
+      items
+        .filter(
+          (it) =>
+            (it.category === 'movie_cinema' || it.category === 'movie_digital') &&
+            it.externalId &&
+            !cache[it.externalId]
+        )
+        .map((it) => it.externalId)
+    )
+  );
+
+  // Busca em lotes paralelos os detalhes (credits + production_companies) dos filmes ainda não cacheados
+  const BATCH_SIZE = 16;
+  for (let i = 0; i < missingIds.length; i += BATCH_SIZE) {
+    const batch = missingIds.slice(i, i + BATCH_SIZE);
+    await Promise.all(
+      batch.map(async (extId) => {
+        try {
+          const url = `https://api.themoviedb.org/3/movie/${encodeURIComponent(
+            extId
+          )}?language=pt-BR&append_to_response=credits${queryParam}`;
+          const res = await fetch(url, { headers });
+          if (res.ok) {
+            const detail = await res.json();
+            const formatted = extractDirectorAndCompanyFromTmdbDetail(detail);
+            if (formatted) {
+              cache[extId] = {
+                directorAndCompany: formatted,
+                runtime:
+                  typeof detail?.runtime === 'number' && detail.runtime > 0
+                    ? detail.runtime
+                    : undefined,
+              };
+            }
+          }
+        } catch {
+          // Ignore individual fetch errors
+        }
+      })
+    );
+  }
+
+  if (missingIds.length > 0) {
+    saveMovieCreditsCache();
+  }
+
+  return items.map((it) => {
+    if (it.category !== 'movie_cinema' && it.category !== 'movie_digital') {
+      return it;
+    }
+    const cached = cache[it.externalId];
+    if (cached?.directorAndCompany) {
+      return {
+        ...it,
+        director: cached.directorAndCompany,
+        runtimeMinutes: cached.runtime || it.runtimeMinutes,
+      };
+    }
+    return it;
+  });
+}
+
 function mapTmdbRawMovieToItem(
   m: TmdbRawMovie,
   category: 'movie_cinema' | 'movie_digital',
   todayIso: string,
   overrideReleaseDate?: string | null,
-  streamingPlatforms?: string[]
+  streamingPlatforms?: string[],
+  directorAndCompany?: string | null
 ): MediaItem {
   const relDate = overrideReleaseDate || m.release_date || null;
   const genreNames = m.genres?.length
@@ -140,14 +272,11 @@ function mapTmdbRawMovieToItem(
   const isDigitalAvail =
     category === 'movie_digital' && Boolean(relDate && relDate <= todayIso);
 
-  const defaultPlatforms =
-    streamingPlatforms && streamingPlatforms.length > 0
-      ? streamingPlatforms
-      : category === 'movie_cinema'
-      ? ['Cinema BR']
-      : ['Digital BR'];
+  const cleanPlatforms = (streamingPlatforms || []).filter(
+    (p) => p && p !== 'Cinema BR' && p !== 'Digital BR'
+  );
 
-  const platformSummary = defaultPlatforms.join(' • ');
+  const cachedCredits = getMovieCreditsCache()[String(m.id)];
 
   return {
     id: `tmdb-${category}-${m.id}`,
@@ -166,7 +295,7 @@ function mapTmdbRawMovieToItem(
         ? m.overview
         : 'Lançamento confirmado no circuito brasileiro.',
     genres: genreNames.length > 0 ? genreNames : ['Cinema'],
-    streamingPlatforms: defaultPlatforms,
+    streamingPlatforms: cleanPlatforms,
     rating: m.vote_average ? Math.round(m.vote_average * 10) / 10 : undefined,
     reviewsCount:
       typeof m.vote_count === 'number' && m.vote_count > 0
@@ -174,12 +303,12 @@ function mapTmdbRawMovieToItem(
         : m.popularity
         ? Math.round(m.popularity * 85)
         : 450,
-    runtimeMinutes: m.runtime || 124,
+    runtimeMinutes: cachedCredits?.runtime || m.runtime || 124,
     director:
-      category === 'movie_cinema'
-        ? `Circuito Brasil • ${platformSummary}`
-        : `Disponível no Brasil • ${platformSummary}`,
-    cinemaReleaseDate: category === 'movie_cinema' ? relDate : relDate,
+      directorAndCompany ||
+      cachedCredits?.directorAndCompany ||
+      'Direção & Estúdio Oficial',
+    cinemaReleaseDate: category === 'movie_cinema' ? relDate : null,
     digitalReleaseDate: category === 'movie_digital' ? relDate : null,
     isDigitalAvailable: isDigitalAvail,
   };
@@ -254,12 +383,10 @@ function deduplicateByExternalId(items: MediaItem[]): MediaItem[] {
           ...(existing.streamingPlatforms || []),
           ...item.streamingPlatforms,
         ])
-      );
+      ).filter((p) => p && p !== 'Cinema BR' && p !== 'Digital BR');
       existing.streamingPlatforms = mergedPlatforms;
-      if (existing.category === 'tv') {
+      if (existing.category === 'tv' && mergedPlatforms.length > 0) {
         existing.studioOrNetwork = `Catálogo Brasil • ${mergedPlatforms.join(' / ')}`;
-      } else if (existing.category === 'movie_digital') {
-        existing.director = `Disponível no Brasil • ${mergedPlatforms.join(' • ')}`;
       }
     }
   }
@@ -421,8 +548,9 @@ export async function fetchTmdbMovies(
         ...BR_STREAMING_PLATFORMS.map(fetchMoviesForPlatform),
       ]);
 
-    // Cria um mapa de quais filmes também estão em streamings do Brasil para cruzar tags nos filmes de cinema
+    // Cria mapas de datas distintas de Cinema e de Streaming/Digital para cruzar sem repetir a mesma data
     const movieStreamingMap = new Map<string, string[]>();
+    const digitalReleaseDateMap = new Map<string, string>();
     for (const pRes of platformResults) {
       for (const item of [...pRes.past, ...pRes.upcoming]) {
         const existing = movieStreamingMap.get(item.externalId) || [];
@@ -430,40 +558,80 @@ export async function fetchTmdbMovies(
           item.externalId,
           Array.from(new Set([...existing, ...(item.streamingPlatforms || [])]))
         );
+        if (item.digitalReleaseDate && !digitalReleaseDateMap.has(item.externalId)) {
+          digitalReleaseDateMap.set(item.externalId, item.digitalReleaseDate);
+        }
+      }
+    }
+    for (const m of vodUpcomingRaw) {
+      if (m.id && m.release_date) {
+        digitalReleaseDateMap.set(String(m.id), m.release_date);
       }
     }
 
-    const cinemaItems = deduplicateByExternalId([
+    const cinemaReleaseDateMap = new Map<string, string>();
+    for (const m of [...cinemaPastRaw, ...cinemaUpcomingRaw]) {
+      if (m.id && m.release_date) {
+        cinemaReleaseDateMap.set(String(m.id), m.release_date);
+      }
+    }
+
+    const rawCinemaItems = deduplicateByExternalId([
       ...cinemaPastRaw.map((m) => {
-        const streamTags = movieStreamingMap.get(String(m.id)) || [];
-        return mapTmdbRawMovieToItem(
+        const extId = String(m.id);
+        const streamTags = movieStreamingMap.get(extId) || [];
+        const item = mapTmdbRawMovieToItem(
           m,
           'movie_cinema',
           todayIso,
           m.release_date,
-          ['Cinema BR', ...streamTags]
+          streamTags
         );
+        const digDate = digitalReleaseDateMap.get(extId);
+        if (digDate && digDate !== m.release_date) {
+          item.digitalReleaseDate = digDate;
+          item.isDigitalAvailable = digDate <= todayIso;
+        }
+        return item;
       }),
       ...cinemaUpcomingRaw.map((m) => {
-        const streamTags = movieStreamingMap.get(String(m.id)) || [];
-        return mapTmdbRawMovieToItem(
+        const extId = String(m.id);
+        const streamTags = movieStreamingMap.get(extId) || [];
+        const item = mapTmdbRawMovieToItem(
           m,
           'movie_cinema',
           todayIso,
           m.release_date,
-          ['Cinema BR', ...streamTags]
+          streamTags
         );
+        const digDate = digitalReleaseDateMap.get(extId);
+        if (digDate && digDate !== m.release_date) {
+          item.digitalReleaseDate = digDate;
+        }
+        return item;
       }),
     ]);
 
-    const digitalItems = deduplicateByExternalId([
+    const rawDigitalMerged = [
       ...platformResults.flatMap((p) => p.past),
       ...platformResults.flatMap((p) => p.upcoming),
       ...vodUpcomingRaw.map((m) =>
-        mapTmdbRawMovieToItem(m, 'movie_digital', todayIso, m.release_date, [
-          'Digital BR',
-        ])
+        mapTmdbRawMovieToItem(m, 'movie_digital', todayIso, m.release_date, [])
       ),
+    ].map((item) => {
+      const cinDate = cinemaReleaseDateMap.get(item.externalId);
+      // Só preenche cinemaReleaseDate se existir uma data de cinema real E diferente da data digital!
+      if (cinDate && cinDate !== item.digitalReleaseDate) {
+        return { ...item, cinemaReleaseDate: cinDate };
+      }
+      return { ...item, cinemaReleaseDate: null };
+    });
+
+    const rawDigitalItems = deduplicateByExternalId(rawDigitalMerged);
+
+    const [cinemaItems, digitalItems] = await Promise.all([
+      enrichMoviesWithDirectorAndCompany(rawCinemaItems, headers, queryParam),
+      enrichMoviesWithDirectorAndCompany(rawDigitalItems, headers, queryParam),
     ]);
 
     return {
@@ -572,7 +740,7 @@ export async function fetchTmdbSeries(
 }
 
 /**
- * Busca Animes da AniList GraphQL separando episódios/animes futuros (>= hoje) e já lançados (< hoje)
+ * Busca Animes da AniList GraphQL separando episódios/animes futuros (>= hoje até +1 ano) e já lançados (< hoje)
  */
 export async function fetchAniListAnimes(pastPagesCount = 2): Promise<{
   items: MediaItem[];
@@ -583,11 +751,25 @@ export async function fetchAniListAnimes(pastPagesCount = 2): Promise<{
   const todayStartUnix = Math.floor(
     new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0).getTime() / 1000
   );
+  const oneYearUnix = todayStartUnix + 365 * 86400;
+
+  // Formato FuzzyDateInt da AniList: YYYYMMDD (ex: 20261114 até 20271114)
+  const todayFuzzy =
+    now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+  const oneYearDate = new Date(
+    now.getFullYear() + 1,
+    now.getMonth(),
+    now.getDate()
+  );
+  const oneYearFuzzy =
+    oneYearDate.getFullYear() * 10000 +
+    (oneYearDate.getMonth() + 1) * 100 +
+    oneYearDate.getDate();
 
   const query = `
-    query ($todayStart: Int, $pastPerPage: Int) {
-      upcomingSchedules: Page(page: 1, perPage: 30) {
-        airingSchedules(airingAt_greater: $todayStart, sort: [TIME]) {
+    query ($todayStart: Int, $oneYearEnd: Int, $todayFuzzy: FuzzyDateInt, $oneYearFuzzy: FuzzyDateInt, $pastPerPage: Int) {
+      upcomingSchedules: Page(page: 1, perPage: 50) {
+        airingSchedules(airingAt_greater: $todayStart, airingAt_lesser: $oneYearEnd, sort: [TIME]) {
           episode
           airingAt
           media {
@@ -607,6 +789,69 @@ export async function fetchAniListAnimes(pastPagesCount = 2): Promise<{
             duration
             studios(isMain: true) { nodes { name } }
           }
+        }
+      }
+      futurePopular: Page(page: 1, perPage: 50) {
+        media(type: ANIME, isAdult: false, startDate_greater: $todayFuzzy, startDate_lesser: $oneYearFuzzy, sort: [POPULARITY_DESC]) {
+          id
+          type
+          isAdult
+          title { romaji english native }
+          coverImage { extraLarge large }
+          bannerImage
+          description(asHtml: false)
+          genres
+          averageScore
+          popularity
+          trending
+          status
+          episodes
+          duration
+          startDate { year month day }
+          nextAiringEpisode { episode airingAt }
+          studios(isMain: true) { nodes { name } }
+        }
+      }
+      futureChrono1: Page(page: 1, perPage: 50) {
+        media(type: ANIME, isAdult: false, startDate_greater: $todayFuzzy, startDate_lesser: $oneYearFuzzy, sort: [START_DATE, POPULARITY_DESC]) {
+          id
+          type
+          isAdult
+          title { romaji english native }
+          coverImage { extraLarge large }
+          bannerImage
+          description(asHtml: false)
+          genres
+          averageScore
+          popularity
+          trending
+          status
+          episodes
+          duration
+          startDate { year month day }
+          nextAiringEpisode { episode airingAt }
+          studios(isMain: true) { nodes { name } }
+        }
+      }
+      futureChrono2: Page(page: 2, perPage: 50) {
+        media(type: ANIME, isAdult: false, startDate_greater: $todayFuzzy, startDate_lesser: $oneYearFuzzy, sort: [START_DATE, POPULARITY_DESC]) {
+          id
+          type
+          isAdult
+          title { romaji english native }
+          coverImage { extraLarge large }
+          bannerImage
+          description(asHtml: false)
+          genres
+          averageScore
+          popularity
+          trending
+          status
+          episodes
+          duration
+          startDate { year month day }
+          nextAiringEpisode { episode airingAt }
+          studios(isMain: true) { nodes { name } }
         }
       }
       pastSchedules: Page(page: 1, perPage: $pastPerPage) {
@@ -646,6 +891,9 @@ export async function fetchAniListAnimes(pastPagesCount = 2): Promise<{
         query,
         variables: {
           todayStart: todayStartUnix,
+          oneYearEnd: oneYearUnix,
+          todayFuzzy,
+          oneYearFuzzy,
           pastPerPage: Math.min(50, pastPagesCount * 20),
         },
       }),
@@ -657,6 +905,9 @@ export async function fetchAniListAnimes(pastPagesCount = 2): Promise<{
 
     const result = await response.json();
     const upcomingScheds = result?.data?.upcomingSchedules?.airingSchedules || [];
+    const futurePopularList = result?.data?.futurePopular?.media || [];
+    const futureChrono1List = result?.data?.futureChrono1?.media || [];
+    const futureChrono2List = result?.data?.futureChrono2?.media || [];
     const pastScheds = result?.data?.pastSchedules?.airingSchedules || [];
 
     const mapScheduleToItem = (sched: {
@@ -722,14 +973,100 @@ export async function fetchAniListAnimes(pastPagesCount = 2): Promise<{
       };
     };
 
-    const mappedPast = pastScheds
-      .map(mapScheduleToItem)
-      .filter((x: MediaItem | null): x is MediaItem => Boolean(x));
-    const mappedUpcoming = upcomingScheds
-      .map(mapScheduleToItem)
-      .filter((x: MediaItem | null): x is MediaItem => Boolean(x));
+    const mapFutureMediaToItem = (anime: {
+      id: number;
+      type?: string;
+      isAdult?: boolean;
+      title?: { english?: string; romaji?: string; native?: string };
+      coverImage?: { extraLarge?: string; large?: string };
+      bannerImage?: string;
+      description?: string;
+      genres?: string[];
+      averageScore?: number;
+      popularity?: number;
+      trending?: number;
+      status?: string;
+      episodes?: number;
+      duration?: number;
+      startDate?: { year?: number; month?: number; day?: number };
+      nextAiringEpisode?: { episode?: number; airingAt?: number };
+      studios?: { nodes?: Array<{ name: string }> };
+    }): MediaItem | null => {
+      if (!anime || anime.type !== 'ANIME' || anime.isAdult) return null;
 
-    const combined = deduplicateByExternalId([...mappedPast, ...mappedUpcoming]);
+      let airingIso: string | null = null;
+      let epNum = 1;
+
+      if (anime.nextAiringEpisode?.airingAt) {
+        airingIso = new Date(anime.nextAiringEpisode.airingAt * 1000).toISOString();
+        epNum = anime.nextAiringEpisode.episode || 1;
+      } else if (anime.startDate?.year && anime.startDate?.month) {
+        const y = anime.startDate.year;
+        const m = String(anime.startDate.month).padStart(2, '0');
+        const d = String(anime.startDate.day || 1).padStart(2, '0');
+        airingIso = `${y}-${m}-${d}T18:00:00`;
+      } else {
+        return null;
+      }
+
+      const cleanSynopsis = (anime.description || '')
+        .replace(/<[^>]*>/g, '')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .trim();
+
+      const studioName =
+        anime.studios?.nodes?.[0]?.name || 'Estúdio de Animação Japonês';
+
+      return {
+        id: `anilist-future-${anime.id}`,
+        externalId: String(anime.id),
+        category: 'anime' as MediaCategory,
+        title: anime.title?.english || anime.title?.romaji || 'Anime',
+        originalTitle: anime.title?.native || anime.title?.romaji,
+        posterUrl: anime.coverImage?.extraLarge || anime.coverImage?.large || '',
+        backdropUrl: anime.bannerImage || undefined,
+        synopsis:
+          cleanSynopsis ||
+          'Nova temporada / estreia de anime confirmada no calendário oficial.',
+        genres: anime.genres?.slice(0, 4) || ['Anime'],
+        rating: anime.averageScore
+          ? Math.round((anime.averageScore / 10) * 10) / 10
+          : undefined,
+        reviewsCount:
+          anime.popularity || (anime.trending ? anime.trending * 450 : 3500),
+        studioOrNetwork: `Estúdio ${studioName}`,
+        seasonStatus: anime.startDate?.day
+          ? 'Nova Estreia Confirmada'
+          : `Estreia Prevista (${String(anime.startDate?.month).padStart(2, '0')}/${anime.startDate?.year})`,
+        nextEpisodeNumber: epNum,
+        nextEpisodeDate: airingIso,
+        totalEpisodes: anime.episodes || 12,
+        episodeDurationMinutes: anime.duration || 24,
+      };
+    };
+
+    const mappedPast = deduplicateByExternalId(
+      pastScheds
+        .map(mapScheduleToItem)
+        .filter((x: MediaItem | null): x is MediaItem => Boolean(x))
+    );
+
+    const mappedUpcoming = deduplicateByExternalId([
+      ...upcomingScheds
+        .map(mapScheduleToItem)
+        .filter((x: MediaItem | null): x is MediaItem => Boolean(x)),
+      ...[...futurePopularList, ...futureChrono1List, ...futureChrono2List]
+        .map(mapFutureMediaToItem)
+        .filter((x: MediaItem | null): x is MediaItem => Boolean(x)),
+    ]);
+
+    // Mantém tanto os episódios passados (para o botão "Ver mídias lançadas anteriormente")
+    // quanto os próximos episódios e estreias futuras de 1 ano (priorizando os futuros na deduplicação)
+    const upcomingIds = new Set(mappedUpcoming.map((it) => it.externalId));
+    const uniquePast = mappedPast.filter((it) => !upcomingIds.has(it.externalId));
+
+    const combined = [...uniquePast, ...mappedUpcoming];
     if (combined.length === 0) {
       return { items: fallback, isLive: false };
     }
@@ -844,7 +1181,7 @@ export async function fetchMediaByCalendarDate(
               'movie_cinema',
               todayIso,
               m.release_date || startDateIso,
-              ['Cinema BR']
+              []
             )
           );
         }
@@ -861,7 +1198,7 @@ export async function fetchMediaByCalendarDate(
               'movie_digital',
               todayIso,
               m.release_date || startDateIso,
-              ['Digital BR']
+              []
             )
           );
         }
@@ -931,7 +1268,8 @@ export async function fetchMediaByCalendarDate(
         );
       }
     }
-    return Array.from(seenMap.values());
+    const dedupedList = Array.from(seenMap.values());
+    return await enrichMoviesWithDirectorAndCompany(dedupedList, headers, queryParam);
   } catch {
     return [];
   }
@@ -1565,16 +1903,29 @@ export async function searchMediaAcrossApis(
       const candidates = Array.from(rawMap.values()).slice(0, 12);
       if (candidates.length === 0) return [];
 
-      // Enriquece os principais resultados com datas de Cinema/Digital no Brasil e provedores de Streaming BR
+      // Enriquece os principais resultados com Diretor/Empresa, datas de Cinema/Digital no Brasil e provedores de Streaming BR
       const enriched = await Promise.all(
         candidates.map(async (m) => {
           try {
-            const detailUrl = `https://api.themoviedb.org/3/movie/${m.id}?language=pt-BR&append_to_response=release_dates,watch/providers${queryParam}`;
+            const detailUrl = `https://api.themoviedb.org/3/movie/${m.id}?language=pt-BR&append_to_response=credits,release_dates,watch/providers${queryParam}`;
             const dRes = await fetch(detailUrl, { headers });
             if (dRes.ok) {
               const detail = await dRes.json();
               const brWatch = detail?.['watch/providers']?.results?.BR;
               const streamLabels = extractBrStreamingLabels(brWatch);
+              const dirAndComp = extractDirectorAndCompanyFromTmdbDetail(detail);
+
+              if (dirAndComp) {
+                const cache = getMovieCreditsCache();
+                cache[String(m.id)] = {
+                  directorAndCompany: dirAndComp,
+                  runtime:
+                    typeof detail?.runtime === 'number' && detail.runtime > 0
+                      ? detail.runtime
+                      : undefined,
+                };
+                saveMovieCreditsCache();
+              }
 
               let brCinemaDate: string | null = null;
               let brDigitalDate: string | null = null;
@@ -1607,22 +1958,19 @@ export async function searchMediaAcrossApis(
                   ? 'movie_digital'
                   : 'movie_cinema';
 
-              const finalTags =
-                streamLabels.length > 0
-                  ? effectiveCinema && effectiveCinema >= todayIso
-                    ? ['Cinema BR', ...streamLabels]
-                    : streamLabels
-                  : ['Cinema BR'];
-
               const item = mapTmdbRawMovieToItem(
                 { ...m, runtime: detail?.runtime || m.runtime },
                 category,
                 todayIso,
                 effectiveCinema,
-                finalTags
+                streamLabels,
+                dirAndComp
               );
               item.cinemaReleaseDate = effectiveCinema;
-              item.digitalReleaseDate = brDigitalDate;
+              item.digitalReleaseDate =
+                brDigitalDate && brDigitalDate !== effectiveCinema
+                  ? brDigitalDate
+                  : null;
               item.isDigitalAvailable = isDigitallyOut;
               return item;
             }
@@ -1634,7 +1982,7 @@ export async function searchMediaAcrossApis(
             'movie_cinema',
             todayIso,
             m.release_date,
-            ['Cinema BR']
+            []
           );
         })
       );
@@ -1874,4 +2222,106 @@ export async function searchMediaAcrossApis(
   ]);
 
   return [...movies, ...series, ...animes, ...games];
+}
+
+/**
+ * Busca no endpoint oficial /movie/{id}/release_dates da TMDB as datas separadas de
+ * Estreia nos Cinemas (Type 2/3) e Lançamento Digital/VOD (Type 4/6) no Brasil.
+ */
+export async function resolveMovieReleaseDatesInBrazil(
+  externalId: string,
+  settings: AppSettings
+): Promise<{
+  cinemaDate: string | null;
+  digitalDate: string | null;
+  runtimeMinutes: number | null;
+  directorAndCompany: string | null;
+}> {
+  const apiKey = (settings.tmdbApiKey || DEFAULT_TMDB_API_KEY).trim();
+  if (!apiKey || !externalId) {
+    return {
+      cinemaDate: null,
+      digitalDate: null,
+      runtimeMinutes: null,
+      directorAndCompany: null,
+    };
+  }
+
+  try {
+    const { headers, queryParam } = buildTmdbHeadersAndParam(apiKey);
+    const url = `https://api.themoviedb.org/3/movie/${encodeURIComponent(
+      externalId
+    )}?language=pt-BR&append_to_response=release_dates,credits${queryParam}`;
+    const res = await fetch(url, { headers });
+    if (!res.ok) {
+      return {
+        cinemaDate: null,
+        digitalDate: null,
+        runtimeMinutes: null,
+        directorAndCompany: null,
+      };
+    }
+
+    const detail = await res.json();
+    const directorAndCompany = extractDirectorAndCompanyFromTmdbDetail(detail);
+    if (directorAndCompany) {
+      const cache = getMovieCreditsCache();
+      cache[externalId] = {
+        directorAndCompany,
+        runtime:
+          typeof detail?.runtime === 'number' && detail.runtime > 0
+            ? detail.runtime
+            : undefined,
+      };
+      saveMovieCreditsCache();
+    }
+
+    const results = detail?.release_dates?.results || [];
+    const brEntry =
+      results.find((x: { iso_3166_1: string }) => x.iso_3166_1 === 'BR') ||
+      results.find((x: { iso_3166_1: string }) => x.iso_3166_1 === 'US');
+
+    let cinemaDate: string | null = null;
+    let digitalDate: string | null = null;
+
+    if (brEntry && Array.isArray(brEntry.release_dates)) {
+      for (const rd of brEntry.release_dates) {
+        const dPart = extractIsoDatePart(rd.release_date);
+        if (!dPart) continue;
+        if ((rd.type === 3 || rd.type === 2) && !cinemaDate) {
+          cinemaDate = dPart;
+        }
+        if ((rd.type === 4 || rd.type === 6) && !digitalDate) {
+          digitalDate = dPart;
+        }
+      }
+    }
+
+    return {
+      cinemaDate,
+      digitalDate,
+      runtimeMinutes:
+        typeof detail?.runtime === 'number' && detail.runtime > 0
+          ? detail.runtime
+          : null,
+      directorAndCompany,
+    };
+  } catch {
+    return {
+      cinemaDate: null,
+      digitalDate: null,
+      runtimeMinutes: null,
+      directorAndCompany: null,
+    };
+  }
+}
+
+export async function enrichFavoriteMoviesWithDirectorAndCompany(
+  items: MediaItem[],
+  settings: AppSettings
+): Promise<MediaItem[]> {
+  const apiKey = (settings.tmdbApiKey || DEFAULT_TMDB_API_KEY).trim();
+  if (!apiKey) return items;
+  const { headers, queryParam } = buildTmdbHeadersAndParam(apiKey);
+  return enrichMoviesWithDirectorAndCompany(items, headers, queryParam);
 }

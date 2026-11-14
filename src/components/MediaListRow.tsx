@@ -113,9 +113,17 @@ export const MediaListRow: React.FC<MediaListRowProps> = ({
   const { dateLine, timeLine } = formatXenoDateAndTime(item);
   const reviewsLabel = formatCompactReviews(item.reviewsCount);
 
+  const cleanDirector =
+    item.director &&
+    !item.director.includes('Circuito Brasil') &&
+    !item.director.includes('Disponível no Brasil') &&
+    !item.director.includes('Cinema BR')
+      ? item.director
+      : 'Direção & Estúdio Oficial';
+
   const studioOrAuthor =
     item.category === 'movie_cinema' || item.category === 'movie_digital'
-      ? item.director || 'Estúdio Oficial'
+      ? cleanDirector
       : item.category === 'game'
       ? item.developer || 'Estúdio Oficial'
       : item.studioOrNetwork || 'Estúdio Oficial';
@@ -171,12 +179,14 @@ export const MediaListRow: React.FC<MediaListRowProps> = ({
 
       const crossDateInfo =
         item.category === 'movie_cinema'
-          ? item.digitalReleaseDate
-            ? `Previsão Digital: ${formatShortDate(item.digitalReleaseDate)}`
+          ? item.digitalReleaseDate &&
+            item.digitalReleaseDate !== item.cinemaReleaseDate
+            ? `Lançamento Digital: ${formatShortDate(item.digitalReleaseDate)}`
             : 'Previsão Digital: A confirmar'
-          : item.cinemaReleaseDate
+          : item.cinemaReleaseDate &&
+            item.cinemaReleaseDate !== item.digitalReleaseDate
           ? `Estreou nos Cinemas: ${formatShortDate(item.cinemaReleaseDate)}`
-          : null;
+          : 'Lançamento direto em Streaming / VOD';
 
       return (
         <div className="flex flex-wrap items-center gap-5 text-xs sm:text-sm font-medium text-[#968da8]">

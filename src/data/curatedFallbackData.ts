@@ -30,7 +30,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'A história do físico americano J. Robert Oppenheimer, seu papel no Projeto Manhattan e no desenvolvimento da bomba atômica durante a Segunda Guerra Mundial.',
         genres: ['Biografia', 'Drama', 'História'],
-        streamingPlatforms: ['Cinema BR', 'Telecine', 'Amazon Prime'],
+        streamingPlatforms: ['Telecine', 'Amazon Prime'],
         rating: 8.9,
         director: 'Christopher Nolan (Universal Pictures)',
         runtimeMinutes: 180,
@@ -48,7 +48,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Enquanto o mundo entra em colapso, a jovem Furiosa é sequestrada do Lugar Verde de Muitas Mães e cai nas mãos de uma grande horda de motoqueiros liderada pelo Senhor da Guerra Dementus.',
         genres: ['Ação', 'Sci-Fi', 'Pós-Apocalíptico'],
-        streamingPlatforms: ['Cinema BR', 'HBO Max'],
+        streamingPlatforms: ['HBO Max'],
         rating: 7.7,
         director: 'George Miller (Warner Bros.)',
         runtimeMinutes: 148,
@@ -66,7 +66,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'A Autoridade de Variância Temporal tira Wade Wilson de sua vida tranquila e o coloca em uma missão ao lado de um relutante Wolverine para salvar seu universo da extinção.',
         genres: ['Ação', 'Comédia', 'Sci-Fi'],
-        streamingPlatforms: ['Cinema BR', 'Disney+'],
+        streamingPlatforms: ['Disney+'],
         rating: 7.8,
         director: 'Shawn Levy (Marvel Studios)',
         runtimeMinutes: 128,
@@ -84,7 +84,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Anos após testemunhar a morte do venerado herói Maximus pelas mãos de seu tio, Lucius é forçado a entrar no Coliseu depois que seu lar é conquistado pelos imperadores tirânicos que agora governam Roma.',
         genres: ['Épico', 'Ação', 'Aventura'],
-        streamingPlatforms: ['Cinema BR', 'Telecine'],
+        streamingPlatforms: ['Telecine'],
         rating: 7.6,
         director: 'Ridley Scott (Paramount Pictures)',
         runtimeMinutes: 148,
@@ -105,7 +105,6 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Quase três décadas após o vazamento do vírus da Raiva de um laboratório de armas biológicas, sobreviventes isolados nas ilhas britânicas descobrem uma nova mutação evolucionária nos infectados e uma seita oculta no continente.',
         genres: ['Terror', 'Sci-Fi', 'Suspense'],
-        streamingPlatforms: ['Cinema BR'],
         rating: 8.2,
         director: 'Nia DaCosta & Alex Garland (Sony Pictures / DNA Films)',
         runtimeMinutes: 126,
@@ -124,7 +123,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Doze anos após ascender ao trono como Imperador Paul Atreides, sua jihad intergaláctica conquistou o universo conhecido, mas visões proféticas e uma conspiração da Bene Gesserit, da Guilda Espacial e dos Tleilaxu ameaçam seu império.',
         genres: ['Épico', 'Space Opera', 'Sci-Fi'],
-        streamingPlatforms: ['Cinema BR', 'HBO Max'],
+        streamingPlatforms: ['HBO Max'],
         rating: 8.9,
         reviewsCount: 42800,
         director: 'Denis Villeneuve (Warner Bros. / Legendary)',
@@ -144,7 +143,6 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Em uma Los Angeles perpétua sob chuva ácida e névoa neon, um caçador de androides veterano investiga o desaparecimento de uma nave colonial inteira nas colônias de Calisto — estritamente sob ordens confidenciais.',
         genres: ['Sci-Fi', 'Cyberpunk', 'Mistério'],
-        streamingPlatforms: ['Cinema BR'],
         rating: 8.6,
         director: 'Ridley Scott (Alcon Entertainment)',
         runtimeMinutes: 154,
@@ -163,7 +161,7 @@ export function getCuratedFallbackData(): Record<
         synopsis:
           'Um conto gótico de obsessão entre uma jovem atormentada na Alemanha do século XIX e o ancestral vampiro da Transilvânia que a persegue, trazendo consigo um horror indescritível.',
         genres: ['Terror Gótico', 'Fantasia', 'Drama'],
-        streamingPlatforms: ['Cinema BR', 'Telecine'],
+        streamingPlatforms: ['Telecine'],
         rating: 8.1,
         director: 'Robert Eggers (Focus Features)',
         runtimeMinutes: 132,
