@@ -4234,259 +4234,2585 @@
     "hltbLabel": "Tempo: Aguardando dados"
   },
   {
-    "id": "igdb-game-407329",
-    "externalId": "407329",
+    "id": "igdb-game-52189",
+    "externalId": "52189",
     "category": "game",
-    "title": "Graveyard Orbit",
-    "originalTitle": "Graveyard Orbit",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocyup.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13z32.jpg",
-    "synopsis": "A satisfying incremental where you build the ultimate mining ship, loot every piece of an alien megastructure, and upgrade your abilities with an array of unlockable parts and skill trees. MINE. BUILD. UPGRADE. REPEAT.",
+    "title": "Grand Theft Auto VI",
+    "originalTitle": "Grand Theft Auto VI",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocv1v.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc166fv.jpg",
+    "synopsis": "Grand Theft Auto VI heads to the state of Leonida, home to the neon-soaked streets of Vice City and beyond in the biggest, most immersive evolution of the Grand Theft Auto series yet.",
     "genres": [
-      "Indie"
-    ],
-    "reviewsCount": 1800,
-    "developer": "Anchorhead Games",
-    "platforms": [
-      "PC"
-    ],
-    "releaseDate": "2026-11-18",
-    "hltbMainHours": null,
-    "hltbExtraHours": null,
-    "hltbCompletionistHours": null,
-    "hltbLabel": "Tempo: Aguardando dados"
-  },
-  {
-    "id": "igdb-game-410200",
-    "externalId": "410200",
-    "category": "game",
-    "title": "Toto's Journey",
-    "originalTitle": "Toto's Journey",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cock5e.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc14cwo.jpg",
-    "synopsis": "Toto’s Journey is a cozy adventure inspired by the world of The Wizard of Oz. Play as Toto, a brave dog lost in a magical world after a mysterious cyclone. Explore enchanted lands, meet unusual creatures, and solve environmental puzzles as you search for a way back home.",
-    "genres": [
-      "Puzzle",
-      "Aventura",
-      "Indie",
-      "Arcade"
-    ],
-    "reviewsCount": 1980,
-    "developer": "Estúdio Oficial (IGDB)",
-    "platforms": [
-      "PC"
-    ],
-    "releaseDate": "2026-11-18",
-    "hltbMainHours": null,
-    "hltbExtraHours": null,
-    "hltbCompletionistHours": null,
-    "hltbLabel": "Tempo: Aguardando dados"
-  },
-  {
-    "id": "igdb-game-410670",
-    "externalId": "410670",
-    "category": "game",
-    "title": "Dark Rail",
-    "originalTitle": "Dark Rail",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/codchm.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc14cwc.jpg",
-    "synopsis": "Turn-based management roguelike. Command the Inquisition and rule an industrial city on the empire’s edge. Use your train to meet prisoner shipment quotas by hunting heretics and slaying magical beasts. Produce supplies, contain revolt, and sacrifice prisoners to stop the madness.",
-    "genres": [
-      "Simulador",
-      "Estratégia",
-      "Estratégia por Turnos",
+      "Tiro / Shooter",
+      "Corrida",
       "Aventura"
     ],
-    "reviewsCount": 1800,
-    "developer": "Steam Veil Games",
+    "reviewsCount": 209700,
+    "developer": "Rockstar North",
+    "platforms": [
+      "Series X|S",
+      "PS5"
+    ],
+    "releaseDate": "2026-11-19",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-92550",
+    "externalId": "92550",
+    "category": "game",
+    "title": "Fable",
+    "originalTitle": "Fable",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobc6d.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scsoet.jpg",
+    "synopsis": "Become the Hero you want to be in an immersive open-world action-RPG where each choice shapes your journey, reputation is everything, and fairytale endings are never guaranteed.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 81000,
+    "developer": "Playground Games",
     "platforms": [
       "Series X|S",
       "PC",
       "PS5"
     ],
-    "releaseDate": "2026-11-18",
+    "releaseDate": "2027-02-23",
     "hltbMainHours": null,
     "hltbExtraHours": null,
     "hltbCompletionistHours": null,
     "hltbLabel": "Tempo: Aguardando dados"
   },
   {
-    "id": "igdb-game-412123",
-    "externalId": "412123",
+    "id": "igdb-game-279621",
+    "externalId": "279621",
     "category": "game",
-    "title": "Marque & Reprisal",
-    "originalTitle": "Marque & Reprisal",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocm47.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc14j52.jpg",
-    "synopsis": "Explore. Trade. Fish. Whale. Colonize. Fight. Pillage. Survive. You are a sea captain in the year 1522, and the whole world is yours to discover in this roguelike sandbox historical sailing simulator.",
+    "title": "Exodus",
+    "originalTitle": "Exodus",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaott.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scpv18.jpg",
+    "synopsis": "Step forward into Exodus — a cinematic, single-player action RPG set in a new, far-future sci-fi universe. Rise from salvager to Traveler, discover new worlds ravaged by the effects of time, and search for the key to humanity’s survival across the most dangerous reaches of space.",
     "genres": [
       "RPG",
-      "Simulador",
-      "Estratégia",
       "Aventura"
     ],
-    "reviewsCount": 1800,
-    "developer": "Iron Pagoda",
+    "reviewsCount": 30240,
+    "developer": "Archetype Entertainment",
     "platforms": [
-      "Linux",
+      "Series X|S",
       "PC",
-      "Mac"
+      "PS5"
     ],
-    "releaseDate": "2026-11-18",
+    "releaseDate": "2027-04-07",
     "hltbMainHours": null,
     "hltbExtraHours": null,
     "hltbCompletionistHours": null,
     "hltbLabel": "Tempo: Aguardando dados"
   },
   {
-    "id": "igdb-game-417172",
-    "externalId": "417172",
+    "id": "igdb-game-381235",
+    "externalId": "381235",
     "category": "game",
-    "title": "Disney Dreamlight Valley: The Keepsake Sea",
-    "originalTitle": "Disney Dreamlight Valley: The Keepsake Sea",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocvat.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc154at.jpg",
-    "synopsis": "Become a magical mermaid and plunge into the waters of the Keepsake Sea! Uncover what secrets lie beneath the waves and embark on a thrilling new ocean adventure.",
+    "title": "Tomb Raider: Legacy of Atlantis",
+    "originalTitle": "Tomb Raider: Legacy of Atlantis",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob1kg.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc15cdl.jpg",
+    "synopsis": "Tomb Raider: Legacy of Atlantis is a reimagining of Lara Croft’s 1996 genre-defining game with visuals powered by Unreal Engine 5, modern gameplay, and new surprises that honor the spirit of the original.",
+    "genres": [
+      "Plataforma",
+      "Puzzle",
+      "Aventura"
+    ],
+    "reviewsCount": 29700,
+    "developer": "Crystal Dynamics",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-02-12",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-343335",
+    "externalId": "343335",
+    "category": "game",
+    "title": "Silver Palace",
+    "originalTitle": "Silver Palace",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocikv.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scwrt1.jpg",
+    "synopsis": "Silver Palace is an upcoming open‑world detective action‑adventure RPG developed by Silver Studio and published by Elementa worldwide. It is set in the sprawling Victorian‑style metropolis of Sylvanea, built upon the revolutionary element known as Silver Liquid that has fueled its industrial and social transformation. Players assume the role of a detective tasked with unraveling complex criminal conspiracies and uncovering hidden truths scattered throughout the city. The game seamlessly blends open‑world exploration with dynamic real‑time combat, featuring character switching, skill combos, and QTE‑style finishers. Traversal options include horseback riding, aerial wire‑grappling, and free‑running across richly detailed environments. Silver Palace is built on Unreal Engine 5, delivering high‑fidelity anime‑inspired visuals and cinematic battle sequences. It will be available on PC, major consoles, iOS, and Android devices with pre‑registration now open for global audiences. The title adopts a free‑to‑play model enhanced by gacha mechanics for character and gear progression. An 11‑minute gameplay showcase has been released, offering a deep dive into the game’s mechanics and world‑building. No firm release date has been announced, but further details and developer updates will be shared via the official website and social channels.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 26280,
+    "developer": "Elementa",
+    "platforms": [
+      "Android",
+      "PC",
+      "iOS",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-14",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-325599",
+    "externalId": "325599",
+    "category": "game",
+    "title": "Stranger Than Heaven",
+    "originalTitle": "Stranger Than Heaven",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobu6l.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13ujs.jpg",
+    "synopsis": "Stranger Than Heaven is an upcoming action-adventure game developed by Ryu Ga Gotoku Studio and published by Sega. The game follows a multi-decade story across five eras and five cities, centered on men searching for a place to belong. It combines close-quarters action with narrative elements, historical urban settings, and activities connected to music and performance.",
+    "genres": [
+      "Luta",
+      "Puzzle",
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 23940,
+    "developer": "Ryu Ga Gotoku Studio",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-01-15",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-398225",
+    "externalId": "398225",
+    "category": "game",
+    "title": "Metro 2039",
+    "originalTitle": "Metro 2039",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobxor.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc12ytu.jpg",
+    "synopsis": "METRO 2039 is the next landmark FPS from acclaimed storytellers, 4A Games. Journey into the dark heart of post-apocalyptic Moscow in a harrowing conflict for the very soul of the Metro.\n\nThe year is 2039. For a quarter century, the last survivors of nuclear war have been locked in bitter conflict deep in the Metro tunnels beneath the poisoned city of Moscow.\n\nNow, finally, they have been united by a single leader, a fanatical Spartan known as Hunter. But this is no peace: Hunter’s Novoreich regime rules through propaganda and fear, subjugating the population in the name of a new war for the surface against a dark and terrifying enemy.\n\nIn the wilderness beyond the city, the reclusive Stranger is haunted by violent waking nightmares. When the ghosts of his past force him out of exile, he must undertake a harrowing journey into the shattered ruins of Moscow, to the one place he swore he’d never go. The Metro.\n\nExperience the most shocking METRO adventure yet in a powerful single-player story that weaves exploration, survival, combat and stealth across a hauntingly beautiful but deadly world with unparalleled immersion.\n\nInspired by the worldwide best-selling METRO book trilogy by Dmitry Glukhovsky.",
+    "genres": [
+      "Tiro / Shooter",
+      "Aventura"
+    ],
+    "reviewsCount": 23220,
+    "developer": "4A Games",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-02-04",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404063",
+    "externalId": "404063",
+    "category": "game",
+    "title": "God of War Laufey",
+    "originalTitle": "God of War Laufey",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc5rc.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13l9z.jpg",
+    "synopsis": "God of War: Laufey is an upcoming action-adventure game developed by Santa Monica Studio for PlayStation 5. The game follows Laufey, also known as Faye, after she awakens in a strange afterlife realm following her death. To protect Kratos and Atreus, she travels through the Everywhen, an afterlife of the gods where deities from different mythologies compete for power. The game shifts the focus from Kratos to Faye and features sword-based combat, magic, and new supporting characters.",
+    "genres": [
+      "RPG",
+      "Hack and Slash",
+      "Aventura"
+    ],
+    "reviewsCount": 22500,
+    "developer": "Santa Monica Studio",
+    "platforms": [
+      "PS5"
+    ],
+    "releaseDate": "2027-05-20",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-347869",
+    "externalId": "347869",
+    "category": "game",
+    "title": "The Expanse: Osiris Reborn",
+    "originalTitle": "The Expanse: Osiris Reborn",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9xoa.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scxaf7.jpg",
+    "synopsis": "The Expanse: Osiris Reborn is a third-person Action RPG set in The Expanse universe. You’re no hero — just a merc caught in the wrong place at the wrong time, trying to hold your crew together and keep the ship up and running. Your choices will shape your story.",
+    "genres": [
+      "Tiro / Shooter",
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 22320,
+    "developer": "Owlcat Games",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-262712",
+    "externalId": "262712",
+    "category": "game",
+    "title": "Ananta",
+    "originalTitle": "Ananta",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocrlo.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc14vzg.jpg",
+    "synopsis": "Take on the role of an elite Agent within the A.C.D. (Anti-Chaos Directorate) embarking on an exhilarating adventure through a world that breaks all the rules. Meet a variety of interesting characters, jump into exciting combat, solve challenges and safeguard the balance by overcoming threats to humanity, all while enjoying unparalleled freedom to traverse and discover Nova City on a journey to find out who you really are.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 19800,
+    "developer": "Naked Rain",
+    "platforms": [
+      "Android",
+      "PC",
+      "iOS",
+      "PS5"
+    ],
+    "releaseDate": "2027-01-15",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-347645",
+    "externalId": "347645",
+    "category": "game",
+    "title": "Out of Words",
+    "originalTitle": "Out of Words",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9xhn.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc104gd.jpg",
+    "synopsis": "Find your lost voices in a co-op platformer adventure. Together with a friend, via online cross-platform or couch co-op, explore the wild, colorful realm of Vokabulantis as Kurt and Karla in a story about the first time they held hands — where everything you see is crafted by hand.",
+    "genres": [
+      "Plataforma",
+      "Aventura"
+    ],
+    "reviewsCount": 16200,
+    "developer": "Kong Orange",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-318503",
+    "externalId": "318503",
+    "category": "game",
+    "title": "Lords of the Fallen II",
+    "originalTitle": "Lords of the Fallen II",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobc2z.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scymdf.jpg",
+    "synopsis": "Lords of the Fallen 2, the highly anticipated sequel to the game released in 2023, is set to arrive in 2026. The team at Hexworks aims to create a sequel incorporating more commercial elements, particularly in visual design, to attract a broader audience of players.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 15120,
+    "developer": "CI Games",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-67195",
+    "externalId": "67195",
+    "category": "game",
+    "title": "Witchbrook",
+    "originalTitle": "Witchbrook",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocce4.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/izgkcqt4yazm0wziegfe.jpg",
+    "synopsis": "Experience the thrills and pitfalls of school-life in Witchbrook! Discover a spellbinding isometric pixel art world full of charm and intrigue in this richly detailed magical school and town life simulator.",
     "genres": [
       "RPG",
       "Simulador",
+      "Indie"
+    ],
+    "reviewsCount": 15120,
+    "developer": "Chucklefish Games",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5",
+      "XONE"
+    ],
+    "releaseDate": "2027-01-28",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-348210",
+    "externalId": "348210",
+    "category": "game",
+    "title": "Persona 4 Revival",
+    "originalTitle": "Persona 4 Revival",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc7iu.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13qdr.jpg",
+    "synopsis": "Who’s on Air? Legend has it that a mysterious broadcast known as the \"Midnight Channel\" appears only on rainy nights. The day after it airs, a corpse is found in Inaba, a quiet and peaceful town in rural Japan suddenly thrown into turmoil. To uncover the truth behind these chilling mysteries, you and your friends form an investigation team to unravel the secrets of the Midnight Channel and the bizarre murders. As your adventure unfolds, you face off against \"Shadows,\" eerie manifestations of individuals' darker selves. Together, you awaken a hidden power called \"Persona\" and embark on a journey to prevent more tragedies while uncovering the truth behind the chaos.",
+    "genres": [
+      "RPG",
       "Aventura"
     ],
-    "reviewsCount": 1980,
-    "developer": "Gameloft",
+    "reviewsCount": 14940,
+    "developer": "P Studio",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-02-18",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404721",
+    "externalId": "404721",
+    "category": "game",
+    "title": "Final Fantasy VII Revelation",
+    "originalTitle": "Final Fantasy VII Revelation",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocbgb.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13nwi.jpg",
+    "synopsis": "As the world teeters on the brink of annihilation, the final battle against Sephiroth begins.\nA meteor mars the sky, monstrous planetary guardians wreak havoc across the globe, and the fires of war rage. Now, Cloud and his companions must stand against this chaos to not only decide the planet's fate, but bring a legendary conflict to its conclusion.\n\nIn the final chapter of the FINAL FANTASY VII remake project, the scale has never been larger and the stakes have never been higher. Take to the skies and explore a boundless world, fight alongside a fully assembled party, master strategic and dynamic combat, and prepare yourself for the climactic finale.\n\nA vast planet awaits. Everything leads here.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 13680,
+    "developer": "Square Enix Creative Studio 1",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-04-08",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404058",
+    "externalId": "404058",
+    "category": "game",
+    "title": "Until Dawn 2",
+    "originalTitle": "Until Dawn 2",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocvjf.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc154uz.jpg",
+    "synopsis": "Ready to die for likes? Join a team of ambitious ghost hunters as they chase their next viral hit on a remote island haunted by a woman’s chilling story of demons and ghostly phenomena.\n\nWhen the tale begins to manifest in terrifying ways, the group will have to fight their own fear—and anything else that gets in their way – to get off the island alive. Their lives are in your hands. Make every choice count.",
+    "genres": [
+      "Aventura"
+    ],
+    "reviewsCount": 13680,
+    "developer": "Firesprite Ltd",
+    "platforms": [
+      "PS5"
+    ],
+    "releaseDate": "2027-01-28",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-165432",
+    "externalId": "165432",
+    "category": "game",
+    "title": "Spine",
+    "originalTitle": "Spine",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocrsi.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sctzf0.jpg",
+    "synopsis": "Experience Gun Fu like never before with SPINE, an immersive and highly cinematic action game set in a cyberpunk world. Explore the realistic vision of a near-future with a rebellious street artist Redline and her sentient combat implant, Spine, as they challenge a totalitarian AI regime in search of Redline’s captured brother. Participate in epic gunfights against charismatic opponents, while performing spectacular choreography with firearms!",
+    "genres": [
+      "Tiro / Shooter",
+      "Hack and Slash",
+      "Aventura"
+    ],
+    "reviewsCount": 13500,
+    "developer": "Nekki",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-09-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-19128",
+    "externalId": "19128",
+    "category": "game",
+    "title": "Squadron 42",
+    "originalTitle": "Squadron 42",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cod3pg.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scvgzk.jpg",
+    "synopsis": "Take the role of a rookie UEE Navy combat pilot in a cinematic single-player epic adventure set in the Star Citizen universe. Battle in the stars and face-to-face as you seamlessly transition between dogfighting and ground combat. Serve aboard a massive Navy capital ship as your custom character interacts and builds relationships with a living, breathing crew. Cutting-edge performance capture brings unprecedented emotion and life to some of your favorite actors. Powered by StarEngine, Squadron 42 pushes gaming graphics and fidelity to the next level.",
+    "genres": [
+      "Tiro / Shooter",
+      "Simulador",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 12960,
+    "developer": "Cloud Imperium Games Corporation",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404044",
+    "externalId": "404044",
+    "category": "game",
+    "title": "Rayman Legends Retold",
+    "originalTitle": "Rayman Legends Retold",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc5tb.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13lgn.jpg",
+    "synopsis": "Embark on a bold reimagining of the beloved platformer, with new visuals and a retold story. Play solo or up to 4‑player couch co‑op, explore a mysterious new realm, jam through new musical stages, and more!",
+    "genres": [
+      "Plataforma",
+      "Aventura"
+    ],
+    "reviewsCount": 12780,
+    "developer": "Ubisoft Montpellier",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-03",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-348199",
+    "externalId": "348199",
+    "category": "game",
+    "title": "Mudang: Two Hearts",
+    "originalTitle": "Mudang: Two Hearts",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9xzl.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scxccn.jpg",
+    "synopsis": "MUDANG: Two Hearts is a narrative-driven, third-person action adventure that blends tactical stealth, visceral combat, and cinematic storytelling set on a politically volatile Korean peninsula.",
+    "genres": [
+      "Tiro / Shooter",
+      "Aventura"
+    ],
+    "reviewsCount": 12780,
+    "developer": "EVR Studio",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-305550",
+    "externalId": "305550",
+    "category": "game",
+    "title": "Acts of Blood",
+    "originalTitle": "Acts of Blood",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc6oq.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scsv25.jpg",
+    "synopsis": "Acts of Blood is a Beat ‘em up, Action, 3rd person game which focuses on fast-paced, brutal hand-to-hand combat. Set in dystopian city of Bandung, Indonesia.",
+    "genres": [
+      "Luta",
+      "Hack and Slash",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 12240,
+    "developer": "Eksil Team",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-04",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-325600",
+    "externalId": "325600",
+    "category": "game",
+    "title": "Turok: Origins",
+    "originalTitle": "Turok: Origins",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co95g7.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scus2g.jpg",
+    "synopsis": "Play as the legendary Turok warriors to face off against ferocious dinosaurs and a terrifying alien threat that seeks to destroy all human life across the galaxy.",
+    "genres": [
+      "Tiro / Shooter",
+      "Aventura"
+    ],
+    "reviewsCount": 10980,
+    "developer": "Saber Interactive",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-314449",
+    "externalId": "314449",
+    "category": "game",
+    "title": "Hela: Of Mice & Magic",
+    "originalTitle": "Hela: Of Mice & Magic",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cod34q.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc15mt4.jpg",
+    "synopsis": "See the world through the eyes of a brave little mouse in this enchanting 3D co-op adventure. Explore breathtaking landscapes inspired by Northern Sweden, solve puzzles, and be a force for good in a land where heartwarming storytelling and the beauty of nature intertwine.",
+    "genres": [
+      "Aventura"
+    ],
+    "reviewsCount": 10800,
+    "developer": "Windup Games",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-01",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-347638",
+    "externalId": "347638",
+    "category": "game",
+    "title": "Game of Thrones: War for Westeros",
+    "originalTitle": "Game of Thrones: War for Westeros",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9xgm.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scx9gf.jpg",
+    "synopsis": "Classic real-time strategy in the world of Westeros. Conquer the Seven Kingdoms solo, or in treacherous free-for-all multiplayer. Command the Great Houses, rally iconic heroes, and rewrite the fate of the realm. Do you have the strength to seize the Iron Throne?",
+    "genres": [
+      "Estratégia"
+    ],
+    "reviewsCount": 10260,
+    "developer": "PlaySide",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2027-03-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-251059",
+    "externalId": "251059",
+    "category": "game",
+    "title": "Grave Seasons",
+    "originalTitle": "Grave Seasons",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobtwq.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scso24.jpg",
+    "synopsis": "Grave Seasons is a supernatural murder-mystery farming simulator. Play as the new farmer in Ashenridge as you harvest crops, fish and mine, meet and romance townsfolk, build up the community... and maybe stop the murders.",
+    "genres": [
+      "RPG",
+      "Simulador",
+      "Indie"
+    ],
+    "reviewsCount": 10260,
+    "developer": "Perfect Garbage",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2027-03-09",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-405090",
+    "externalId": "405090",
+    "category": "game",
+    "title": "Spyro: A Realm Beyond",
+    "originalTitle": "Spyro: A Realm Beyond",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc7e0.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13pdl.jpg",
+    "synopsis": "Take flight in a brand-new journey through a strange and wondrous realm. When Spyro finds himself stranded, his journey to discover a way home is interrupted by the arrival of a vicious invading force known as the Scavs.",
+    "genres": [
+      "Plataforma",
+      "Aventura"
+    ],
+    "reviewsCount": 10080,
+    "developer": "Toys for Bob",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-403990",
+    "externalId": "403990",
+    "category": "game",
+    "title": "Clutch",
+    "originalTitle": "Clutch",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocrqa.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13ky4.jpg",
+    "synopsis": "Clutch is a cinematic, open-world, action-driving game from the team at Maverick Games - lead by former Forza Horizon Creative Director, Mike Brown, and other senior leads on the franchise.",
+    "genres": [
+      "Corrida"
+    ],
+    "reviewsCount": 9360,
+    "developer": "Maverick Games",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-372154",
+    "externalId": "372154",
+    "category": "game",
+    "title": "Bellum",
+    "originalTitle": "Bellum",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coan5y.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_720p/coan5y.jpg",
+    "synopsis": "Bellum is the next evolution of platoon-scale tactical shooters, built in Unreal Engine 5 and shaped by die-hard fans who demanded more from the genre. Set in a fractured Africa of the 2030s, players are thrust into counter-insurgency campaigns where global powers engage in proxy wars across dense jungles, open savannas, and broken urban sprawl. Our unique limited-life system captures the tension of immersive milsim operations while keeping every match accessible, focused, and intense.",
+    "genres": [
+      "Tiro / Shooter",
+      "Estratégia",
+      "Tático",
+      "Indie"
+    ],
+    "reviewsCount": 9360,
+    "developer": "Astarte Industries",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-186613",
+    "externalId": "186613",
+    "category": "game",
+    "title": "Showa American Story",
+    "originalTitle": "Showa American Story",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co4bv1.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc14vpi.jpg",
+    "synopsis": "Showa American Story is a brand new RPG and an enthusiastic love letter to the 80s' pop culture that features a strong taste of B-Movies. Follow Choko's journey of truth and revenge across North America as she grows stronger.",
+    "genres": [
+      "RPG",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 9180,
+    "developer": "Nekcom",
+    "platforms": [
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-317820",
+    "externalId": "317820",
+    "category": "game",
+    "title": "Threads of Time",
+    "originalTitle": "Threads of Time",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8uzi.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scu0l6.jpg",
+    "synopsis": "Threads of Time is an era-spanning, turn-based RPG inspired by the timeless classics. Embark on a journey through time, gather a party of charismatic heroes from across ages, and uncover a plot that threatens to unravel the past, present and future.",
+    "genres": [
+      "RPG",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 8460,
+    "developer": "Riyo Games",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "Switch"
+    ],
+    "releaseDate": "2027-09-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-236665",
+    "externalId": "236665",
+    "category": "game",
+    "title": "Professor Layton and the New World of Steam",
+    "originalTitle": "Professor Layton and the New World of Steam",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co66va.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_720p/co66va.jpg",
+    "synopsis": "Professor Layton and the New World of Steam depicts the world one year after the events of \"Professor Layton and the Unwound Future\".\n\nDue to a mysterious incident in Steam Bison, a new adventure for Layton and Luke begins!",
+    "genres": [
+      "Puzzle",
+      "Aventura"
+    ],
+    "reviewsCount": 8460,
+    "developer": "LEVEL-5",
+    "platforms": [
+      "Switch 2",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2026-12-10",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-378225",
+    "externalId": "378225",
+    "category": "game",
+    "title": "Armatus",
+    "originalTitle": "Armatus",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coave0.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc10flm.jpg",
+    "synopsis": "ARMATUS is a third-person roguelite shooter set in the demon-infested ruins of Paris. As the last supernatural warrior of an ancient order, armed with powerful firearms and incredible celestial powers, scour the city in search of a lost gateway to heaven - the Sunless Gate.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 7920,
+    "developer": "Counterplay Games",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-01-07",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-361859",
+    "externalId": "361859",
+    "category": "game",
+    "title": "Warhammer 40,000: Dawn of War IV",
+    "originalTitle": "Warhammer 40,000: Dawn of War IV",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaaxx.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scymb4.jpg",
+    "synopsis": "Return to the RTS series’ roots with deeply satisfying strategy gameplay. Take command of four unique Warhammer 40,000 factions, including the Adeptus Mechanicus in their series debut! Fight through 70+ epic campaign missions, as well as the replayable Last Stand, Skirmish and multiplayer modes.",
+    "genres": [
+      "Estratégia"
+    ],
+    "reviewsCount": 7920,
+    "developer": "KING Art",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2026-12-03",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-405070",
+    "externalId": "405070",
+    "category": "game",
+    "title": "Wo Long 2: Wings of Ember",
+    "originalTitle": "Wo Long 2: Wings of Ember",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocjkb.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13ppk.jpg",
+    "synopsis": "Born from war's flames, a Phoenix ascends. In this dark fantasy Three Kingdoms action RPG from Team NINJA, players use offensive and defensive Chinese martial arts to fight back against mighty demons on the battlefields of the Three Kingdoms.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 7560,
+    "developer": "Team NINJA",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-04",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-381208",
+    "externalId": "381208",
+    "category": "game",
+    "title": "TankRat",
+    "originalTitle": "TankRat",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob0ej.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc10tag.jpg",
+    "synopsis": "A dying world, flesh given way to steel. Swarms of corrupted mech-monsters roam a desolated land. Search and destroy, scavenge and dismantle, rebuild yourself from the wreckage. What you take becomes what you are. Survive the wasteland. Make it to Highpoint.",
+    "genres": [
+      "Aventura"
+    ],
+    "reviewsCount": 7380,
+    "developer": "Alpha Channel",
+    "platforms": [
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-01-15",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-252852",
+    "externalId": "252852",
+    "category": "game",
+    "title": "Mariachi Legends",
+    "originalTitle": "Mariachi Legends",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co93lp.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scmwxy.jpg",
+    "synopsis": "Mariachi Legends is an action-packed mystery Metroidvania game. In Mariachi Legends, Join fantastical festivities at the Day of the Dead carnival alongside Detective Pablo Cruz, currently masquerading as a mariachi player to investigate an evil curse looming over the serene town of Santa Mascota.",
+    "genres": [
+      "Plataforma",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 7380,
+    "developer": "Halberd Studios",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2027-04-27",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-408719",
+    "externalId": "408719",
+    "category": "game",
+    "title": "Metroid Ravenous",
+    "originalTitle": "Metroid Ravenous",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocvge.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc1546h.jpg",
+    "synopsis": "It’s eat or be eaten! Take control of Samus Aran, a renowned bounty hunter ambushed by unknown attackers and marooned on an unfamiliar moon. Gather your arsenal, navigate a maze of corridors, hunt down powerful bosses, and use your newly awakened Metroid instincts to devour your foes. You’ll need to strike quickly and aggressively with beams, missiles, and more—lest you become the enemy’s next meal.",
+    "genres": [
+      "Tiro / Shooter",
+      "Plataforma",
+      "Aventura"
+    ],
+    "reviewsCount": 7200,
+    "developer": "MercurySteam",
+    "platforms": [
+      "Switch 2"
+    ],
+    "releaseDate": "2027-01-28",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-339619",
+    "externalId": "339619",
+    "category": "game",
+    "title": "Ikuma: The Frozen Compass",
+    "originalTitle": "Ikuma: The Frozen Compass",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9nlg.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scw8fo.jpg",
+    "synopsis": "Embark on a haunting journey into the cold in this narrative adventure - either alone or with a friend. IKUMA tells the story of Sam, a teenage boy who finds himself stranded in the Arctic with his dog. He must face not only its harsh environment, but also something lurking deeper in the shadows.",
+    "genres": [
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 7200,
+    "developer": "Mooneye Studios",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-322835",
+    "externalId": "322835",
+    "category": "game",
+    "title": "Haunted by Femboy",
+    "originalTitle": "Haunted by Femboy",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa6o1.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scy6hd.jpg",
+    "synopsis": "In this choice-based NSFW visual novel after inheriting a strange house from your parents, you stumble upon an ancient book and accidentally summon a mischievous femboy ghost. Now bound to your home, the ghost becomes your roommate, and it's up to you to find the missing pages of the book while navigating your unusual new life together.",
+    "genres": [
+      "Simulador",
+      "Visual Novel"
+    ],
+    "reviewsCount": 7020,
+    "developer": "Softboi Games",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404690",
+    "externalId": "404690",
+    "category": "game",
+    "title": "Gundam Rogue Orbit",
+    "originalTitle": "Gundam Rogue Orbit",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc6ls.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13nr7.jpg",
+    "synopsis": "Become the pilot you were born to be. Change humanity’s fate in GUNDAM ROGUE ORBIT, a high-mobility action game that delivers a bold new take on Gundam, blending a fast-paced cinematic story with intense, hard-hitting combat in an all-new universe.",
+    "genres": [
+      "Tiro / Shooter",
+      "Aventura"
+    ],
+    "reviewsCount": 6840,
+    "developer": "Bandai Namco Studios",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-05",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-381249",
+    "externalId": "381249",
+    "category": "game",
+    "title": "Mega Man: Dual Override",
+    "originalTitle": "Mega Man: Dual Override",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobksp.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc10uo5.jpg",
+    "synopsis": "Mega Man returns in 2027 with a brand-new entry in the classic action platforming series! Override challenges and blast down legions of robots while springboarding across a new array of futuristic frontiers!",
+    "genres": [
+      "Plataforma"
+    ],
+    "reviewsCount": 6840,
+    "developer": "Capcom",
     "platforms": [
       "Series X|S",
       "PS4",
       "Switch 2",
       "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-344655",
+    "externalId": "344655",
+    "category": "game",
+    "title": "Warhammer 40,000: Dark Heresy",
+    "originalTitle": "Warhammer 40,000: Dark Heresy",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa03o.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13cm8.jpg",
+    "synopsis": "Become an acolyte of the Inquisition in this grim dark, party-based, story-driven cRPG. Lead investigations, uncover grand conspiracies, master tactical combat, and wage a secret war against heresy. Make tough choices as a conduit of the God-Emperor’s will.",
+    "genres": [
+      "RPG",
+      "Estratégia",
+      "Estratégia por Turnos",
+      "Tático"
+    ],
+    "reviewsCount": 6840,
+    "developer": "Owlcat Games",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5",
+      "Mac"
+    ],
+    "releaseDate": "2027-01-28",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-366895",
+    "externalId": "366895",
+    "category": "game",
+    "title": "Danganronpa 2x2",
+    "originalTitle": "Danganronpa 2x2",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocv93.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scz3wi.jpg",
+    "synopsis": "A new killing game begins in the same setting and with the same characters as Danganronpa 2: Goodbye Despair. A brand-new scenario with different victims, culprits, and tricks! Reveal the truth by shooting down contradictions in a Class Trial and uncover the culprit of a murder.\n\nThe original scenario from Danganronpa 2: Goodbye Despair, with revamped visuals and presentation for modern consoles, is also included.",
+    "genres": [
+      "Aventura",
+      "Visual Novel"
+    ],
+    "reviewsCount": 6480,
+    "developer": "Gemdrops, Inc.",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2027-01-14",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-370095",
+    "externalId": "370095",
+    "category": "game",
+    "title": "Petit Planet",
+    "originalTitle": "Petit Planet",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coak1r.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc104p2.jpg",
+    "synopsis": "Petit Planet is HoYoverse's brand-new cosmic life sim that's free-to-play and cross-platform. Here, you can build your home, live alongside fuzzy neighbors, and discover the infinite possibilities of life on this planet!",
+    "genres": [
+      "RPG",
+      "Simulador",
+      "Aventura"
+    ],
+    "reviewsCount": 6120,
+    "developer": "miHoYo",
+    "platforms": [
+      "Switch 2",
+      "Android",
+      "PC",
       "iOS"
     ],
-    "releaseDate": "2026-11-18",
+    "releaseDate": "2026-12-04",
     "hltbMainHours": null,
     "hltbExtraHours": null,
     "hltbCompletionistHours": null,
     "hltbLabel": "Tempo: Aguardando dados"
   },
   {
-    "id": "igdb-game-420868",
-    "externalId": "420868",
+    "id": "igdb-game-336164",
+    "externalId": "336164",
     "category": "game",
-    "title": "Frog is Crime",
-    "originalTitle": "Frog is Crime",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cod1pj.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc15her.jpg",
-    "synopsis": "good criminal open world game of 2026. drive cars, commit crime, kill peoples and become crime king in world of humans as frog",
-    "genres": [
-      "Arcade"
-    ],
-    "reviewsCount": 1800,
-    "developer": "Antenna Games",
-    "platforms": [
-      "PC"
-    ],
-    "releaseDate": "2026-11-18",
-    "hltbMainHours": null,
-    "hltbExtraHours": null,
-    "hltbCompletionistHours": null,
-    "hltbLabel": "Tempo: Aguardando dados"
-  },
-  {
-    "id": "igdb-game-422628",
-    "externalId": "422628",
-    "category": "game",
-    "title": "Whitopia",
-    "originalTitle": "Whitopia",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cod3nv.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc15t3x.jpg",
-    "synopsis": "Experience pure calm through a short relaxing 3D painting simulation. Cover graffiti, clutter, and anything colorful in pure white. Earn rewards, unlock upgrades, and become more efficient as you restore a world where white is the only color allowed to exist.",
-    "genres": [
-      "Simulador"
-    ],
-    "reviewsCount": 1800,
-    "developer": "SobiaLobia",
-    "platforms": [
-      "PC"
-    ],
-    "releaseDate": "2026-11-18",
-    "hltbMainHours": null,
-    "hltbExtraHours": null,
-    "hltbCompletionistHours": null,
-    "hltbLabel": "Tempo: Aguardando dados"
-  },
-  {
-    "id": "igdb-game-422893",
-    "externalId": "422893",
-    "category": "game",
-    "title": "Please Confirm the Deceased",
-    "originalTitle": "Please Confirm the Deceased",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cod43d.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc15poc.jpg",
-    "synopsis": "Psychological horror at a morgue's night intake desk. Bodies arrive with paperwork that has to match the body. Weigh it, measure it, take its temperature listen to its chest. Some still have a pulse. The rulebook gains a page every night, and some of what you sign in does not stay signed in.",
+    "title": "Dark Mass",
+    "originalTitle": "Dark Mass",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9k1k.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scw00y.jpg",
+    "synopsis": "Dark Mass is a fully underwater horror game. Explore the ruins of a sunken manor and flee from a curse trapped within for centuries. Your choices will decide if you escape or join the lost souls of the abyss.",
     "genres": [
       "Simulador",
       "Aventura",
       "Indie"
     ],
-    "reviewsCount": 1800,
-    "developer": "Estúdio Oficial (IGDB)",
+    "reviewsCount": 6120,
+    "developer": "Path Games",
     "platforms": [
+      "Series X|S",
       "PC",
-      "Mac"
+      "PS5"
     ],
-    "releaseDate": "2026-11-18",
+    "releaseDate": "2026-12-31",
     "hltbMainHours": null,
     "hltbExtraHours": null,
     "hltbCompletionistHours": null,
     "hltbLabel": "Tempo: Aguardando dados"
   },
   {
-    "id": "igdb-game-423808",
-    "externalId": "423808",
+    "id": "igdb-game-152268",
+    "externalId": "152268",
     "category": "game",
-    "title": "Bomb Them Ores",
-    "originalTitle": "Bomb Them Ores",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cod5cf.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc15unf.jpg",
-    "synopsis": "Bomb Them Ores is a short arcade incremental mining game. Explode caves, collect minerals and unlock upgrades to delve deeper!",
+    "title": "SacriFire",
+    "originalTitle": "SacriFire",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc0wz.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scahhe.jpg",
+    "synopsis": "A modern JRPG-inspired game with a unique battle system, rich story, fantastic visuals and music by Motoi Sakuraba.",
+    "genres": [
+      "RPG",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 5940,
+    "developer": "Pixelated Milk",
+    "platforms": [
+      "Series X|S",
+      "PS4",
+      "PC",
+      "PS5",
+      "XONE"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-124209",
+    "externalId": "124209",
+    "category": "game",
+    "title": "Shadow of the Road",
+    "originalTitle": "Shadow of the Road",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9wp1.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc1537q.jpg",
+    "synopsis": "Shadow of the Road is a story-driven, turn-based RPG where feudal Japan meets magic and machine. Assemble your team from a diverse set of characters and test your skills against yōkai and steampunk contraptions. Carve your own path through an immersive story and change the fate of the Empire.",
+    "genres": [
+      "RPG",
+      "Estratégia",
+      "Estratégia por Turnos",
+      "Tático"
+    ],
+    "reviewsCount": 5760,
+    "developer": "Another Angle Games",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2027-03-10",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-361840",
+    "externalId": "361840",
+    "category": "game",
+    "title": "Road Kings",
+    "originalTitle": "Road Kings",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaaxo.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scymaz.jpg",
+    "synopsis": "Drive a 40-ton semi hauling cargo across the coastal plains of the American South, managing multiple jobs, trailers, and routes. Grow reputation from rookie to veteran owner-operator, dodging disasters and rivals to become the hero of the open road.",
     "genres": [
       "Simulador",
+      "Aventura"
+    ],
+    "reviewsCount": 5580,
+    "developer": "Saber Interactive",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-11",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-333201",
+    "externalId": "333201",
+    "category": "game",
+    "title": "Edge of Memories",
+    "originalTitle": "Edge of Memories",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9gem.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scviub.jpg",
+    "synopsis": "The Corrosion, a plague of unparalleled proportions, has already ravaged the Astryan continent. On the other side of the world, the continent of Avaris and its nomadic peoples—so far spared from the horrors spawned by this abomination—now stand on the brink of extinction. Eline, an itinerant Soul Whisperer, relentlessly battles the force that turns the once-thriving fauna, flora and humans of this lush land into grotesque abominations. Following a mysterious encounter, a dark power awakens within her, one that may hold the key to ending this apocalypse: the ability to control the Corrosion within her own body.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 5400,
+    "developer": "Midgar Studio",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-03",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-396020",
+    "externalId": "396020",
+    "category": "game",
+    "title": "Hunter: The Reckoning - Deathwish",
+    "originalTitle": "Hunter: The Reckoning - Deathwish",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobtwo.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc12pkz.jpg",
+    "synopsis": "Vampires, Werewolves, Witches. What if I told you that the things that go bump in the night are real? What if I told you that you could see them?\n\nAwaken to the truth you’re now a Hunter. Build your character, select skills, and work with a team of allies to investigate the monsters hidden in plain sight, to find their lairs, and to eradicate them. All the while, investigating a story that drags up memories from your past, ones that could change how you see the future.\n\nWelcome to the World of Darkness.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 5220,
+    "developer": "Teyon",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-09-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-394680",
+    "externalId": "394680",
+    "category": "game",
+    "title": "SlashZero",
+    "originalTitle": "SlashZero",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coctl9.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc12kmn.jpg",
+    "synopsis": "SlashZero is a 3D roguelike action platformer. As a Timehacker, your job is to travel across timelines and explore a cyberpunk world, use combat skills and strategies to piece together the truth, and take down the Lord of the Void! Is what you see the truth?",
+    "genres": [
+      "RPG",
+      "Indie"
+    ],
+    "reviewsCount": 5220,
+    "developer": "Streetlamp Studio",
+    "platforms": [
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-386968",
+    "externalId": "386968",
+    "category": "game",
+    "title": "Perceptum",
+    "originalTitle": "Perceptum",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocrhi.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13lfi.jpg",
+    "synopsis": "A psychological horror game where you play as a medium investigating the disappearance of a family. Explore a house with an oppressive atmosphere, close your eyes to hear the beyond, use your mirror to see what should not exist and uncover the truth hidden within its walls.",
+    "genres": [
+      "Aventura"
+    ],
+    "reviewsCount": 5220,
+    "developer": "Duck Reaction",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-369997",
+    "externalId": "369997",
+    "category": "game",
+    "title": "Chronoscript: The Endless End",
+    "originalTitle": "Chronoscript: The Endless End",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coajy0.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sczcpo.jpg",
+    "synopsis": "Chronoscript: The Endless End is an exploration-based action-adventure game where you, an editor trapped within a manuscript, must unravel a thousand-year story that writes itself beyond its endacross 2D pages and a 3D manor.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 5220,
+    "developer": "Deskworks",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-09-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-408607",
+    "externalId": "408607",
+    "category": "game",
+    "title": "Guns of Eschaton",
+    "originalTitle": "Guns of Eschaton",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocrqy.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc144nh.jpg",
+    "synopsis": "The worlds first soulslike FPS pulls you into an apocalyptic Western by the legendary Viktor Antonov: a land of dust, blood, and horror. Study your enemies, count your bullets, forge your own style with gunpowder and prayers. Solo or in co-opgo West, gunslinger, go West and die with the country!",
+    "genres": [
+      "Tiro / Shooter"
+    ],
+    "reviewsCount": 5040,
+    "developer": "Eschatology Entertainment",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-08",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-396023",
+    "externalId": "396023",
+    "category": "game",
+    "title": "Alien Deathstorm",
+    "originalTitle": "Alien Deathstorm",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobtxi.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc12pm7.jpg",
+    "synopsis": "Explore a devastated off-world colony that is ravaged by a cataclysmic mega-storm and overrun by bloodthirsty aliens in Alien Deathstorm, the new sci-fi action horror FPS from Rebellion.",
+    "genres": [
+      "Tiro / Shooter",
+      "Aventura"
+    ],
+    "reviewsCount": 5040,
+    "developer": "Rebellion Developments",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-283354",
+    "externalId": "283354",
+    "category": "game",
+    "title": "Enginefall",
+    "originalTitle": "Enginefall",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobtli.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc10twy.jpg",
+    "synopsis": "Enginefall is a player-driven crafting shooter set on colossal, post-apocalyptic megatrains. Start in the tail alone or with friends as you scavenge, craft, and build your way to First Class. Seize better gear car by car, and escape with high-value loot to upgrade your personal home on the rails.",
+    "genres": [
+      "Tiro / Shooter",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 5040,
+    "developer": "Red Rover Interactive",
+    "platforms": [
+      "Linux",
+      "PC"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-194855",
+    "externalId": "194855",
+    "category": "game",
+    "title": "The Bornless",
+    "originalTitle": "The Bornless",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coar5s.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scnul4.jpg",
+    "synopsis": "The Bornless is an FPS action shooter packed with a variety of gameplay modes. Dive into last-man-standing co-op gameplay or try the thrilling demon versus disciple mode, all within a terror-filled world. Players pair up and form teams, conjure demons to aid in combat, and utilize strategic planning and resource management to survive. Whether you choose an aggressive playstyle or prefer a more cautious approach, the choice is yours.\n\nJoin or create a Faction and amass various resources to upgrade and enhance your Safehouse or personalize your gear to give a new look to your arsenal as you go to war with other Factions.\n\nYou will also experience deep lore and storyline involving all the characters within The Bornless universe, which will be revealed as facts are discovered by players.",
+    "genres": [
+      "Tiro / Shooter",
+      "Aventura"
+    ],
+    "reviewsCount": 5040,
+    "developer": "Cathedral Studios",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-394666",
+    "externalId": "394666",
+    "category": "game",
+    "title": "ReVamp",
+    "originalTitle": "ReVamp",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobrbl.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc12kis.jpg",
+    "synopsis": "Rule as Dracula in this castle-defense roguelite. Shape your fortress room by room, command an army of monsters, and step into battle yourself to protect your throne from relentless mortal invaders. A war waged for eternity, for the love you couldn’t save.",
+    "genres": [
+      "Estratégia"
+    ],
+    "reviewsCount": 4860,
+    "developer": "Digital Sun Games",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2027-03-25",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-370723",
+    "externalId": "370723",
+    "category": "game",
+    "title": "Join Us",
+    "originalTitle": "Join Us",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coakyl.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sczfjb.jpg",
+    "synopsis": "Lead a cult and prepare for the end of the world in Join Us, the upcoming co-op, open-world survival experience. Ride bears, build up your perfect base, and prepare for the apocalypse.",
+    "genres": [
+      "Simulador",
+      "Aventura"
+    ],
+    "reviewsCount": 4860,
+    "developer": "Wolf Haus Games",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-03-01",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-361830",
+    "externalId": "361830",
+    "category": "game",
+    "title": "He-Man and the Masters of the Universe: Dragon Pearl of Destruction",
+    "originalTitle": "He-Man and the Masters of the Universe: Dragon Pearl of Destruction",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaax5.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scym7m.jpg",
+    "synopsis": "Eternia’s favorite heroes including He-Man, Teela, Man-At-Arms and more in a two-player, retro-inspired 2D magic-brawler, drawn in beautiful pixel-art and featuring huge, highly-detailed sprites, designed to do justice to Eternia’s favorite peace-keepers.",
+    "genres": [
+      "Hack and Slash",
+      "Arcade"
+    ],
+    "reviewsCount": 4860,
+    "developer": "Bitmap Bureau",
+    "platforms": [
+      "Series X|S",
+      "PS4",
+      "PC",
+      "PS5",
+      "XONE"
+    ],
+    "releaseDate": "2027-02-04",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-335684",
+    "externalId": "335684",
+    "category": "game",
+    "title": "Phase Zero",
+    "originalTitle": "Phase Zero",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocanl.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scvrb9.jpg",
+    "synopsis": "A grotesque illness binds the town of Flint Peak. Two survivors try to escape with their lives as mysterious creatures roam the streets. Face horrific monsters, solve puzzles and escape the town in this classic survival horror. Can you make it till dawn?",
+    "genres": [
+      "Aventura"
+    ],
+    "reviewsCount": 4860,
+    "developer": "Spina",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2027-03-11",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-405156",
+    "externalId": "405156",
+    "category": "game",
+    "title": "Thief: The Dark Project Remastered",
+    "originalTitle": "Thief: The Dark Project Remastered",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc78b.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13pjm.jpg",
+    "synopsis": "The shadows are your ally. Return to the city as Garrett, master thief, in this remastered classic by Nightdive Studios. Pickpocket, prowl, and outsmart in a world where trust is a luxury and every stolen secret comes at a price.",
+    "genres": [
+      "Simulador",
+      "Aventura"
+    ],
+    "reviewsCount": 4680,
+    "developer": "Nightdive Studios",
+    "platforms": [
+      "Series X|S",
+      "PS4",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-03",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-306413",
+    "externalId": "306413",
+    "category": "game",
+    "title": "Canyons",
+    "originalTitle": "Canyons",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coafz7.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scstw2.jpg",
+    "synopsis": "Canyons is a third-person extraction shooter set in a procedurally generated post-apocalyptic world. Fight for your existence in 4 player co-op or solo, control massive Crawlers, build a settlement for survivors, and conquer this savage world!",
+    "genres": [
+      "RPG",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4680,
+    "developer": "RedRuins Softworks",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-11-01",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-279613",
+    "externalId": "279613",
+    "category": "game",
+    "title": "Pony Island 2: Panda Circus",
+    "originalTitle": "Pony Island 2: Panda Circus",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7h9g.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scpuz1.jpg",
+    "synopsis": "Pony Island 2: Panda Circus is a phantasmagorical voyage through time, myth, divinity, and video games. Escape the lordly deities of the underworld with your soul, and your sanity, intact. This is not a game about ponies.",
+    "genres": [
+      "Puzzle",
+      "Indie"
+    ],
+    "reviewsCount": 4680,
+    "developer": "Daniel Mullins Games",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2027-04-27",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404741",
+    "externalId": "404741",
+    "category": "game",
+    "title": "Trine 6: Together in Time",
+    "originalTitle": "Trine 6: Together in Time",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc6o3.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13nvv.jpg",
+    "synopsis": "Trine 6: Together in Time is a co-op puzzle platformer for 1-4 players. Wit, timing, and teamwork collide as you solve perplexing puzzles, engage cunning creatures, and traverse perilous paths in the next adventure through Trines iconic fantasy world.",
+    "genres": [
+      "Plataforma",
+      "Puzzle",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4500,
+    "developer": "Frozenbyte",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2027-03-04",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404715",
+    "externalId": "404715",
+    "category": "game",
+    "title": "Attack on Titan 3",
+    "originalTitle": "Attack on Titan 3",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocn7y.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13nsq.jpg",
+    "synopsis": "Experience the story from beginning to end in the ultimate culmination of the Attack on Titan game series. The ODM action has been further refined, delivering the most exhilarating and stylish combat the series has ever seen.",
+    "genres": [
+      "Hack and Slash"
+    ],
+    "reviewsCount": 4500,
+    "developer": "Omega Force",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-10",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-380410",
+    "externalId": "380410",
+    "category": "game",
+    "title": "About Fishing",
+    "originalTitle": "About Fishing",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coay9b.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc10osa.jpg",
+    "synopsis": "Cast your line into calm waters and feel the quiet pull beneath the surface. Each cast brings rewards, but some things you reel in were never meant to be found.",
+    "genres": [
+      "Aventura"
+    ],
+    "reviewsCount": 4500,
+    "developer": "The Water Museum",
+    "platforms": [
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-358396",
+    "externalId": "358396",
+    "category": "game",
+    "title": "Shutter Story",
+    "originalTitle": "Shutter Story",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobjhp.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scyay9.jpg",
+    "synopsis": "Your friend is convinced his house is haunted. Examine his family's photo album to reveal signs of the paranormal, as the horror unfolds in the house around you. Their fate is in your hands.",
+    "genres": [
+      "Simulador",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4500,
+    "developer": "Frostwood Interactive",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2027-03-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-235901",
+    "externalId": "235901",
+    "category": "game",
+    "title": "Becrowned",
+    "originalTitle": "Becrowned",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8b6o.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scrrd4.jpg",
+    "synopsis": "Surreal survival horror in a world standing between reality and dreams. Unravel all the mysteries of the dark world, escape from your own fears, and explore the terrifying world where fire no longer burns.",
+    "genres": [
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4500,
+    "developer": "13th Street Studio",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5",
+      "Mac"
+    ],
+    "releaseDate": "2027-03-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-393269",
+    "externalId": "393269",
+    "category": "game",
+    "title": "Stage Tour",
+    "originalTitle": "Stage Tour",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocriy.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc12fw5.jpg",
+    "synopsis": "Stage Tour is a rhythm-action game that blends familiar, accessible note-highway gameplay with exciting modern twists. It’s poised to rekindle the flame of plastic-instrument rhythm gaming with new features and modes, diverse bandmates and instruments, competitive depth, and seasonal events.",
+    "genres": [
+      "Música"
+    ],
+    "reviewsCount": 4320,
+    "developer": "RedOctane Games",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-10",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-321054",
+    "externalId": "321054",
+    "category": "game",
+    "title": "Animal Use Protocol",
+    "originalTitle": "Animal Use Protocol",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8zro.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scuc6p.jpg",
+    "synopsis": "In this first-person, narrative-focused survival horror, you play as Penn, a hyper-intelligent chimpanzee. Hunted at every turn, your only chance of survival lies in scavenging, crafting, and exploring Anchorage Station. An epic story awaits. Be quick and quiet. Time is running out...",
+    "genres": [
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4320,
+    "developer": "THE BROTHERHOOD",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-314420",
+    "externalId": "314420",
+    "category": "game",
+    "title": "Croak",
+    "originalTitle": "Croak",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8pqa.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sctoxc.jpg",
+    "synopsis": "Croak is a nimble -and challenging- precision platformer featuring an innovative grapple mechanic. Use the prince’s tongue to dash and bounce around through hundreds of hand-crafted rooms. Manipulate the environment as you traverse distinct biomes, each with unique gameplay mechanics and bosses.",
+    "genres": [
+      "Plataforma",
+      "Indie"
+    ],
+    "reviewsCount": 4320,
+    "developer": "WoodRunner Games",
+    "platforms": [
+      "Series X|S",
+      "PC"
+    ],
+    "releaseDate": "2027-03-01",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-417186",
+    "externalId": "417186",
+    "category": "game",
+    "title": "Kirby and the World Beyond",
+    "originalTitle": "Kirby and the World Beyond",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocvba.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc154a2.jpg",
+    "synopsis": "Get ready to freely explore the World Beyond using Copy Abilities in Kirby and the World Beyond, the latest 3D Kirby adventure, coming to Nintendo Switch 2 in spring 2027!",
+    "genres": [
+      "Plataforma",
+      "Aventura"
+    ],
+    "reviewsCount": 4140,
+    "developer": "HAL Laboratory",
+    "platforms": [
+      "Switch 2"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-414942",
+    "externalId": "414942",
+    "category": "game",
+    "title": "Elta: Defy All Gods",
+    "originalTitle": "Elta: Defy All Gods",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocrge.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc14vfv.jpg",
+    "synopsis": "Brawl your way out of corrupted worlds alongside your dragon-god companion in an adrenaline-fueled action-platformer blending free-form melee combat, fluid platforming and sci-fi exploration. Become the champion of your fallen god, Elta.",
+    "genres": [
+      "Plataforma",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4140,
+    "developer": "Afterburner Studios",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-02-02",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404896",
+    "externalId": "404896",
+    "category": "game",
+    "title": "Arizona Sunshine",
+    "originalTitle": "Arizona Sunshine",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc6va.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13oil.jpg",
+    "synopsis": "Sharpen your machete and grab your friends. Arizona Sunshine brings its award-winning zombie apocalypse to explosive third-person action, featuring online and split-screen co-op, brutal combat, dark humor, and Buddy, your loyal zombie-chomping canine companion.",
+    "genres": [
+      "Tiro / Shooter",
+      "Aventura"
+    ],
+    "reviewsCount": 4140,
+    "developer": "Vertigo Games",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-01-21",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-302983",
+    "externalId": "302983",
+    "category": "game",
+    "title": "Haunted Paws",
+    "originalTitle": "Haunted Paws",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8b7r.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scsk9z.jpg",
+    "synopsis": "Haunted Paws is a Cozy Coop Horror game where you will play as two Puppies trying to rescue their human friend in a haunted mansion. Create your puppy, explore spooky environments and defeat evil creatures in an action packed adventure!",
+    "genres": [
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4140,
+    "developer": "LazyFlock",
+    "platforms": [
+      "Series X|S",
+      "PS4",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-05-01",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-286178",
+    "externalId": "286178",
+    "category": "game",
+    "title": "Silent Planet: Elegy of a Dying World",
+    "originalTitle": "Silent Planet: Elegy of a Dying World",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa9cs.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13h1e.jpg",
+    "synopsis": "Silent Planet is an exploration-focused, dark action side-scroller rooted in Cosmic horror. Explore the claustrophobic corridors of a massive underground complex filled with the remnants of technological and biological horrors created by a dead civilization.",
+    "genres": [
+      "Plataforma",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4140,
+    "developer": "Vertex Zero",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-269682",
+    "externalId": "269682",
+    "category": "game",
+    "title": "Prison of Husks",
+    "originalTitle": "Prison of Husks",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc3yw.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scot4z.jpg",
+    "synopsis": "A nostalgic souls-like set in a painted afterlife. Awaken as a doll and seek your beloved. From parries to pistols, tune your build to overcome adversity. Explore dense, interconnected levels full of secrets and shortcuts as you battle pigment-hoarding bosses and seek your lost love.",
+    "genres": [
+      "Hack and Slash",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 4140,
+    "developer": "Glass Head Dolls",
+    "platforms": [
+      "PC",
+      "PS5",
+      "Mac"
+    ],
+    "releaseDate": "2027-01-27",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-405445",
+    "externalId": "405445",
+    "category": "game",
+    "title": "Muramasa: Revenant Blades",
+    "originalTitle": "Muramasa: Revenant Blades",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cocvj5.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13qqo.jpg",
+    "synopsis": "Vanillaware x Marvelous present an action RPG for the ages. Hack and slash your way through a world of restless spirits and Demon Blades. The tales of six fabled protagonists of Japan's Genroku era, each with their own unique fighting style, are about to unfold.",
+    "genres": [
+      "RPG",
+      "Hack and Slash",
+      "Aventura"
+    ],
+    "reviewsCount": 3960,
+    "developer": "Vanillaware",
+    "platforms": [
+      "Switch 2",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2027-02-04",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404455",
+    "externalId": "404455",
+    "category": "game",
+    "title": "Tempus Vitae",
+    "originalTitle": "Tempus Vitae",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc6ca.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13mtm.jpg",
+    "synopsis": "You are Alex, a time-displaced astronaut unraveling the space station Theia doomed in both the war-torn 2185 and the post-apocalyptic 2385 to find your lost brother. Master an arsenal of time travel abilities and weapons in this sci-fi metroidvania FPS: Tempus Vitae.",
+    "genres": [
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 3960,
+    "developer": "Whiteboard Games",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-362040",
+    "externalId": "362040",
+    "category": "game",
+    "title": "Tropico 7",
+    "originalTitle": "Tropico 7",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coab61.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scymzl.jpg",
+    "synopsis": "Get rich or die trying! In Tropico 7, you step into El Presidente’s shiny boots again to build your island nation and – literally – move mountains. As glorious leader you guide your loyal citizens (and your Swiss Bank Account) through the ages toward untold prosperity.",
+    "genres": [
+      "Simulador",
+      "Estratégia"
+    ],
+    "reviewsCount": 3960,
+    "developer": "Gaming Minds Studios",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-01-28",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-361053",
+    "externalId": "361053",
+    "category": "game",
+    "title": "The Road of Dust and Sorrow",
+    "originalTitle": "The Road of Dust and Sorrow",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cob3pt.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scyjx7.jpg",
+    "synopsis": "A story-driven, atmospheric thriller with pixel-art graphics and survival-horror elements. Short, intense, and unforgettable.",
+    "genres": [
+      "Puzzle",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 3960,
+    "developer": "Painted Black Games",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2027-02-19",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-305031",
+    "externalId": "305031",
+    "category": "game",
+    "title": "Petal Runner",
+    "originalTitle": "Petal Runner",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8bj0.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scsnxq.jpg",
+    "synopsis": "Hop on your bike and join Cali & Kira as they explore the sun-soaked city of Sapphire Valley and train to become Petal Runners! Make deliveries, meet new friends, play minigames, and discover a wholesome slice-of-life story about growing up and letting go.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 3960,
+    "developer": "Nano Park Studios",
+    "platforms": [
+      "Switch 2",
+      "PC"
+    ],
+    "releaseDate": "2027-03-08",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-292809",
+    "externalId": "292809",
+    "category": "game",
+    "title": "Azur Promilia",
+    "originalTitle": "Azur Promilia",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9pfv.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_720p/co9pfv.jpg",
+    "synopsis": "Azur Promilia is a fantasy world RPG with creature companionship. Step into a fantasy world, utterly different from the world you know. The world of various civilizations, magic and incredible fantasy creatures, together with tales echoing in the starry sky. Take a daring leap from the sky into the ocean, to once again encounter and bond with new life. Guided by shooting stars, amid the sparkling constellations, this is your very own journey. The entire universe eagerly anticipates the ballad of stars and odyssey, exclusively yours to unfold.",
+    "genres": [
+      "Aventura"
+    ],
+    "reviewsCount": 3960,
+    "developer": "Shanghai Manjuu",
+    "platforms": [
+      "Android",
+      "PC",
+      "iOS",
+      "PS5"
+    ],
+    "releaseDate": "2026-11-26",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-279615",
+    "externalId": "279615",
+    "category": "game",
+    "title": "Usual June",
+    "originalTitle": "Usual June",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7h9e.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scpuyo.jpg",
+    "synopsis": "Hang out, fight monsters, and discover your town’s darkest secrets in Usual June, a third person action game about summer break and the end of the world.",
+    "genres": [
+      "Hack and Slash"
+    ],
+    "reviewsCount": 3960,
+    "developer": "Finji",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "Mac"
+    ],
+    "releaseDate": "2027-01-20",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-305181",
+    "externalId": "305181",
+    "category": "game",
+    "title": "Crescent County",
+    "originalTitle": "Crescent County",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8buq.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scsomk.jpg",
+    "synopsis": "Crash headfirst into this witch-tech open world, drifting and driving on the back of your new motorbroom. Make deliveries, trick out your broom, and race your new friends (and crushes) as the sun sets. Decorate your flat, sort your life out, and discover what it means to find home.",
+    "genres": [
+      "Corrida",
+      "RPG",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 3780,
+    "developer": "Electric Saint",
+    "platforms": [
+      "Series X|S",
+      "Linux",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-09-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-285768",
+    "externalId": "285768",
+    "category": "game",
+    "title": "Lost Hellden",
+    "originalTitle": "Lost Hellden",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cod4is.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scqgqh.jpg",
+    "synopsis": "Lost Hellden is a unique 3D hand-painted J-RPG from Artisan Studios, enhanced by dynamic lighting and weather effects. Follow Cyphel and his allies as a mature story unfolds. Customize your characters as you see fit and dive into a battle system that mixes action and strategy.",
+    "genres": [
+      "RPG",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 3780,
+    "developer": "Artisan Studios",
+    "platforms": [
+      "Series X|S",
+      "PS4",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-252349",
+    "externalId": "252349",
+    "category": "game",
+    "title": "Toxic Crusaders",
+    "originalTitle": "Toxic Crusaders",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6lgy.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scmv28.jpg",
+    "synopsis": "The Toxic Crusaders return for an all-new, all-action beat 'em up for one to four players! Grab your mop, tutu and attitude, and get ready to clean up the mean streets of Tromaville, one radioactive goon at a time!",
+    "genres": [
+      "Hack and Slash",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 3780,
+    "developer": "Retroware",
+    "platforms": [
+      "Series X|S",
+      "PS4",
+      "PC",
+      "PS5",
+      "XONE"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-217024",
+    "externalId": "217024",
+    "category": "game",
+    "title": "Kitsune: The Journey of Adashino",
+    "originalTitle": "Kitsune: The Journey of Adashino",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6gvm.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scitp4.jpg",
+    "synopsis": "\"Where will their light lead them?\" Kitsune is a fox girl who finds herself on Adashino Island and starts travelling with her Frog friend. Neon signs give light and color to the island with a Japanese-inspired atmosphere. Something is lurking in the shadows, inching ever closer...",
+    "genres": [
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 3780,
+    "developer": "Rias",
+    "platforms": [
+      "Switch 2",
+      "PC",
+      "Mac",
+      "Switch"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-369843",
+    "externalId": "369843",
+    "category": "game",
+    "title": "Demi and the Fractured Dream",
+    "originalTitle": "Demi and the Fractured Dream",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coajoq.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sczc0z.jpg",
+    "synopsis": "In this action adventure, play as Demi and venture through the wondrous world of Somnus. Tasked by a mysterious voice, you must destroy the legendary Accursed Beasts to save the world. Use your attacks and abilities to slay enemies, solve puzzles, and uncover the truth behind an ancient history.",
+    "genres": [
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 3600,
+    "developer": "Yarn Owl Studios",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2027-02-01",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-362117",
+    "externalId": "362117",
+    "category": "game",
+    "title": "Son of Thanjai",
+    "originalTitle": "Son of Thanjai",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coab96.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scyn6d.jpg",
+    "synopsis": "Son of Thanjai is a cinematic action-adventure epic set in the culturally rich 11th-century South India. As a Chola king burdened by legacy, you must embark on a personal journey that blurs the line between duty and destiny. Will you rise as a legend–or be forgotten?",
+    "genres": [
+      "Aventura"
+    ],
+    "reviewsCount": 3600,
+    "developer": "Estúdio Oficial (IGDB)",
+    "platforms": [
+      "Series X|S",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-348268",
+    "externalId": "348268",
+    "category": "game",
+    "title": "Arcane Eats",
+    "originalTitle": "Arcane Eats",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9y0s.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scxbd1.jpg",
+    "synopsis": "A roguelike deckbuilder with a delicious twist. Think like a master chef, balancing resources as you strategically combo ingredients to subdue hungry hordes. Recruit a legendary kitchen crew, and rise through the heroic cooking guilds—before The Hunger consumes us all!",
+    "genres": [
       "Estratégia",
       "Indie"
     ],
-    "reviewsCount": 1800,
-    "developer": "Verex Games",
+    "reviewsCount": 3600,
+    "developer": "Wonderbelly Games",
     "platforms": [
-      "Linux",
-      "PC",
-      "Mac"
+      "PC"
     ],
-    "releaseDate": "2026-11-18",
+    "releaseDate": "2026-12-31",
     "hltbMainHours": null,
     "hltbExtraHours": null,
     "hltbCompletionistHours": null,
     "hltbLabel": "Tempo: Aguardando dados"
   },
   {
-    "id": "igdb-game-424053",
-    "externalId": "424053",
+    "id": "igdb-game-301423",
+    "externalId": "301423",
     "category": "game",
-    "title": "Strato Alto",
-    "originalTitle": "Strato Alto",
-    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/cod5rh.jpg",
-    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc15w13.jpg",
-    "synopsis": "Strato Alto is a 3D aerial combat action rogue-like game.\n\nFeatures two game modes, Classic and Journey.\n\nClassic is an arcadey timed round survival mode. Down enemies, choose upgrades, and gain currency to unlock new planes and equipment for future rounds.\n\nJourney mode is a rogue-lite campaign. Outfit and upgrade your aircraft as you journey across three world maps in pursuit of the legendary Red Baron to prove your own mastery of the stratosphere!",
+    "title": "Skyblivion",
+    "originalTitle": "Skyblivion",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9jzd.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scs8c1.jpg",
+    "synopsis": "Skyblivion is the ultimate fan-made experience for the Elder Scrolls IV: Oblivion, bringing the game into the newer engine of the Elder Scrolls V: Skyrim. This process combines Oblivion’s impressive award-winning open-world that is renowned for its incredible gameplay, memorable quests, and expansive world space with the advancements in gaming that have been made in the last two decades. Set in the Elder Scroll’s Third Era, during the cataclysmic Oblivion Crisis, you must help to restore the Imperial throne and repel the demonic Daedric invasion.\n\nSkyblivion will feature the remastered entirety of Oblivion’s mainland, Cyrodiil, from the wintery slopes of the Valus and Jerall Mountains to the swamps of Blackwood and warm-beachy shores of the Gold Coast. Skyblivion will bring the return of many classic Oblivion mechanics like spell crafting, a complete class and attributes system, underwater combat, and NPC disposition.\n\nIn addition to recreating Oblivion’s systems and porting them into the Elder Scrolls V: Skyrim’s engine the project has taken great care in providing new improvements and additions. Skyblivion offers fans remastered graphics, weather, and lighting, an expanded soundtrack, new gameplay mechanics, and even a limited selection of bespoke minor quests with original voice acting to further flesh out barren areas of Oblivion—all for free!\n\nOnce Skyblivion is released in 2025, fans will have access to the entirety of Oblivion’s pre-DLC world space, systems, and quests available for play. But that’s not the end of the project! Following a period of bug-fixing and community-supported updates the project development team will move on to working on Oblivion’s nine additional content releases plus the Shivering Isles expansion.\n\nWith Skyblivion you experience the best of both worlds: The complex and detailed RPG experience of Oblivion paired with Skyrim’s newer systems, graphics, and quality of life improvements. Will you close shut the jaws of Oblivion once more in 2025?",
     "genres": [
-      "Tiro / Shooter",
-      "Tático",
-      "Aventura",
-      "Indie"
+      "RPG",
+      "Aventura"
     ],
-    "reviewsCount": 1800,
-    "developer": "Reject Games",
+    "reviewsCount": 3600,
+    "developer": "Estúdio Oficial (IGDB)",
     "platforms": [
       "PC"
     ],
-    "releaseDate": "2026-11-18",
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-252793",
+    "externalId": "252793",
+    "category": "game",
+    "title": "Surviving Deponia",
+    "originalTitle": "Surviving Deponia",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6lw1.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scmwgx.jpg",
+    "synopsis": "Explore, craft, build and fight your way through the harsh landscape of Deponia. Meet allies and make enemies while surviving the perils of the junk planet. It might be garbage - but it’s your garbage!",
+    "genres": [
+      "RPG",
+      "Simulador",
+      "Aventura",
+      "Indie"
+    ],
+    "reviewsCount": 3600,
+    "developer": "Daedalic Entertainment",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-213557",
+    "externalId": "213557",
+    "category": "game",
+    "title": "Bloody Hell Hotel",
+    "originalTitle": "Bloody Hell Hotel",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co558e.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/scidzv.jpg",
+    "synopsis": "In Bloody Hell Hotel, you embody a vampire. You wake up from a coma that has lasted for centuries, only to find your once-grand estate is now in ruins. It's time to turn it into a prosperous hotel! It's no easy task, though, as times are tough and resources are scarce. There are shortages of food, supplies, and workforce. Being a blood-thirsty monster doesn't help with customer satisfaction either. Luckily, underneath the estate lies a crypt and a system of caves. By foraging, farming, crafting, and fighting your way through the monster-infested dungeons, you'll find the resources you need to restore greatness to your mansion and turn it into a thriving hotel business.",
+    "genres": [
+      "Simulador",
+      "Estratégia"
+    ],
+    "reviewsCount": 3600,
+    "developer": "Unfold Games",
+    "platforms": [
+      "PC"
+    ],
+    "releaseDate": "2026-12-31",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-142911",
+    "externalId": "142911",
+    "category": "game",
+    "title": "Fate/Extra Record",
+    "originalTitle": "Fate/Extra Record",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coctkz.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc904w.jpg",
+    "synopsis": "The “Moon Holy Grail War” begins anew…\n\nThe setting is a Spiritron virtual world called “SE.RA.PH.” built on the moon. Masters and Servants team up and fight for survival in pursuit of the “Holy Grail,” an omnipotent wish-granting device, in the Moon Holy Grail War which begins once again…\n\nThis is a remake of Fate/EXTRA, the first Fate series RPG originally released on July 22, 2010, now revamped for modern hardware with an expanded scenario, refreshed character graphics, and dramatic command battles utilizing a highly strategic deck-building system.",
+    "genres": [
+      "RPG",
+      "Aventura"
+    ],
+    "reviewsCount": 3600,
+    "developer": "TYPE-MOON",
+    "platforms": [
+      "PS4",
+      "Switch 2",
+      "PC",
+      "PS5",
+      "Switch"
+    ],
+    "releaseDate": "2027-01-28",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-404712",
+    "externalId": "404712",
+    "category": "game",
+    "title": "Mr. Records",
+    "originalTitle": "Mr. Records",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc6mf.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_screenshot_big/sc13nru.jpg",
+    "synopsis": "​Meet George, an old dreamer with an extraordinary gift that lets him transcend through music. After a lifetime of standing still, he breaks free from routine and opens the store he always wished for. ​",
+    "genres": [
+      "Plataforma",
+      "Aventura",
+      "Indie",
+      "Arcade"
+    ],
+    "reviewsCount": 3420,
+    "developer": "Glee-Cheese Studio",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2027-06-30",
+    "hltbMainHours": null,
+    "hltbExtraHours": null,
+    "hltbCompletionistHours": null,
+    "hltbLabel": "Tempo: Aguardando dados"
+  },
+  {
+    "id": "igdb-game-403490",
+    "externalId": "403490",
+    "category": "game",
+    "title": "Rayman Origins: Enhanced Edition",
+    "originalTitle": "Rayman Origins: Enhanced Edition",
+    "posterUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/coc4uv.jpg",
+    "backdropUrl": "https://images.igdb.com/igdb/image/upload/t_720p/coc4uv.jpg",
+    "synopsis": "When the Glade of Dreams is overrun by “nefurrious” Darktoons, the Fairy Council summons Rayman to save the day. Joined by his best friend, Globox, and two crafty wizards, the Teensies, this unlikely team must restore balance before their world fades away like a bad dream.\n\nEnjoy Rayman Origins like never before with 4K resolution, 60 FPS, and modern enhancements, including new quality-of-life features. Discover 60 hidden Relics across the adventure and track your progress in the Snoring Tree.",
+    "genres": [
+      "Plataforma",
+      "Aventura"
+    ],
+    "reviewsCount": 3420,
+    "developer": "Ubisoft Montpellier",
+    "platforms": [
+      "Series X|S",
+      "Switch 2",
+      "PC",
+      "PS5"
+    ],
+    "releaseDate": "2026-12-03",
     "hltbMainHours": null,
     "hltbExtraHours": null,
     "hltbCompletionistHours": null,

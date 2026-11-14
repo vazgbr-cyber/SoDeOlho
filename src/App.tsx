@@ -22,6 +22,8 @@ import {
   extractIsoDatePart,
   getItemPrimaryDateString,
   getItemReleaseTimestamp,
+  getOneYearFromTodayTimestamp,
+  getTodayStartTimestamp,
   isFromTodayOnwards,
 } from './lib/dateUtils';
 import {
@@ -30,6 +32,7 @@ import {
   fetchRawgGames,
   fetchTmdbMovies,
   fetchTmdbSeries,
+  searchMediaAcrossApis,
 } from './services/apiService';
 import {
   fetchSupabaseFavorites,
@@ -123,6 +126,10 @@ export function App() {
   const [calendarFetchedItems, setCalendarFetchedItems] = useState<MediaItem[]>([]);
   const [isLoadingCalendar, setIsLoadingCalendar] = useState<boolean>(false);
 
+  // Resultados de pesquisa ao vivo em toda a API (TMDB, AniList, Twitch/IGDB)
+  const [apiSearchResults, setApiSearchResults] = useState<MediaItem[]>([]);
+  const [isSearchingApis, setIsSearchingApis] = useState<boolean>(false);
+
   const [highlightedItemId, setHighlightedItemId] = useState<string | null>(null);
   const todayMarkerRef = useRef<HTMLDivElement | null>(null);
 
@@ -170,6 +177,37 @@ export function App() {
   useEffect(() => {
     loadAllCategories(settings, 2);
   }, [settings, loadAllCategories]);
+
+  // Pesquisa global sob demanda nas APIs quando o usuário digita na busca
+  useEffect(() => {
+    const q = searchQuery.trim();
+    if (q.length < 2) {
+      setApiSearchResults([]);
+      setIsSearchingApis(false);
+      return;
+    }
+
+    let cancelled = false;
+    setIsSearchingApis(true);
+
+    const timer = setTimeout(async () => {
+      try {
+        const results = await searchMediaAcrossApis(q, settings);
+        if (!cancelled) {
+          setApiSearchResults(results);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsSearchingApis(false);
+        }
+      }
+    }, 350);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [searchQuery, settings]);
 
   const isItemFavorite = useCallback(
     (item: MediaItem) => {
@@ -260,6 +298,10 @@ export function App() {
     );
   }, [catalog]);
 
+  const apiSearchIdsSet = useMemo(() => {
+    return new Set(apiSearchResults.map((it) => `${it.category}::${it.externalId}`));
+  }, [apiSearchResults]);
+
   const currentTabRawList = useMemo(() => {
     const base =
       activeTab === 'home'
@@ -268,10 +310,38 @@ export function App() {
         ? favorites
         : catalog[activeTab] || [];
 
+    // Quando há uma pesquisa ativa, mescla os resultados vindos direto de toda a API!
+    if (searchQuery.trim().length >= 2 && apiSearchResults.length > 0 && activeTab !== 'favorites') {
+      const relevantApiItems = apiSearchResults.filter((it) => {
+        if (activeTab === 'home') return true;
+        if (
+          (activeTab === 'movie_cinema' || activeTab === 'movie_digital') &&
+          (it.category === 'movie_cinema' || it.category === 'movie_digital')
+        ) {
+          return true;
+        }
+        return it.category === activeTab;
+      });
+
+      const mergedMap = new Map<string, MediaItem>();
+      for (const it of base) {
+        mergedMap.set(`${it.category}::${it.externalId}`, it);
+      }
+      for (const it of relevantApiItems) {
+        const key = `${it.category}::${it.externalId}`;
+        if (!mergedMap.has(key)) {
+          mergedMap.set(key, it);
+        }
+      }
+      return Array.from(mergedMap.values()).sort(
+        (a, b) => getItemReleaseTimestamp(a) - getItemReleaseTimestamp(b)
+      );
+    }
+
     return [...base].sort(
       (a, b) => getItemReleaseTimestamp(a) - getItemReleaseTimestamp(b)
     );
-  }, [activeTab, allHomeItems, favorites, catalog]);
+  }, [activeTab, allHomeItems, favorites, catalog, searchQuery, apiSearchResults]);
 
   const availableGenres = useMemo(() => {
     const streamSet = new Set<string>();
@@ -296,35 +366,79 @@ export function App() {
 
   const allFilteredChronological = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
+    // Expande números para equivalentes comuns em sequências (ex: "duna 3" -> aceita "três", "iii", "messias", "part three")
+    const tokens = q.split(/\s+/).filter(Boolean);
+    const matchesQueryText = (item: MediaItem): boolean => {
+      if (!q) return true;
+      if (apiSearchIdsSet.has(`${item.category}::${item.externalId}`)) {
+        return true;
+      }
+      const haystack = [
+        item.title,
+        item.originalTitle || '',
+        item.director || '',
+        item.developer || '',
+        item.studioOrNetwork || '',
+        ...(item.genres || []),
+        ...(item.streamingPlatforms || []),
+      ]
+        .join(' ')
+        .toLowerCase();
+
+      if (haystack.includes(q)) return true;
+
+      return tokens.every((tok) => {
+        if (haystack.includes(tok)) return true;
+        if (tok === '2')
+          return (
+            haystack.includes('dois') ||
+            haystack.includes('two') ||
+            haystack.includes(' ii')
+          );
+        if (tok === '3')
+          return (
+            haystack.includes('três') ||
+            haystack.includes('tres') ||
+            haystack.includes('three') ||
+            haystack.includes(' iii') ||
+            haystack.includes('messias') ||
+            haystack.includes('messiah')
+          );
+        if (tok === '4')
+          return (
+            haystack.includes('quatro') ||
+            haystack.includes('four') ||
+            haystack.includes(' iv')
+          );
+        return false;
+      });
+    };
+
     return currentTabRawList.filter((item) => {
       const matchesGenre =
         selectedGenre === 'TODOS' ||
         item.genres.includes(selectedGenre) ||
         Boolean(item.streamingPlatforms?.includes(selectedGenre));
       if (!matchesGenre) return false;
-      if (!q) return true;
-
-      return (
-        item.title.toLowerCase().includes(q) ||
-        (item.originalTitle && item.originalTitle.toLowerCase().includes(q)) ||
-        (item.director && item.director.toLowerCase().includes(q)) ||
-        (item.developer && item.developer.toLowerCase().includes(q)) ||
-        (item.studioOrNetwork && item.studioOrNetwork.toLowerCase().includes(q)) ||
-        item.genres.some((g) => g.toLowerCase().includes(q)) ||
-        Boolean(item.streamingPlatforms?.some((sp) => sp.toLowerCase().includes(q)))
-      );
+      return matchesQueryText(item);
     });
-  }, [currentTabRawList, searchQuery, selectedGenre]);
+  }, [currentTabRawList, searchQuery, selectedGenre, apiSearchIdsSet]);
+
+  const isSearchActive = searchQuery.trim().length > 0;
 
   const { pastItems, upcomingItems } = useMemo(() => {
     const past: MediaItem[] = [];
     const upcoming: MediaItem[] = [];
+    const todayStart = getTodayStartTimestamp();
+    const oneYearLimit = getOneYearFromTodayTimestamp();
+    const enforceOneYear = !isSearchActive && activeTab !== 'favorites';
 
     for (const item of allFilteredChronological) {
-      if (isFromTodayOnwards(item)) {
-        upcoming.push(item);
-      } else {
+      const ts = getItemReleaseTimestamp(item);
+      if (ts < todayStart) {
         past.push(item);
+      } else if (!enforceOneYear || ts <= oneYearLimit) {
+        upcoming.push(item);
       }
     }
 
@@ -333,21 +447,19 @@ export function App() {
     upcoming.sort((a, b) => getItemReleaseTimestamp(a) - getItemReleaseTimestamp(b));
 
     return { pastItems: past, upcomingItems: upcoming };
-  }, [allFilteredChronological]);
+  }, [allFilteredChronological, isSearchActive, activeTab]);
 
-  // Exibe os N itens mais recentes antes de hoje, em ordem cronológica reversa (ontem -> anteontem -> ...)
-  // ou em ordem cronológica direta até hoje. Para ficar super intuitivo ao clicar no botão:
-  // Os itens carregados são os imediatamente anteriores a hoje!
   const visiblePastItems = useMemo(() => {
-    if (visiblePastCount <= 0) return [];
-    // Ordenados do mais recente antes de hoje (ex: ontem, 2 dias atrás...) para trás,
-    // ou do mais recente da janela até hoje. Vamos ordenar do mais recente antes de hoje para o mais antigo
-    // para que ao clicar em "Carregar +10", os novos 10 itens apareçam logo abaixo na lista de anteriores!
     const reversedPast = [...pastItems].sort(
       (a, b) => getItemReleaseTimestamp(b) - getItemReleaseTimestamp(a)
     );
+    // Quando o usuário realiza uma pesquisa, mostra automaticamente todas as mídias anteriores que batem com a busca!
+    if (isSearchActive) {
+      return reversedPast;
+    }
+    if (visiblePastCount <= 0) return [];
     return reversedPast.slice(0, visiblePastCount);
-  }, [pastItems, visiblePastCount]);
+  }, [pastItems, visiblePastCount, isSearchActive]);
 
   const remainingOlderCount = Math.max(0, pastItems.length - visiblePastItems.length);
 
@@ -508,13 +620,13 @@ export function App() {
 
   const tabCounts: Record<TabId, number> = useMemo(
     () => ({
-      home: allHomeItems.filter(isFromTodayOnwards).length,
+      home: allHomeItems.filter((it) => isFromTodayOnwards(it, true)).length,
       favorites: favorites.length,
-      movie_cinema: catalog.movie_cinema.filter(isFromTodayOnwards).length,
-      movie_digital: catalog.movie_digital.filter(isFromTodayOnwards).length,
-      tv: catalog.tv.filter(isFromTodayOnwards).length,
-      anime: catalog.anime.filter(isFromTodayOnwards).length,
-      game: catalog.game.filter(isFromTodayOnwards).length,
+      movie_cinema: catalog.movie_cinema.filter((it) => isFromTodayOnwards(it, true)).length,
+      movie_digital: catalog.movie_digital.filter((it) => isFromTodayOnwards(it, true)).length,
+      tv: catalog.tv.filter((it) => isFromTodayOnwards(it, true)).length,
+      anime: catalog.anime.filter((it) => isFromTodayOnwards(it, true)).length,
+      game: catalog.game.filter((it) => isFromTodayOnwards(it, true)).length,
     }),
     [allHomeItems, favorites.length, catalog]
   );
@@ -523,6 +635,13 @@ export function App() {
   const todayFormatted = new Date().toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: 'long',
+    year: 'numeric',
+  });
+  const oneYearLimitFormatted = new Date(
+    getOneYearFromTodayTimestamp()
+  ).toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: 'short',
     year: 'numeric',
   });
 
@@ -560,13 +679,20 @@ export function App() {
         <header className="mb-6 space-y-5">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                {activeDateFilter
-                  ? `Lançamentos em ${activeDateFilter.label}`
-                  : activeTab === 'home'
-                  ? 'Próximos Lançamentos'
-                  : sectionInfo.title}
-              </h1>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                  {activeDateFilter
+                    ? `Lançamentos em ${activeDateFilter.label}`
+                    : activeTab === 'home'
+                    ? 'Próximos Lançamentos'
+                    : sectionInfo.title}
+                </h1>
+                {!activeDateFilter && activeTab !== 'favorites' && (
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-extrabold uppercase tracking-wider bg-[#0d3320] text-[#4ade80] border border-[#22ff55]/45">
+                    Projeção 1 Ano • Até {oneYearLimitFormatted}
+                  </span>
+                )}
+              </div>
               <p className="text-xs sm:text-sm text-[#7c738f] mt-1">
                 {activeDateFilter
                   ? 'Exibindo todas as mídias e episódios lançados exatamente na data selecionada no calendário.'
@@ -820,6 +946,44 @@ export function App() {
              MODO 3: CRONOGRAMA PADRÃO (ANTERIORES 10 EM 10 + HOJE EM DIANTE)
              ==================================================================== */
           <>
+            {/* BANNER DE PESQUISA GLOBAL NA API */}
+            {searchQuery.trim().length >= 2 && (
+              <div className="mb-6 p-3.5 px-4 rounded-2xl bg-[#130f1d] border border-[#a855f7]/45 flex flex-wrap items-center justify-between gap-3 shadow-[0_0_20px_rgba(168,85,247,0.12)]">
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-white">
+                  {isSearchingApis ? (
+                    <>
+                      <Loader2 className="w-4 h-4 text-[#22ff55] animate-spin shrink-0" />
+                      <span>
+                        Vasculhando todas as APIs por{' '}
+                        <span className="text-[#4ade80]">"{searchQuery}"</span>...
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Search className="w-4 h-4 text-[#22ff55] shrink-0" />
+                      <span>
+                        Pesquisa global na API por{' '}
+                        <span className="text-[#4ade80]">"{searchQuery}"</span>:{' '}
+                        <span className="text-[#c084fc]">
+                          {allFilteredChronological.length} resultado(s) encontrado(s)
+                        </span>{' '}
+                        (futuros e já lançados)
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-xs font-bold text-[#d8d0ec] hover:text-white flex items-center gap-1.5 transition"
+                >
+                  <X className="w-3.5 h-3.5" />
+                  <span>Limpar pesquisa</span>
+                </button>
+              </div>
+            )}
+
             {/* BOTÃO INICIAL: Quando ainda não abriu as mídias anteriores */}
             {pastItems.length > 0 && visiblePastItems.length === 0 && (
               <div className="mb-6">

@@ -88,7 +88,14 @@ async function main() {
       fields id, name, summary, storyline, first_release_date, total_rating, rating, total_rating_count, hypes, follows, cover.image_id, screenshots.image_id, genres.name, platforms.name, platforms.abbreviation, involved_companies.company.name, involved_companies.developer;
       where first_release_date >= ${todayStartUnix} & first_release_date <= ${futureLimitUnix} & cover != null & version_parent = null;
       sort first_release_date asc;
-      limit 80;
+      limit 70;
+    `;
+
+    const upcomingHypedOneYearQuery = `
+      fields id, name, summary, storyline, first_release_date, total_rating, rating, total_rating_count, hypes, follows, cover.image_id, screenshots.image_id, genres.name, platforms.name, platforms.abbreviation, involved_companies.company.name, involved_companies.developer;
+      where first_release_date >= ${todayStartUnix} & first_release_date <= ${futureLimitUnix} & cover != null & version_parent = null & (hypes > 0 | follows > 0);
+      sort hypes desc;
+      limit 100;
     `;
 
     const pastQuery = `
@@ -98,12 +105,17 @@ async function main() {
       limit 100;
     `;
 
-    const [upcomingRaw, pastRaw] = await Promise.all([
+    const [upcomingRaw, upcomingHypedRaw, pastRaw] = await Promise.all([
       postIgdb('games', upcomingQuery, token),
+      postIgdb('games', upcomingHypedOneYearQuery, token),
       postIgdb('games', pastQuery, token),
     ]);
 
-    const combinedRaw = [...(pastRaw || []), ...(upcomingRaw || [])].filter(
+    const combinedRaw = [
+      ...(pastRaw || []),
+      ...(upcomingRaw || []),
+      ...(upcomingHypedRaw || []),
+    ].filter(
       (g) => g && g.id && g.first_release_date
     );
 

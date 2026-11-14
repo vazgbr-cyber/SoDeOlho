@@ -62,17 +62,31 @@ export function getTodayStartTimestamp(): number {
 }
 
 /**
- * Verifica se o item é da data atual de acesso para frente (>= hoje 00:00)
+ * Retorna o limite máximo de projeção futura: exatamente 1 ano (365 dias) a partir da data atual (23:59:59 local)
  */
-export function isFromTodayOnwards(item: MediaItem): boolean {
+export function getOneYearFromTodayTimestamp(): number {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() + 1);
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999).getTime();
+}
+
+/**
+ * Verifica se o item é da data atual de acesso para frente (>= hoje 00:00) e dentro do limite de projeção de 1 ano (<= hoje + 1 ano)
+ */
+export function isFromTodayOnwards(item: MediaItem, enforceOneYearLimit = true): boolean {
   const ts = getItemReleaseTimestamp(item);
-  if (ts === Number.MAX_SAFE_INTEGER) return true;
+  if (ts === Number.MAX_SAFE_INTEGER) return !enforceOneYearLimit;
   const raw = getItemPrimaryDateString(item);
-  if (!raw) return true;
+  if (!raw) return !enforceOneYearLimit;
   const clean = raw.length === 10 ? `${raw}T12:00:00` : raw;
   const d = new Date(clean);
+  if (isNaN(d.getTime())) return false;
   const itemDayStart = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0).getTime();
-  return itemDayStart >= getTodayStartTimestamp();
+  if (itemDayStart < getTodayStartTimestamp()) return false;
+  if (enforceOneYearLimit && itemDayStart > getOneYearFromTodayTimestamp()) {
+    return false;
+  }
+  return true;
 }
 
 /**
