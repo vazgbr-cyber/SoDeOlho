@@ -53,6 +53,12 @@ import {
 } from './components/TimelineCalendarPopover';
 import { AbductedTimelineView } from './components/AbductedTimelineView';
 import { HomeAlineShowcase } from './components/HomeAlineShowcase';
+import { NewsSectionView } from './components/NewsSectionView';
+import { DiscoverAiSectionView } from './components/DiscoverAiSectionView';
+import {
+  fetchEntertainmentNewsAndTrailers,
+  NewsArticleItem,
+} from './services/newsAndDiscoverService';
 
 const SECTION_TITLES: Record<TabId, { title: string; subtitle: string }> = {
   home: {
@@ -61,7 +67,15 @@ const SECTION_TITLES: Record<TabId, { title: string; subtitle: string }> = {
   },
   favorites: {
     title: 'Abduzidos',
-    subtitle: 'Cronograma unificado das mídias abduzidas, ordenado pelo lançamento ou episódio mais próximo.',
+    subtitle: 'Cronograma unificado de todas as mídias abduzidas em ordem cronológica.',
+  },
+  news: {
+    title: 'Notícias & Trailers Oficiais',
+    subtitle: 'Últimos trailers divulgados e anúncios de novas datas de estreia de filmes, séries, animes e games.',
+  },
+  discover_ai: {
+    title: 'Descubra • IA de Recomendação',
+    subtitle: 'Conte para a Aline Ígena o que você está com vontade de assistir ou jogar e receba recomendações certeiras.',
   },
   movie_cinema: {
     title: 'Filmes • Cinema (Brasil)',
@@ -131,6 +145,10 @@ export function App() {
   const [apiSearchResults, setApiSearchResults] = useState<MediaItem[]>([]);
   const [isSearchingApis, setIsSearchingApis] = useState<boolean>(false);
 
+  // Feed de Notícias & Trailers Oficiais
+  const [newsItems, setNewsItems] = useState<NewsArticleItem[]>([]);
+  const [isLoadingNews, setIsLoadingNews] = useState<boolean>(false);
+
   const [highlightedItemId, setHighlightedItemId] = useState<string | null>(null);
   const todayMarkerRef = useRef<HTMLDivElement | null>(null);
 
@@ -192,6 +210,22 @@ export function App() {
   useEffect(() => {
     loadAllCategories(settings, 2);
   }, [settings, loadAllCategories]);
+
+  const loadNewsAndTrailers = useCallback(async () => {
+    setIsLoadingNews(true);
+    try {
+      const items = await fetchEntertainmentNewsAndTrailers(settings, catalog);
+      setNewsItems(items);
+    } finally {
+      setIsLoadingNews(false);
+    }
+  }, [settings, catalog]);
+
+  useEffect(() => {
+    if (activeTab === 'news' && newsItems.length === 0 && !isLoadingNews) {
+      loadNewsAndTrailers();
+    }
+  }, [activeTab, newsItems.length, isLoadingNews, loadNewsAndTrailers]);
 
   // Pesquisa global sob demanda nas APIs quando o usuário digita na busca
   useEffect(() => {
@@ -319,7 +353,7 @@ export function App() {
 
   const currentTabRawList = useMemo(() => {
     const base =
-      activeTab === 'home'
+      activeTab === 'home' || activeTab === 'news' || activeTab === 'discover_ai'
         ? allHomeItems
         : activeTab === 'favorites'
         ? favorites
@@ -648,14 +682,18 @@ export function App() {
     () => ({
       home: allHomeItems.filter((it) => isFromTodayOnwards(it, true)).length,
       favorites: favorites.length,
+      news: newsItems.length,
+      discover_ai: 0,
       movie_cinema: catalog.movie_cinema.filter((it) => isFromTodayOnwards(it, true)).length,
       movie_digital: catalog.movie_digital.filter((it) => isFromTodayOnwards(it, true)).length,
       tv: catalog.tv.filter((it) => isFromTodayOnwards(it, true)).length,
       anime: catalog.anime.filter((it) => isFromTodayOnwards(it, true)).length,
       game: catalog.game.filter((it) => isFromTodayOnwards(it, true)).length,
     }),
-    [allHomeItems, favorites.length, catalog]
+    [allHomeItems, favorites.length, newsItems.length, catalog]
   );
+
+  const isSpecialTab = activeTab === 'news' || activeTab === 'discover_ai';
 
   const sectionInfo = SECTION_TITLES[activeTab];
   const todayFormatted = new Date().toLocaleDateString('pt-BR', {
@@ -713,7 +751,7 @@ export function App() {
                     ? 'Próximos Lançamentos'
                     : sectionInfo.title}
                 </h1>
-                {!activeDateFilter && activeTab !== 'favorites' && (
+                {!activeDateFilter && activeTab !== 'favorites' && !isSpecialTab && (
                   <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-extrabold uppercase tracking-wider bg-[#0d3320] text-[#4ade80] border border-[#22ff55]/45">
                     Projeção 1 Ano • Até {oneYearLimitFormatted}
                   </span>
@@ -726,83 +764,85 @@ export function App() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2.5">
-              <div className="relative">
-                <Search className="w-4 h-4 text-[#7c738f] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Filtrar transmissão..."
-                  className="pl-9 pr-3.5 py-2 text-xs rounded-xl bg-[#130f1d] text-white placeholder-[#655d78] border border-white/[0.07] focus:outline-none focus:border-[#a855f7] w-40 sm:w-52 transition"
+            {!isSpecialTab && (
+              <div className="flex flex-wrap items-center gap-2.5">
+                <div className="relative">
+                  <Search className="w-4 h-4 text-[#7c738f] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Filtrar transmissão..."
+                    className="pl-9 pr-3.5 py-2 text-xs rounded-xl bg-[#130f1d] text-white placeholder-[#655d78] border border-white/[0.07] focus:outline-none focus:border-[#a855f7] w-40 sm:w-52 transition"
+                  />
+                </div>
+
+                <TimelineCalendarPopover
+                  items={allFilteredChronological}
+                  activeDateFilter={activeDateFilter}
+                  onSelectDateFilter={handleSelectDateFilter}
+                  onClearDateFilter={handleClearDateFilter}
                 />
+
+                {/* Botão Exclusivo na Página de Abduzidos: Linha do Tempo Simplificada */}
+                {activeTab === 'favorites' && (
+                  <button
+                    type="button"
+                    onClick={() => setAbductedTimelineMode((prev) => !prev)}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 border transition-all ${
+                      abductedTimelineMode
+                        ? 'bg-[#0d3320] text-[#4ade80] border-[#22ff55] shadow-[0_0_18px_rgba(34,255,85,0.3)]'
+                        : 'bg-[#130f1d] text-[#c084fc] border-[#a855f7]/45 hover:border-[#22ff55]/60 hover:text-white'
+                    }`}
+                    title="Alternar para a Linha do Tempo Simplificada (Passados e Futuros juntos)"
+                  >
+                    <CalendarRange className="w-4 h-4 text-[#22ff55]" />
+                    <span>
+                      {abductedTimelineMode
+                        ? 'Linha do Tempo Ativa'
+                        : 'Ver Linha do Tempo'}
+                    </span>
+                  </button>
+                )}
+
+                {/* Alternador Lista vs Galeria */}
+                <div className="inline-flex items-center p-1 rounded-xl bg-[#130f1d] border border-white/[0.07]">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAbductedTimelineMode(false);
+                      setViewMode('list');
+                    }}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition ${
+                      !isShowingAbductedTimeline && viewMode === 'list'
+                        ? 'bg-[#2a174a] text-[#c084fc] border border-[#a855f7]/40'
+                        : 'text-[#7c738f] hover:text-white'
+                    }`}
+                  >
+                    <List className="w-3.5 h-3.5" />
+                    <span>Lista</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAbductedTimelineMode(false);
+                      setViewMode('gallery');
+                    }}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition ${
+                      !isShowingAbductedTimeline && viewMode === 'gallery'
+                        ? 'bg-[#0d3320] text-[#4ade80] border border-[#22ff55]/40'
+                        : 'text-[#7c738f] hover:text-white'
+                    }`}
+                  >
+                    <LayoutGrid className="w-3.5 h-3.5" />
+                    <span>Galeria</span>
+                  </button>
+                </div>
               </div>
-
-              <TimelineCalendarPopover
-                items={allFilteredChronological}
-                activeDateFilter={activeDateFilter}
-                onSelectDateFilter={handleSelectDateFilter}
-                onClearDateFilter={handleClearDateFilter}
-              />
-
-              {/* Botão Exclusivo na Página de Abduzidos: Linha do Tempo Simplificada */}
-              {activeTab === 'favorites' && (
-                <button
-                  type="button"
-                  onClick={() => setAbductedTimelineMode((prev) => !prev)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 border transition-all ${
-                    abductedTimelineMode
-                      ? 'bg-[#0d3320] text-[#4ade80] border-[#22ff55] shadow-[0_0_18px_rgba(34,255,85,0.3)]'
-                      : 'bg-[#130f1d] text-[#c084fc] border-[#a855f7]/45 hover:border-[#22ff55]/60 hover:text-white'
-                  }`}
-                  title="Alternar para a Linha do Tempo Simplificada (Passados e Futuros juntos)"
-                >
-                  <CalendarRange className="w-4 h-4 text-[#22ff55]" />
-                  <span>
-                    {abductedTimelineMode
-                      ? 'Linha do Tempo Ativa'
-                      : 'Ver Linha do Tempo'}
-                  </span>
-                </button>
-              )}
-
-              {/* Alternador Lista vs Galeria */}
-              <div className="inline-flex items-center p-1 rounded-xl bg-[#130f1d] border border-white/[0.07]">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAbductedTimelineMode(false);
-                    setViewMode('list');
-                  }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition ${
-                    !isShowingAbductedTimeline && viewMode === 'list'
-                      ? 'bg-[#2a174a] text-[#c084fc] border border-[#a855f7]/40'
-                      : 'text-[#7c738f] hover:text-white'
-                  }`}
-                >
-                  <List className="w-3.5 h-3.5" />
-                  <span>Lista</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAbductedTimelineMode(false);
-                    setViewMode('gallery');
-                  }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition ${
-                    !isShowingAbductedTimeline && viewMode === 'gallery'
-                      ? 'bg-[#0d3320] text-[#4ade80] border border-[#22ff55]/40'
-                      : 'text-[#7c738f] hover:text-white'
-                  }`}
-                >
-                  <LayoutGrid className="w-3.5 h-3.5" />
-                  <span>Galeria</span>
-                </button>
-              </div>
-            </div>
+            )}
           </div>
 
-          {availableGenres.length > 0 && (
+          {!isSpecialTab && availableGenres.length > 0 && (
             <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
               <button
                 type="button"
@@ -836,10 +876,27 @@ export function App() {
         </header>
 
         {/* ====================================================================
-            MODO 1: FILTRO DE DATA DO CALENDÁRIO ATIVO
-            (Mostra tudo que lançou na data clicada pelo usuário)
+            ABAS ESPECIAIS: NOTÍCIAS & TRAILERS ('news') E DESCUBRA IA ('discover_ai')
            ==================================================================== */}
-        {activeDateFilter ? (
+        {activeTab === 'news' ? (
+          <NewsSectionView
+            newsItems={newsItems}
+            isLoading={isLoadingNews}
+            onRefresh={loadNewsAndTrailers}
+            isItemFavorite={isItemFavorite}
+            onToggleFavorite={handleToggleFavorite}
+            onOpenModal={setSelectedItem}
+          />
+        ) : activeTab === 'discover_ai' ? (
+          <DiscoverAiSectionView
+            settings={settings}
+            catalog={catalog}
+            favorites={favorites}
+            isItemFavorite={isItemFavorite}
+            onToggleFavorite={handleToggleFavorite}
+            onOpenModal={setSelectedItem}
+          />
+        ) : activeDateFilter ? (
           <section className="space-y-6">
             {/* Barra de controle da data selecionada */}
             <div className="p-4 rounded-2xl bg-[#130f1d] border border-[#22ff55]/40 shadow-[0_0_25px_rgba(34,255,85,0.12)] flex flex-col sm:flex-row items-center justify-between gap-4">

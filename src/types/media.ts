@@ -5,7 +5,12 @@ export type MediaCategory =
   | 'anime'
   | 'game';
 
-export type TabId = 'home' | 'favorites' | MediaCategory;
+export type TabId =
+  | 'home'
+  | 'favorites'
+  | 'news'
+  | 'discover_ai'
+  | MediaCategory;
 
 export type ViewMode = 'list' | 'gallery';
 

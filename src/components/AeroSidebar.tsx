@@ -8,6 +8,8 @@ import {
   SlidersHorizontal,
   RefreshCw,
   Radar,
+  Newspaper,
+  Sparkles,
 } from 'lucide-react';
 import { TabId } from '../types/media';
 import { UfoIcon } from './AbductButton';
@@ -240,6 +242,52 @@ export const AeroSidebar: React.FC<AeroSidebarProps> = ({
             </div>
             <span className="text-[11px] font-mono text-[#6e6682]">
               {counts.game}
+            </span>
+          </button>
+
+          {/* NOTÍCIAS (NOVAS DATAS & TRAILERS) */}
+          <button
+            type="button"
+            onClick={() => onSelectTab('news')}
+            className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl text-[15px] font-bold transition-all ${
+              activeTab === 'news'
+                ? 'xeno-nav-active'
+                : 'text-[#968da8] hover:text-white hover:bg-white/[0.03]'
+            }`}
+          >
+            <div className="flex items-center gap-3.5">
+              <Newspaper
+                className={`w-5 h-5 ${
+                  activeTab === 'news' ? 'text-[#22ff55]' : 'text-[#847b96]'
+                }`}
+              />
+              <span>Notícias</span>
+            </div>
+            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-[#2a174a] text-[#c084fc] border border-[#a855f7]/40">
+              {counts.news || 'Trailers'}
+            </span>
+          </button>
+
+          {/* DESCUBRA (IA DE RECOMENDAÇÃO) */}
+          <button
+            type="button"
+            onClick={() => onSelectTab('discover_ai')}
+            className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl text-[15px] font-bold transition-all ${
+              activeTab === 'discover_ai'
+                ? 'xeno-nav-active'
+                : 'text-[#968da8] hover:text-white hover:bg-white/[0.03]'
+            }`}
+          >
+            <div className="flex items-center gap-3.5">
+              <Sparkles
+                className={`w-5 h-5 ${
+                  activeTab === 'discover_ai' ? 'text-[#22ff55]' : 'text-[#847b96]'
+                }`}
+              />
+              <span>Descubra</span>
+            </div>
+            <span className="text-[10px] font-mono font-extrabold px-2 py-0.5 rounded-full bg-[#0d3320] text-[#4ade80] border border-[#22ff55]/45">
+              IA
             </span>
           </button>
 
