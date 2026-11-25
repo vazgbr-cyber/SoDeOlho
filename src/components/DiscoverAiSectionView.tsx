@@ -16,7 +16,7 @@ import {
   AiRecommendationResult,
   generateAiRecommendations,
 } from '../services/newsAndDiscoverService';
-import { AlineIgenaCutout } from './ProcessedImages';
+import { BrandLogo } from './ProcessedImages';
 import { AbductButton } from './AbductButton';
 import { StreamingBadges } from './StreamingBadges';
 import { formatShortDate } from '../lib/dateUtils';
@@ -135,13 +135,13 @@ export const DiscoverAiSectionView: React.FC<DiscoverAiSectionViewProps> = ({
 
   return (
     <div className="space-y-7">
-      {/* PAINEL DE COMANDO DA IA (ALINE ÍGENA • ORÁCULO DE RECOMENDAÇÃO) */}
+      {/* PAINEL DE COMANDO DA IA (RADAR SÓ DE OLHO • IA DE RECOMENDAÇÃO) */}
       <div className="xeno-card p-6 sm:p-8 border border-[#a855f7]/50 shadow-[0_0_35px_rgba(168,85,247,0.18)] relative overflow-hidden">
         <div className="flex flex-col lg:flex-row items-center gap-6">
-          {/* Mascote Aline Ígena */}
+          {/* Logo Oficial do Radar IA */}
           <div className="flex items-center gap-4 shrink-0">
             <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#1a112c] border border-[#22ff55]/50 flex items-center justify-center shadow-[0_0_25px_rgba(34,255,85,0.25)]">
-              <AlineIgenaCutout className="w-20 h-20 sm:w-22 sm:h-22" />
+              <BrandLogo size={68} />
               <span className="absolute -bottom-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-mono font-extrabold uppercase bg-[#0d3320] text-[#4ade80] border border-[#22ff55]">
                 IA Online
               </span>
@@ -149,10 +149,10 @@ export const DiscoverAiSectionView: React.FC<DiscoverAiSectionViewProps> = ({
             <div className="lg:hidden">
               <span className="text-[11px] font-mono uppercase tracking-widest text-[#4ade80] flex items-center gap-1.5">
                 <Bot className="w-3.5 h-3.5" />
-                <span>Oráculo Intergaláctico</span>
+                <span>Radar Intergaláctico</span>
               </span>
               <h2 className="text-xl font-extrabold text-white">
-                Aline Ígena • IA de Recomendação
+                Só de Olho • IA de Recomendação
               </h2>
             </div>
           </div>
@@ -167,7 +167,7 @@ export const DiscoverAiSectionView: React.FC<DiscoverAiSectionViewProps> = ({
                 </span>
               </div>
               <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-0.5">
-                Diga para a Aline o que você está com vontade de consumir hoje:
+                Diga o que você está com vontade de consumir hoje:
               </h2>
             </div>
 
@@ -274,7 +274,7 @@ export const DiscoverAiSectionView: React.FC<DiscoverAiSectionViewProps> = ({
         <div className="xeno-card p-14 text-center max-w-lg mx-auto my-8 space-y-3 border border-[#22ff55]/40">
           <Loader2 className="w-9 h-9 text-[#22ff55] mx-auto animate-spin" />
           <h3 className="text-base font-extrabold text-white">
-            Aline Ígena está cruzando dados de Filmes, Séries, Animes e Games...
+            A IA está cruzando dados de Filmes, Séries, Animes e Games...
           </h3>
           <p className="text-xs text-[#8e86a3]">
             Analisando compatibilidade temática, plataformas no Brasil e avaliações para "{lastSubmittedPrompt}".
@@ -282,7 +282,7 @@ export const DiscoverAiSectionView: React.FC<DiscoverAiSectionViewProps> = ({
         </div>
       ) : aiResult && aiResult.recommendations.length > 0 ? (
         <div className="space-y-6">
-          {/* Balão de Resposta da Aline Ígena */}
+          {/* Balão de Resposta da IA */}
           <div className="p-4 sm:p-5 rounded-2xl bg-[#130f1d] border border-[#22ff55]/45 shadow-[0_0_24px_rgba(34,255,85,0.12)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-start sm:items-center gap-3.5">
               <div className="p-2.5 rounded-xl bg-[#0d3320] border border-[#22ff55]/50 text-[#4ade80] shrink-0">

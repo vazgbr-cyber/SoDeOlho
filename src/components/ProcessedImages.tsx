@@ -18,19 +18,3 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     />
   );
 };
-
-interface AlineIgenaCutoutProps {
-  className?: string;
-}
-
-export const AlineIgenaCutout: React.FC<AlineIgenaCutoutProps> = ({
-  className = '',
-}) => {
-  return (
-    <img
-      src="./aline-cutout.png"
-      alt="Aline ígena — Mascote Só de Olho"
-      className={`object-contain select-none pointer-events-none ${className}`}
-    />
-  );
-};

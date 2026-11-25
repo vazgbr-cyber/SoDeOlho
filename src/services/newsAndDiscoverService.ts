@@ -1138,7 +1138,7 @@ export async function generateAiRecommendations(
     };
   });
 
-  const defaultGreeting = `🛸 **Transmissão da Aline Ígena recebida!** Vasculhei os radares da TMDB, AniList e Twitch/IGDB para o seu pedido (*"${cleanPrompt}"*) e selecionei as **${recommendations.length} melhores recomendações** alinhadas com **${themeSummary}**:`;
+  const defaultGreeting = `🛸 **Radar IA de Recomendações:** Vasculhei os radares da TMDB, AniList e Twitch/IGDB para o seu pedido (*"${cleanPrompt}"*) e selecionei as **${recommendations.length} melhores recomendações** alinhadas com **${themeSummary}**:`;
 
   return {
     aiGreeting: defaultGreeting,

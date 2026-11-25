@@ -75,7 +75,7 @@ const SECTION_TITLES: Record<TabId, { title: string; subtitle: string }> = {
   },
   discover_ai: {
     title: 'Descubra • IA de Recomendação',
-    subtitle: 'Conte para a Aline Ígena o que você está com vontade de assistir ou jogar e receba recomendações certeiras.',
+    subtitle: 'Conte para a nossa IA o que você está com vontade de assistir ou jogar e receba recomendações certeiras.',
   },
   movie_cinema: {
     title: 'Filmes • Cinema (Brasil)',
